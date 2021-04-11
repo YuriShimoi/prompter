@@ -1,5 +1,25 @@
 # Prompter
-Converts HTML to fully char prompt-like interface
+Converts HTML to fully char prompt-like interface.
+
+### How To
+  To start the lib, import _prompter/main.js_ file as script, create a **prompt** element and create elements like above Currently description.
+
+Example:
+```html
+<prompt type="retro">
+  <div width=15 height=10 y=2 x=3></div>
+  <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
+    <button text="Inventory" x=6 y=11 onclick="toggleElement('inventory')"></button>
+  </div>
+  <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
+</prompt>
+```
+  Prompt color scheme can be changed with *type* attribute:
+  - default: `background: black; color: white`
+  - white: `background: white; color: black`
+  - retro: `background: black; color: green`
+  
+  Any other elements inside prompt will be ignored and hidden.
 
 ### Currently
 - **DIV**: converted to box
