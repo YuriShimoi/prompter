@@ -72,7 +72,12 @@ function doBox(x, y, sx, sy, type="single", fill=true, drawatend=true){
 
   screen.map.forEach((row, i) => {
     if(i >= y && i <= endy){
-      screen.map[i].forEach((_, l) => {screen.effect[i][l] = [0,0,0]; screen.decorator[i][l] = ''});
+      screen.map[i].forEach((_, l) => {
+        if(l >= x && l <= endx){
+          screen.effect[i][l] = [0,0,0];
+          screen.decorator[i][l] = '';
+        }
+    });
     }
     if(i > y && i < endy){
       row[x]    = charMap('left', type, row[x]);
@@ -116,8 +121,27 @@ function htmlConvert(){
   clearScreen();
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
     let get_attr = (e, a, d) => a in e.attributes? e.attributes[a].value: d;
-    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: 'disabled' in ch.parentElement.attributes? true: parent_disabled(ch.parentElement);
+    let get_pos  = (ch, pos) => {
+      let sz   = pos == 'x'? 'width': 'height';
+      let chsz = sz in ch.attributes? ch.attributes[sz].value/2: 1.5;
+      if(ch.localName == "prompt") return 0;
+      if(pos in ch.attributes){
+        if(ch.attributes[pos].value == "center"){
+          if(ch.parentElement.localName == "prompt"){
+            return Math.floor(screen[sz]/2 - chsz);
+          }
+          else {
+            return Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: 1.5) + chsz);
+          }
+        }
+        else {
+          return Math.floor(ch.attributes[pos].value + get_pos(ch.parentElement, pos));
+        }
+      }
+      return 1;
+    };
     // disabling
+    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: 'disabled' in ch.parentElement.attributes? true: parent_disabled(ch.parentElement);
     let disabled = get_attr(child, 'disabled', false) == "true";
     if(disabled || parent_disabled(child)) return;
 
@@ -125,8 +149,14 @@ function htmlConvert(){
     let width  = parseInt(get_attr(child, 'width', 10));
     let height = parseInt(get_attr(child, 'height', 3));
     // positioning
-    let posX = get_attr(child, 'x', false)? child.attributes.x.value == 'center'? Math.floor((screen.width/2)-(width/2))  : parseInt(child.attributes.x.value): 1;
-    let posY = get_attr(child, 'y', false)? child.attributes.y.value == 'center'? Math.floor((screen.height/2)-(height/2)): parseInt(child.attributes.y.value): 1;
+    let posX = get_attr(child, 'x', false)?
+                child.attributes.x.value == 'center'?
+                  Math.floor((screen.width/2)-(width/2)): parseInt(child.attributes.x.value):
+                1;
+    let posY = get_attr(child, 'y', false)?
+                child.attributes.y.value == 'center'?
+                  Math.floor((screen.height/2)-(height/2)): parseInt(child.attributes.y.value):
+                1;
 
     switch(child.tagName){
       case 'DIV':
