@@ -122,8 +122,9 @@ function htmlConvert(){
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
     let get_attr = (e, a, d) => a in e.attributes? e.attributes[a].value: d;
     let get_pos  = (ch, pos) => {
-      let sz   = pos == 'x'? 'width': 'height';
-      let chsz = sz in ch.attributes? ch.attributes[sz].value/2: 1.5;
+      let sz     = pos == 'x'? 'width': 'height';
+      let sz_def = {'width': 10, 'height': 3};
+      let chsz   = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[sz]/2;
       if(ch.localName == "prompt") return 0;
       if(pos in ch.attributes){
         if(ch.attributes[pos].value == "center"){
@@ -131,15 +132,16 @@ function htmlConvert(){
             return Math.floor(screen[sz]/2 - chsz);
           }
           else {
-            return Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: 1.5) + chsz);
+            return Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: sz_def[sz]/2) - chsz);
           }
         }
         else {
-          return Math.floor(ch.attributes[pos].value + get_pos(ch.parentElement, pos));
+          return Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(ch.parentElement, pos));
         }
       }
-      return 1;
+      return 1 + get_pos(ch.parentElement, pos);
     };
+
     // disabling
     let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: 'disabled' in ch.parentElement.attributes? true: parent_disabled(ch.parentElement);
     let disabled = get_attr(child, 'disabled', false) == "true";
@@ -149,14 +151,8 @@ function htmlConvert(){
     let width  = parseInt(get_attr(child, 'width', 10));
     let height = parseInt(get_attr(child, 'height', 3));
     // positioning
-    let posX = get_attr(child, 'x', false)?
-                child.attributes.x.value == 'center'?
-                  Math.floor((screen.width/2)-(width/2)): parseInt(child.attributes.x.value):
-                1;
-    let posY = get_attr(child, 'y', false)?
-                child.attributes.y.value == 'center'?
-                  Math.floor((screen.height/2)-(height/2)): parseInt(child.attributes.y.value):
-                1;
+    let posX = get_pos(child, 'x');
+    let posY = get_pos(child, 'y');
 
     switch(child.tagName){
       case 'DIV':

@@ -6,11 +6,17 @@
   </head>
   <body>
     <prompt type="retro">
-      <div width=15 height=10 y=2 x=3></div>
-      <div id="menu" title="Main Menu" text="Tela principal pra testar uns bagulho" width=15 height=10 x=2>
-        <button text="Inventário" x=5 y=11 onclick="toggleElement('inventory')"></button>
+      <div type='none' x='center' y='center' width=52 height=17>
+        <div title="1" x='center' y=-4 width=50></div>
+        <div title="2" width=24 height=15>
+          <div title="2.1" type="double" x='center' y='center'></div>
+        </div>
+        <div title="3" x=27 width=24 height=15>
+          <div title="3.1" type="double" x='center' y='center'></div>
+        </div>
+        <div title="4" x='center' y='center'></div>
+        <div id="e5" title="5" x='center' y=18 width=50></div>
       </div>
-      <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
     </prompt>
 
     <script src="import/prompter/main.js" charset="utf-8"></script>

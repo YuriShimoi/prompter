@@ -19,13 +19,15 @@ function changeElement(eid, attrs){
   htmlConvert();
 }
 
-function newElement(type, eid, attrs={}){
+function newElement(type, attrs={}, pid){
   let elm = document.createElement(type);
-  elm.setAttribute('id', eid);
   for(let a in attrs){
     elm.setAttribute(a, attrs[a]);
   }
-  prompt_container.appendChild(elm);
+  if(pid === null)
+    prompt_container.appendChild(elm);
+  else
+    document.getElementById(pid).appendChild(elm);
   htmlConvert();
 }
 
