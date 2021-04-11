@@ -1,7 +1,7 @@
 # Prompter
 Converts HTML to fully char prompt-like interface.
 
-### How To
+## How To
   To start the lib, import _prompter/main.js_ file as script, create a **prompt** element and create elements like above Currently description.
 
 Example:
@@ -21,7 +21,8 @@ Example:
   
   Any other elements inside prompt will be ignored and hidden.
 
-### Currently
+## Currently
+#### HTML Support
 - **DIV**: converted to box
   - id **(String)** - Id of element
   - x **(Number)** - Position x in screen, can also be 'center' **(default: 1)**
@@ -41,7 +42,14 @@ Example:
   - text **(String)** - Button text
   - onclick **(String)** - Script to execute on click
 
-### Future
+#### Script Support
+- **enableElement(eid)** - Remove disabled attribute of given element
+- **toggleElement(eid)** - Toggle disabled attribute of given element
+- **changeElement(eid, attrs)** - Change given attributes with **{\<attribute>:\<value>,...}** format
+- **newElement(type, eid, attrs={})** - Create an element, id required and given attributes
+- **delElement(eid)** - Delete element with given id
+
+## Future
 - More elements
 - Parent relative positioning
 - Bold, Italic and Underline as option to do inside the texts
