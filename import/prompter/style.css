@@ -1,0 +1,58 @@
+:root {
+  --black: #111111;
+  --white: #eeeeee;
+  --green: #08eb00;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+prompt {
+  background: var(--black);
+  color: var(--white);
+  font-size: 0.0001em;
+  text-indent: -9999px;
+
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+
+prompt[type="white"] {
+  background: var(--white);
+  color: var(--black);
+}
+prompt[type="retro"] {
+  background: var(--black);
+  color: var(--green);
+}
+
+prompt *:not(:is(b, i, u)) {
+  display: none;
+}
+prompt :is(b u, u b) {
+  cursor: pointer;
+}
+prompt :is(b u, u b):hover {
+  color: var(--green);
+}
+prompt[type="retro"] :is(b u, u b):hover {
+  color: var(--white);
+}
+
+prompt screen {
+  display: block;
+  float: left;
+  width: 100%;
+  height: 100%;
+
+  font-family: monospace;
+  white-space: pre;
+  font-size: 16px; /* 8.8px width x 19px height */
+  text-indent: 0;
+  text-overflow: clip;
+  overflow: hidden;
+}

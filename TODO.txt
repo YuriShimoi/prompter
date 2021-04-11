@@ -1,0 +1,2 @@
+ - adicionar posição relativa a parent
+ - arrumar tratamento de title * finge q nunca aconteceu

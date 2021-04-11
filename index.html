@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <title>Prompter</title>
+  </head>
+  <body>
+    <prompt type="retro">
+      <div width=15 height=10 y=2 x=3></div>
+      <div id="menu" title="Main Menu" text="Tela principal pra testar uns bagulho" width=15 height=10 x=2>
+        <button text="Inventário" x=5 y=11 onclick="toggleElement('inventory')"></button>
+      </div>
+      <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
+    </prompt>
+
+    <script src="import/prompter/main.js" charset="utf-8"></script>
+  </body>
+</html>
