@@ -30,7 +30,7 @@ prompt[type="retro"] {
   color: var(--green);
 }
 
-prompt *:not(:is(b, i, u)) {
+prompt *:not(:is(b, i, u, span)) {
   display: none;
 }
 prompt :is(b u, u b) {

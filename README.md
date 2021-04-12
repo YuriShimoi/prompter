@@ -10,10 +10,9 @@ Prompt color scheme can be changed with *type* attribute:
   - retro: `background: black; color: green`
   
 Any other elements inside prompt will be ignored and hidden.
-
-<br>
+\
 Basic example:
-```html
+```HTML
 <prompt type="retro">
   <div width=15 height=10 y=2 x=3></div>
   <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
@@ -22,9 +21,9 @@ Basic example:
   <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
 </prompt>
 ```
-<br>
+\
 Positioning example:
-```html
+```HTML
 <prompt type="retro">
   <div type='none' x='center' y='center' width=52 height=17>
     <div title="1" x='center' y=-4 width=50></div>
@@ -46,6 +45,8 @@ Positioning example:
   - id **(String)** - Id of element
   - x **(Number)** - Position x in screen, can also be 'center' **(default: 1)**
   - y **(Number)** - Position y in screen, can also be 'center' **(default: 1)**
+  - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
   - width **(Number)** - Width of the box **(default: 10)**
   - height **(Number)** - Height of the box **(default: 3)**
@@ -57,6 +58,8 @@ Positioning example:
   - id **(String)** - id of element
   - x **(Number)** - Position x in screen, can also be 'center' **(default: 1)**
   - y **(Number)** - Position y in screen, can also be 'center' **(default: 1)**
+  - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
   - text **(String)** - Button text
   - onclick **(String)** - Script to execute on click
@@ -68,7 +71,8 @@ Positioning example:
 - **newElement(type, attrs={}, pid=null)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
 - **delElement(eid)** - Delete element with given id
 
-## Future
+## On Going
 - More elements
 - Percentage allowed in width and height
+- width/height can be calculated (E.g. 100% - 30)
 - Bold, Italic and Underline as option to do inside the texts

@@ -29,30 +29,60 @@ function calcScreenSize(){ /* 8.8px width x 19px height */
   screen.width     = Math.floor(prwidth);
   screen.height    = Math.floor(prheight);
   screen.map       = new Array(screen.height).fill().map(_ => new Array(screen.width).fill(' '));
-  screen.effect    = new Array(screen.height).fill().map(_ => new Array(screen.width).fill().map(e => new Array(3).fill(false)));
+  screen.effect    = new Array(screen.height).fill().map(_ => new Array(screen.width).fill().map(e => new Array(4).fill(false)));
   screen.decorator = new Array(screen.height).fill().map(_ => new Array(screen.width).fill(''));
 }
 
 function drawScreen(){
-  let html      = '';
-  let effect    = [false, false, false];
-  let decorator = false;
+  let html    = '';
+  let effect  = [false, false, false, ''];
+  let openeds = '';
+  
   for(let y=0; y < screen.map.length; y++){
     for(let x=0; x < screen.map[y].length; x++){
-      if(screen.effect[y][x] && screen.effect[y][x][0] != effect[0]){ // bold
+      if(screen.effect[y][x][0] && screen.effect[y][x][0] != effect[0] && screen.effect[y][x][0] && !effect[0]){ // bold
         effect[0] = screen.effect[y][x][0];
-        html += effect[0]? `<b ${decorator?'':screen.decorator[y][x]}>`: '</b>';
-        decorator = effect[0];
+        html += `<b ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        openeds += 'b';
       }
-      if(screen.effect[y][x] && screen.effect[y][x][1] != effect[1]){ // italic
+      else if(!screen.effect[y][x][0] && effect[0]) {
+        html += openeds.includes('b')? '</b>': '';
+        effect[0] = false;
+        openeds = openeds.split('b').slice(0,-1).join('b') + openeds.split('b').slice(-1)[0];
+      }
+      if(screen.effect[y][x][1] && screen.effect[y][x][1] != effect[1] && screen.effect[y][x][1] && !effect[1]){ // italic
         effect[1] = screen.effect[y][x][1];
-        html += effect[1]? `<i ${decorator?'':screen.decorator[y][x]}>`: '</i>';
-        decorator = effect[1];
+        html += `<i ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        openeds += 'i';
       }
-      if(screen.effect[y][x] && screen.effect[y][x][2] != effect[2]){ // underline
+      else if(!screen.effect[y][x][1] && effect[1]) {
+        html += openeds.includes('i')? '</i>': '';
+        effect[1] = false;
+        openeds = openeds.split('i').slice(0,-1).join('i') + openeds.split('i').slice(-1)[0];
+      }
+      
+      if(screen.effect[y][x][3] && screen.effect[y][x][3] != effect[3] && screen.effect[y][x][3]){ // color
+        effect[3] = screen.effect[y][x][3];
+        html += `<span style="color:${screen.effect[y][x][3]}" ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        openeds += 'span';
+      }
+      else if(!screen.effect[y][x][3] && effect[3]) {
+        while(openeds.includes('span')){
+          html += '</span>';
+          openeds = openeds.split('span').slice(0,-1).join('span') + openeds.split('span').slice(-1)[0];
+        }
+        effect[3] = '';
+      }
+
+      if(screen.effect[y][x][2] && screen.effect[y][x][2] != effect[2] && screen.effect[y][x][2] && !effect[2]){ // underline
         effect[2] = screen.effect[y][x][2];
-        html += effect[2]? `<u ${decorator?'':screen.decorator[y][x]}>`: '</u>';
-        decorator = effect[2];
+        html += `<u ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        openeds += 'u';
+      }
+      else if(!screen.effect[y][x][2] && effect[2]) {
+        html += openeds.includes('u')? '</u>': '';
+        effect[2] = false;
+        openeds = openeds.split('u').slice(0,-1).join('u') + openeds.split('u').slice(-1)[0];
       }
       html += screen.map[y][x]? screen.map[y][x]: ' ';
     }
@@ -66,7 +96,7 @@ function clearScreen(){
   drawScreen();
 }
 
-function doBox(x, y, sx, sy, type="single", fill=true, drawatend=true){
+function doBox(x, y, sx, sy, type="single", fill=true, color=false){
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
@@ -74,7 +104,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, drawatend=true){
     if(i >= y && i <= endy){
       screen.map[i].forEach((_, l) => {
         if(l >= x && l <= endx){
-          screen.effect[i][l] = [0,0,0];
+          screen.effect[i][l] = [false, false, false, color];
           screen.decorator[i][l] = '';
         }
     });
@@ -93,11 +123,10 @@ function doBox(x, y, sx, sy, type="single", fill=true, drawatend=true){
   screen.map[endy].forEach((e, i) => {if(i>x && i<endx) screen.map[endy][i] = charMap('bottom', type, e)});
   screen.map[endy][x]    = charMap('bottom-left', type, screen.map[endy][x]);
   screen.map[endy][endx] = charMap('bottom-right', type, screen.map[endy][endx]);
-
-  if(drawatend) drawScreen();
 }
 
-function doText(text, x, y, width, height, clip=false, bold=false, italic=false, underline=false, decorators='', drawatend=true){
+function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false], decorators=''){
+  // textdec = [bold, italic, underlined, color]
   let pivot = 0;
   text = text + ' '; // just for clip adjust purpoises
   for(let i = y; i < height+y; i++){
@@ -105,7 +134,7 @@ function doText(text, x, y, width, height, clip=false, bold=false, italic=false,
       if(!clip && pivot > text.split(' ')[0].length && text[pivot] != ' ' && text.slice(pivot).indexOf(' ') >= ((width+x) - l)) break;
 
       screen.map[i][l]       = text[pivot];
-      screen.effect[i][l]    = [bold, italic, underline];
+      screen.effect[i][l]    = textdec;
       screen.decorator[i][l] = decorators;
       pivot++;
 
@@ -113,8 +142,6 @@ function doText(text, x, y, width, height, clip=false, bold=false, italic=false,
     }
     if(pivot+1 >= text.length) break;
   }
-  
-  if(drawatend) drawScreen();
 }
 
 function htmlConvert(){
@@ -122,6 +149,8 @@ function htmlConvert(){
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
     let get_attr = (e, a, d) => a in e.attributes? e.attributes[a].value: d;
     let get_pos  = (ch, pos) => {
+      let final_pos = 0;
+      let dir    = pos == 'x'? 'right': 'bottom';
       let sz     = pos == 'x'? 'width': 'height';
       let sz_def = {'width': 10, 'height': 3};
       let chsz   = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[sz]/2;
@@ -129,17 +158,20 @@ function htmlConvert(){
       if(pos in ch.attributes){
         if(ch.attributes[pos].value == "center"){
           if(ch.parentElement.localName == "prompt"){
-            return Math.floor(screen[sz]/2 - chsz);
+            final_pos = Math.floor(screen[sz]/2 - chsz);
           }
           else {
-            return Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: sz_def[sz]/2) - chsz);
+            final_pos = Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: sz_def[sz]/2) - chsz);
           }
         }
         else {
-          return Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(ch.parentElement, pos));
+          final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(ch.parentElement, pos));
         }
       }
-      return 1 + get_pos(ch.parentElement, pos);
+      else final_pos = 1 + get_pos(ch.parentElement, pos);
+
+      return final_pos + (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
+        parseInt(get_attr(ch.parentElement, sz, sz_def[sz])  - get_attr(ch, sz, sz_def[sz])) - 2: 0);
     };
 
     // disabling
@@ -160,14 +192,14 @@ function htmlConvert(){
         var clip = get_attr(child, 'clip', false) == 'true';
         var type = get_attr(child, 'type', 'single');
 
-        doBox(posX, posY, width, height, type);
+        doBox(posX, posY, width, height, type, true, get_attr(child, 'border-color', false));
         if('title' in child.attributes){
           var title = ` ${child.attributes.title.value} `;
-          doText(title, posX+1, posY, width-1, 1, true, type.includes('bold'), type.includes('double'));
+          doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child, 'border-color', false)]);
         }
         if('text' in child.attributes){
           var text = child.attributes.text.value;
-          doText(text, posX+1, posY+1, width, height, clip);
+          doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child, 'color', false)]);
         }
         break;
       case 'BUTTON':
@@ -180,11 +212,13 @@ function htmlConvert(){
           var text = child.attributes.text.value;
           width = text.length;
           height = 1;
-          doText(text, posX, posY, width, height, false, true, false, true, onclick);
+          doText(text, posX, posY, width, height, false, [true, false, true, get_attr(child, 'color', false)], onclick);
         }
         break;
     }
   });
+
+  drawScreen();
 }
 
 
