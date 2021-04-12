@@ -10,6 +10,7 @@ Prompt color scheme can be changed with *type* attribute:
   - retro: `background: black; color: green`
   
 Any other elements inside prompt will be ignored and hidden.
+
 \
 Basic example:
 ```HTML
