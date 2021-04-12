@@ -42,7 +42,7 @@ function drawScreen(){
     for(let x=0; x < screen.map[y].length; x++){
       if(screen.effect[y][x][0] && screen.effect[y][x][0] != effect[0] && screen.effect[y][x][0] && !effect[0]){ // bold
         effect[0] = screen.effect[y][x][0];
-        html += `<b ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        html += `<b>`;
         openeds += 'b';
       }
       else if(!screen.effect[y][x][0] && effect[0]) {
@@ -52,7 +52,7 @@ function drawScreen(){
       }
       if(screen.effect[y][x][1] && screen.effect[y][x][1] != effect[1] && screen.effect[y][x][1] && !effect[1]){ // italic
         effect[1] = screen.effect[y][x][1];
-        html += `<i ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        html += `<i>`;
         openeds += 'i';
       }
       else if(!screen.effect[y][x][1] && effect[1]) {
@@ -63,7 +63,7 @@ function drawScreen(){
       
       if(screen.effect[y][x][3] && screen.effect[y][x][3] != effect[3] && screen.effect[y][x][3]){ // color
         effect[3] = screen.effect[y][x][3];
-        html += `<span style="color:${screen.effect[y][x][3]}" ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        html += `<span style="color:${screen.effect[y][x][3]}">`;
         openeds += 'span';
       }
       else if(!screen.effect[y][x][3] && effect[3]) {
@@ -76,7 +76,7 @@ function drawScreen(){
 
       if(screen.effect[y][x][2] && screen.effect[y][x][2] != effect[2] && screen.effect[y][x][2] && !effect[2]){ // underline
         effect[2] = screen.effect[y][x][2];
-        html += `<u ${screen.decorator[y][x]?'':screen.decorator[y][x]}>`;
+        html += `<u ${screen.decorator[y][x]?screen.decorator[y][x]:''}>`;
         openeds += 'u';
       }
       else if(!screen.effect[y][x][2] && effect[2]) {

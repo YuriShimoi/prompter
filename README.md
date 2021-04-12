@@ -22,6 +22,22 @@ Basic example:
   <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
 </prompt>
 ```
+```text
+  ┌ Main Menu ────┐                                     
+  │Main text      ├┐                                    
+  │               ││                                    
+  │               ││                                    
+  │               ││┌ Inventory ────┐                   
+  │               │││               │                   
+  │               │││               │                   
+  │               │││               │                   
+  │               ││└───────────────┘                   
+  │               ││                                    
+  │  Inventory    ││                                    
+  └┬──────────────┘│                                    
+   └───────────────┘
+```
+
 \
 Positioning example:
 ```HTML
@@ -39,6 +55,35 @@ Positioning example:
   </div>
 </prompt>
 ```
+```text
+  ┌ 1 ───────────────────────────────────────────────┐ 
+  │                                                  │ 
+  │                                                  │ 
+  │                                                  │ 
+  └──────────────────────────────────────────────────┘ 
+  ┌ 2 ─────────────────────┐┌ 3 ─────────────────────┐ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │      ╔ 2.1 ═════╗ ┌ 4 ─┴┴────┐ ╔ 3.1 ═════╗      │ 
+  │      ║          ║ │          │ ║          ║      │ 
+  │      ║          ║ │          │ ║          ║      │ 
+  │      ║          ║ │          │ ║          ║      │ 
+  │      ╚══════════╝ └────┬┬────┘ ╚══════════╝      │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  │                        ││                        │ 
+  └────────────────────────┘└────────────────────────┘ 
+  ┌ 5 ───────────────────────────────────────────────┐ 
+  │                                                  │ 
+  │                                                  │ 
+  │                                                  │ 
+  └──────────────────────────────────────────────────┘
+```
 
 ## Currently
 #### HTML Support
@@ -49,6 +94,8 @@ Positioning example:
   - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
+  - color **(String)** - Changes text color, any CSS valid color is available
+  - border-color **(String)** - Changes bordering color, any CSS valid color is available
   - width **(Number)** - Width of the box **(default: 10)**
   - height **(Number)** - Height of the box **(default: 3)**
   - type **(String)** - Box bordering type, can be none, single, bold, double, chess, bold-chess, double-chess **(default: single)**
@@ -62,6 +109,7 @@ Positioning example:
   - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
+  - color **(String)** - Changes text color, any CSS valid color is available
   - text **(String)** - Button text
   - onclick **(String)** - Script to execute on click
 

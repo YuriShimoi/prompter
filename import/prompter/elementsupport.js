@@ -6,8 +6,8 @@ function enableElement(eid){
 
 function toggleElement(eid){
   let elm = document.getElementById(eid);
-  if(elm.hasAttribute('disabled')) elm.removeAttribute('disabled');
-  else elm.setAttribute('disabled', true);
+  if(elm.hasAttribute('disabled') && elm.getAttribute('disabled') === "true") elm.setAttribute('disabled', "false");
+  else elm.setAttribute('disabled', "true");
   htmlConvert();
 }
 
