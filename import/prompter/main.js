@@ -192,10 +192,12 @@ function htmlConvert(){
         var clip = get_attr(child, 'clip', false) == 'true';
         var type = get_attr(child, 'type', 'single');
 
-        doBox(posX, posY, width, height, type, true, get_attr(child, 'border-color', false));
-        if('title' in child.attributes){
-          var title = ` ${child.attributes.title.value} `;
-          doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child, 'border-color', false)]);
+        if(type !== 'none'){
+          doBox(posX, posY, width, height, type, true, get_attr(child, 'border-color', false));
+          if('title' in child.attributes){
+            var title = ` ${child.attributes.title.value} `;
+            doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child, 'border-color', false)]);
+          }
         }
         if('text' in child.attributes){
           var text = child.attributes.text.value;

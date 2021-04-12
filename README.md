@@ -23,66 +23,69 @@ Basic example:
 </prompt>
 ```
 ```text
-  ┌ Main Menu ────┐                                     
-  │Main text      ├┐                                    
-  │               ││                                    
-  │               ││                                    
-  │               ││┌ Inventory ────┐                   
-  │               │││               │                   
-  │               │││               │                   
-  │               │││               │                   
-  │               ││└───────────────┘                   
-  │               ││                                    
-  │  Inventory    ││                                    
-  └┬──────────────┘│                                    
-   └───────────────┘
+ ┌ Main Menu ────┐
+ │Main text      ├┐
+ │               ││
+ │               ││
+ │               ││┌ Inventory ────┐
+ │               │││               │
+ │               │││               │
+ │               │││               │
+ │               ││└───────────────┘
+ │               ││
+ │  Inventory    ││
+ └┬──────────────┘│
+  └───────────────┘
 ```
 
 \
 Positioning example:
 ```HTML
 <prompt type="retro">
-  <div type='none' x='center' y='center' width=52 height=17>
-    <div title="1" x='center' y=-4 width=50></div>
-    <div title="2" width=24 height=15>
-      <div title="2.1" x='center' y='center'></div>
+  <div type='none' x='center' y='center' width=53 height=17>
+    <div title="1" x='center' y=-3 width=51></div>
+    <div title="2" width=25 height=15>
+      <div type="double" title="2.1" x='center' ></div>
+      <div type="double" title="2.2" x='center' y='center'></div>
+      <div type="double" title="2.3" x='center' yalign='bottom'></div>
     </div>
-    <div title="3" x=27 width=24 height=15>
-      <div title="3.1" x='center' y='center'></div>
+    <div title="3" xalign='right' width=25 height=15>
+      <div type="none" title="3.1" x='center' y='center' height=7>
+        <div type="double" title="3.1.1" x=0 y=0></div>
+        <div type="double" title="3.1.2" x=0 y=2 yalign='bottom'></div>
+      </div>
     </div>
     <div title="4" x='center' y='center'></div>
-    <div title="5" x='center' y=18 width=50></div>
+    <div title="5" x='center' yalign='bottom' y=5 width=51></div>
   </div>
 </prompt>
 ```
 ```text
-  ┌ 1 ───────────────────────────────────────────────┐ 
-  │                                                  │ 
-  │                                                  │ 
-  │                                                  │ 
-  └──────────────────────────────────────────────────┘ 
-  ┌ 2 ─────────────────────┐┌ 3 ─────────────────────┐ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │      ╔ 2.1 ═════╗ ┌ 4 ─┴┴────┐ ╔ 3.1 ═════╗      │ 
-  │      ║          ║ │          │ ║          ║      │ 
-  │      ║          ║ │          │ ║          ║      │ 
-  │      ║          ║ │          │ ║          ║      │ 
-  │      ╚══════════╝ └────┬┬────┘ ╚══════════╝      │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  │                        ││                        │ 
-  └────────────────────────┘└────────────────────────┘ 
-  ┌ 5 ───────────────────────────────────────────────┐ 
-  │                                                  │ 
-  │                                                  │ 
-  │                                                  │ 
-  └──────────────────────────────────────────────────┘
+ ┌ 1 ────────────────────────────────────────────────┐
+ │                                                   │
+ │                                                   │
+ │                                                   │
+ ├ 2 ──────────────────────┬ 3 ──────────────────────┤
+ │      ╔ 2.1 ═════╗       │                         │
+ │      ║          ║       │                         │
+ │      ║          ║       │                         │
+ │      ║          ║       │      ╔ 3.1.1 ═══╗       │
+ │      ╚══════════╝       │      ║          ║       │
+ │      ╔ 2.2 ═════╗ ┌ 4 ──┴────┐ ║          ║       │
+ │      ║          ║ │          │ ║          ║       │
+ │      ║          ║ │          │ ╠ 3.1.2 ═══╣       │
+ │      ║          ║ │          │ ║          ║       │
+ │      ╚══════════╝ └─────┬────┘ ║          ║       │
+ │      ╔ 2.3 ═════╗       │      ║          ║       │
+ │      ║          ║       │      ╚══════════╝       │
+ │      ║          ║       │                         │
+ │      ║          ║       │                         │
+ │      ╚══════════╝       │                         │
+ ├ 5 ──────────────────────┴─────────────────────────┤
+ │                                                   │
+ │                                                   │
+ │                                                   │
+ └───────────────────────────────────────────────────┘
 ```
 
 ## Currently
@@ -123,5 +126,10 @@ Positioning example:
 ## On Going
 - More elements
 - Percentage allowed in width and height
-- width/height can be calculated (E.g. 100% - 30)
+- Width/height can be calculated (E.g. 100% - 30)
 - Bold, Italic and Underline as option to do inside the texts
+
+## Known Issues
+- Title not clipping properly
+- Positioning issues with buttons
+- Inverted x/y properties when right/bottom aligned
