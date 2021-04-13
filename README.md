@@ -92,8 +92,8 @@ Positioning example:
 #### HTML Support
 - **DIV**: converted to box
   - id **(String)** - Id of element
-  - x **(Number)** - Position x in screen, can also be 'center' **(default: 1)**
-  - y **(Number)** - Position y in screen, can also be 'center' **(default: 1)**
+  - x **(Number)** - Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  - y **(Number)** - Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
   - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
@@ -107,8 +107,8 @@ Positioning example:
   - title **(String)** - Text printed at top of the box
 - **BUTTON**: converted to interactive text
   - id **(String)** - id of element
-  - x **(Number)** - Position x in screen, can also be 'center' **(default: 1)**
-  - y **(Number)** - Position y in screen, can also be 'center' **(default: 1)**
+  - x **(Number)** - Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  - y **(Number)** - Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
   - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
@@ -131,5 +131,5 @@ Positioning example:
 
 ## Known Issues
 - Title not clipping properly
-- Positioning issues with buttons
 - Inverted x/y properties when right/bottom aligned
+- color issues when after a button element

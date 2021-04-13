@@ -152,8 +152,12 @@ function htmlConvert(){
       let final_pos = 0;
       let dir    = pos == 'x'? 'right': 'bottom';
       let sz     = pos == 'x'? 'width': 'height';
-      let sz_def = {'width': 10, 'height': 3};
-      let chsz   = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[sz]/2;
+      let sz_def = {
+        'PROMPT': {'width': screen.width, 'height': screen.height},
+        'DIV'   : {'width': 10, 'height': 3},
+        'BUTTON': {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': -1}
+      };
+      let chsz = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[ch.tagName][sz]/2;
       if(ch.localName == "prompt") return 0;
       if(pos in ch.attributes){
         if(ch.attributes[pos].value == "center"){
@@ -161,17 +165,23 @@ function htmlConvert(){
             final_pos = Math.floor(screen[sz]/2 - chsz);
           }
           else {
-            final_pos = Math.floor(get_pos(ch.parentElement, pos) + (sz in ch.parentElement.attributes? ch.parentElement.attributes[sz].value/2: sz_def[sz]/2) - chsz);
+            final_pos = Math.floor(get_pos(ch.parentElement, pos) + get_attr(ch.parentElement, sz,sz_def[ch.parentElement.tagName][sz])/2 - chsz);
           }
         }
         else {
           final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(ch.parentElement, pos));
         }
       }
-      else final_pos = 1 + get_pos(ch.parentElement, pos);
+      else {
+        final_pos = 1 + get_pos(ch.parentElement, pos);
+      }
 
-      return final_pos + (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
-        parseInt(get_attr(ch.parentElement, sz, sz_def[sz])  - get_attr(ch, sz, sz_def[sz])) - 2: 0);
+      if(!(pos in ch.attributes) || ch.attributes[pos].value != "center"){
+        final_pos += (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
+          parseInt(get_attr(ch.parentElement, sz, sz_def[ch.tagName][sz])  - get_attr(ch, sz, sz_def[ch.tagName][sz])) - 2: 0);
+      }
+
+      return final_pos;
     };
 
     // disabling
@@ -214,7 +224,7 @@ function htmlConvert(){
           var text = child.attributes.text.value;
           width = text.length;
           height = 1;
-          doText(text, posX, posY, width, height, false, [true, false, true, get_attr(child, 'color', false)], onclick);
+          doText(text, posX, posY, width, height, true, [true, false, true, get_attr(child, 'color', false)], onclick);
         }
         break;
     }
