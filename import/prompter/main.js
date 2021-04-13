@@ -40,33 +40,23 @@ function drawScreen(){
   
   for(let y=0; y < screen.map.length; y++){
     for(let x=0; x < screen.map[y].length; x++){
-      if(screen.effect[y][x][0] && screen.effect[y][x][0] != effect[0] && screen.effect[y][x][0] && !effect[0]){ // bold
-        effect[0] = screen.effect[y][x][0];
-        html += `<b>`;
-        openeds += 'b';
-      }
-      else if(!screen.effect[y][x][0] && effect[0]) {
+      // EXCLUDING
+      if((!screen.effect[y][x][0] || screen.effect[y][x][0] == effect[0]) && !screen.effect[y][x][0] && effect[0]) {
         html += openeds.includes('b')? '</b>': '';
         effect[0] = false;
         openeds = openeds.split('b').slice(0,-1).join('b') + openeds.split('b').slice(-1)[0];
       }
-      if(screen.effect[y][x][1] && screen.effect[y][x][1] != effect[1] && screen.effect[y][x][1] && !effect[1]){ // italic
-        effect[1] = screen.effect[y][x][1];
-        html += `<i>`;
-        openeds += 'i';
-      }
-      else if(!screen.effect[y][x][1] && effect[1]) {
+      if((!screen.effect[y][x][1] || screen.effect[y][x][1] == effect[1]) && !screen.effect[y][x][1] && effect[1]) {
         html += openeds.includes('i')? '</i>': '';
         effect[1] = false;
         openeds = openeds.split('i').slice(0,-1).join('i') + openeds.split('i').slice(-1)[0];
       }
-      
-      if(screen.effect[y][x][3] && screen.effect[y][x][3] != effect[3] && screen.effect[y][x][3]){ // color
-        effect[3] = screen.effect[y][x][3];
-        html += `<span style="color:${screen.effect[y][x][3]}">`;
-        openeds += 'span';
+      if((!screen.effect[y][x][2] || screen.effect[y][x][2] == effect[2]) && !screen.effect[y][x][2] && effect[2]) {
+        html += openeds.includes('u')? '</u>': '';
+        effect[2] = false;
+        openeds = openeds.split('u').slice(0,-1).join('u') + openeds.split('u').slice(-1)[0];
       }
-      else if(!screen.effect[y][x][3] && effect[3]) {
+      if((!screen.effect[y][x][3] || screen.effect[y][x][3] == effect[3]) && !screen.effect[y][x][3] && effect[3]) {
         while(openeds.includes('span')){
           html += '</span>';
           openeds = openeds.split('span').slice(0,-1).join('span') + openeds.split('span').slice(-1)[0];
@@ -74,16 +64,31 @@ function drawScreen(){
         effect[3] = '';
       }
 
+      // INCLUDING
+      if(screen.effect[y][x][3] && screen.effect[y][x][3] != effect[3] && screen.effect[y][x][3]){ // color
+        effect[3] = screen.effect[y][x][3];
+        html += `<span style="color:${screen.effect[y][x][3]}">`;
+        openeds += 'span';
+      }
+
+      if(screen.effect[y][x][0] && screen.effect[y][x][0] != effect[0] && screen.effect[y][x][0] && !effect[0]){ // bold
+        effect[0] = screen.effect[y][x][0];
+        html += `<b>`;
+        openeds += 'b';
+      }
+      
+      if(screen.effect[y][x][1] && screen.effect[y][x][1] != effect[1] && screen.effect[y][x][1] && !effect[1]){ // italic
+        effect[1] = screen.effect[y][x][1];
+        html += `<i>`;
+        openeds += 'i';
+      }
+
       if(screen.effect[y][x][2] && screen.effect[y][x][2] != effect[2] && screen.effect[y][x][2] && !effect[2]){ // underline
         effect[2] = screen.effect[y][x][2];
         html += `<u ${screen.decorator[y][x]?screen.decorator[y][x]:''}>`;
         openeds += 'u';
       }
-      else if(!screen.effect[y][x][2] && effect[2]) {
-        html += openeds.includes('u')? '</u>': '';
-        effect[2] = false;
-        openeds = openeds.split('u').slice(0,-1).join('u') + openeds.split('u').slice(-1)[0];
-      }
+      
       html += screen.map[y][x]? screen.map[y][x]: ' ';
     }
     html += '\n';

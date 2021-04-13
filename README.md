@@ -132,4 +132,3 @@ Positioning example:
 ## Known Issues
 - Title not clipping properly
 - Inverted x/y properties when right/bottom aligned
-- color issues when after a button element
