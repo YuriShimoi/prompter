@@ -120,10 +120,13 @@ Positioning example:
 
 #### Script Support
 - **enableElement(eid)** - Remove disabled attribute of given element
+- **disableElement(eid)** - Add disabled attribute of given element
 - **toggleElement(eid)** - Toggle disabled attribute of given element
 - **changeElement(eid, attrs)** - Change given attributes with **{\<attribute>:\<value>,...}** format
 - **newElement(type, attrs={}, pid=null)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
 - **delElement(eid)** - Delete element with given id
+
+> Note: If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
 
 ## On Going
 - More elements
