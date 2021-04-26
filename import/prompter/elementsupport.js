@@ -1,6 +1,7 @@
 function enableElement(eid){
   let elm = document.getElementById(eid);
   if(!elm) return false;
+
   elm.removeAttribute('disabled');
   htmlConvert();
 }
@@ -8,6 +9,7 @@ function enableElement(eid){
 function disableElement(eid){
   let elm = document.getElementById(eid);
   if(!elm) return false;
+
   elm.setAttribute('disabled', "true");
   htmlConvert();
 }
@@ -15,6 +17,7 @@ function disableElement(eid){
 function toggleElement(eid){
   let elm = document.getElementById(eid);
   if(!elm) return false;
+
   if(elm.hasAttribute('disabled') && elm.getAttribute('disabled') === "true") elm.setAttribute('disabled', "false");
   else elm.setAttribute('disabled', "true");
   htmlConvert();
@@ -23,6 +26,7 @@ function toggleElement(eid){
 function changeElement(eid, attrs){
   let elm = document.getElementById(eid);
   if(!elm) return false;
+
   for(let a in attrs){
     elm.setAttribute(a, attrs[a]);
   }
@@ -40,6 +44,7 @@ function newElement(type, attrs={}, pid){
   else {
     let elmp = document.getElementById(pid);
     if(!elmp) return false;
+
     elmp.appendChild(elm);
   }
   htmlConvert();
@@ -48,6 +53,7 @@ function newElement(type, attrs={}, pid){
 function delElement(eid){
   let elm = document.getElementById(eid);
   if(!elm) return false;
+  
   elm.parentNode.removeChild(elm);
   htmlConvert();
 }
