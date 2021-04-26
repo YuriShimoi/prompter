@@ -2,14 +2,12 @@
 Converts HTML to fully char prompt-like interface.
 
 ## How To
-To start the lib, import _prompter/main.js_ file as script, create a **prompt** element and create elements like above Currently description.
+To start the lib copy **prompter** folder and import *prompter/main.js* file as script, create a **prompt** element and create elements like above *Currently* description, any other elements inside prompt will be ignored and hidden.
 
 Prompt color scheme can be changed with *type* attribute:
   - default: `background: black; color: white`
   - white: `background: white; color: black`
   - retro: `background: black; color: green`
-  
-Any other elements inside prompt will be ignored and hidden.
 
 \
 Basic example:

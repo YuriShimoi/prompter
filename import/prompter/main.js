@@ -126,13 +126,17 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
     }
   });
 
-  screen.map[y].forEach((e, i) => {if(i>x && i<endx) screen.map[y][i] = charMap('top', type, e)});
-  screen.map[y][x]    = charMap('top-left', type, screen.map[y][x]);
-  screen.map[y][endx] = charMap('top-right', type, screen.map[y][endx]);
+  if(y >= 0 && y < screen.map.length){
+    screen.map[y].forEach((e, i) => {if(i>x && i<endx) screen.map[y][i] = charMap('top', type, e)});
+    screen.map[y][x]    = charMap('top-left', type, screen.map[y][x]);
+    screen.map[y][endx] = charMap('top-right', type, screen.map[y][endx]);
+  }
 
-  screen.map[endy].forEach((e, i) => {if(i>x && i<endx) screen.map[endy][i] = charMap('bottom', type, e)});
-  screen.map[endy][x]    = charMap('bottom-left', type, screen.map[endy][x]);
-  screen.map[endy][endx] = charMap('bottom-right', type, screen.map[endy][endx]);
+  if(endy >= 0 && endy < screen.map.length){
+    screen.map[endy].forEach((e, i) => {if(i>x && i<endx) screen.map[endy][i] = charMap('bottom', type, e)});
+    screen.map[endy][x]    = charMap('bottom-left', type, screen.map[endy][x]);
+    screen.map[endy][endx] = charMap('bottom-right', type, screen.map[endy][endx]);
+  }
 }
 
 function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false], decorators=''){
@@ -142,10 +146,11 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
   for(let i = y; i < height+y; i++){
     for(let l = x; l < width+x; l++){
       if(!clip && pivot > text.split(' ')[0].length && text[pivot] != ' ' && text.slice(pivot).indexOf(' ') >= ((width+x) - l)) break;
-
-      screen.map[i][l]       = text[pivot];
-      screen.effect[i][l]    = textdec;
-      screen.decorator[i][l] = decorators;
+      if((i >= 0&& i < screen.map.length) && (l >= 0 && l < screen.map[i].length)){
+        screen.map[i][l]       = text[pivot];
+        screen.effect[i][l]    = textdec;
+        screen.decorator[i][l] = decorators;
+      }
       pivot++;
 
       if(pivot+1 >= text.length) break;
