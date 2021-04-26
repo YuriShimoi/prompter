@@ -91,30 +91,34 @@ Positioning example:
 ## Currently
 #### HTML Support
 - **DIV**: converted to box
-  - id **(String)** - Id of element
-  - x **(Number)** - Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
-  - y **(Number)** - Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
-  - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
-  - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-  - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
-  - color **(String)** - Changes text color, any CSS valid color is available
-  - border-color **(String)** - Changes bordering color, any CSS valid color is available
-  - width **(Number)** - Width of the box **(default: 10)**
-  - height **(Number)** - Height of the box **(default: 3)**
-  - type **(String)** - Box bordering type, can be none, single, bold, double, chess, bold-chess, double-chess **(default: single)**
-  - text **(String)** - Text printed inside the box
-  - clip **(Boolean)** - If true clip text at end of line **(default: false)**
-  - title **(String)** - Text printed at top of the box
+  Property | Argument type | Description
+  --- | --- | ---
+  | id | *String* | Id of element
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | color | *String* | Changes text color, any CSS valid color is available
+  | border-color | *String* | Changes bordering color, any CSS valid color is available
+  | width | *Number* | Width of the box **(default: 10)**
+  | height | *Number* | Height of the box **(default: 3)**
+  | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
+  | text | *String* | Text printed inside the box
+  | clip | *Boolean* | If true clip text at end of line **(default: false)**
+  | title | *String* | Text printed at top of the box
 - **BUTTON**: converted to interactive text
-  - id **(String)** - id of element
-  - x **(Number)** - Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
-  - y **(Number)** - Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
-  - xalign **(String)** - X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
-  - yalign **(String)** - Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-  - disabled **(Boolean)** - Disable element to be seen on screen **(default: false)**
-  - color **(String)** - Changes text color, any CSS valid color is available
-  - text **(String)** - Button text
-  - onclick **(String)** - Script to execute on click
+  Property | Argument type | Description
+  --- | --- | ---
+  | id | *String* | Id of element
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | color | *String* | Changes text color, any CSS valid color is available
+  | text | *String* | Button text
+  | onclick | *String* | Script to execute on click
 
 #### Script Support
 - **enableElement(eid)** - Remove disabled attribute of given element
