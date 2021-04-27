@@ -162,15 +162,19 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
 function htmlConvert(){
   clearScreen();
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
+    let valid_elements = ["DIV", "BUTTON", "PROGRESS"];
+    if(!valid_elements.includes(child.tagName)) return;
+
     let get_attr = (e, a, d) => a in e.attributes? e.attributes[a].value: d;
     let get_pos  = (ch, pos) => {
       let final_pos = 0;
       let dir       = pos == 'x'? 'right': 'bottom';
       let sz        = pos == 'x'? 'width': 'height';
       let sz_def    = {
-        'PROMPT': {'width': screen.width, 'height': screen.height},
-        'DIV'   : {'width': 10, 'height': 3},
-        'BUTTON': {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': -1}
+        'PROMPT'  : {'width': screen.width, 'height': screen.height},
+        'DIV'     : {'width': 10, 'height': 3},
+        'BUTTON'  : {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': -1},
+        'PROGRESS': {'width': 10, 'height': -1}
       };
       let chsz = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[ch.tagName][sz]/2;
       if(ch.localName == "prompt") return 0;
@@ -237,10 +241,21 @@ function htmlConvert(){
 
         if('text' in child.attributes){
           var text = child.attributes.text.value;
-          width = text.length;
-          height = 1;
+          width    = text.length;
+          height   = 1;
           doText(text, posX, posY, width, height, true, [true, false, true, get_attr(child, 'color', false)], onclick);
         }
+        break;
+      case 'PROGRESS':
+        // default keys
+        var max = parseInt(get_attr(child, 'max',  100));
+        var val = parseInt(get_attr(child, 'value',  0));
+        width   = parseInt(get_attr(child, 'width', 10));
+        height  = 1;
+        
+        console.log(posX, posY, '|', width, height, '|', max, val);
+        // TODO: Progress element
+
         break;
     }
   });
