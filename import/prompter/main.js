@@ -161,15 +161,19 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
 
 function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false], cst_char=['', '']){
   // textdec = [bold, italic, underlined, color]
-  value = value < 0? 0: value > max? max: value;
+  value  = value < 0? 0: value > max? max: value;
+  width  = width < 0? 0: width;
+  height = height < 1? 1: height;
 
-  let fill_char  = cst_char[0] !== ''? cst_char[0]: '█';
-  let empty_char = cst_char[1] !== ''? cst_char[1]: WHITESPACE;
-  let fill_amm   = Math.round((width / max) * value);
-  let empty_amm  = Math.round((width / max) * (max - value));
+  let fill_char  = cst_char[0] !== ''? cst_char[0] != ' '? cst_char[0]: WHITESPACE: '█';
+  let empty_char = cst_char[1] !== ''? cst_char[1] != ' '? cst_char[1]: WHITESPACE: WHITESPACE;
+  let fill_amm   = Math.round(((width*height) / max) * value);
+  let empty_amm  = Math.round(((width*height) / max) * (max - value));
   let ptext = Array(fill_amm).fill(fill_char).join('') + Array(empty_amm).fill(empty_char).join('');
 
-  doText(ptext, x, y, width, height, true, textdec);
+  for(let i=0; i < height; i++){
+    doText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
+  }
 }
 
 function htmlConvert(){
@@ -181,36 +185,44 @@ function htmlConvert(){
     let get_attr = (e, a, d) => a in e.attributes? e.attributes[a].value: d;
     let get_pos  = (ch, pos) => {
       let final_pos = 0;
+      let pr      = ch.parentElement;
       let dir       = pos == 'x'? 'right': 'bottom';
       let sz        = pos == 'x'? 'width': 'height';
       let sz_def    = {
         'PROMPT'  : {'width': screen.width, 'height': screen.height},
         'DIV'     : {'width': 10, 'height': 3},
-        'TEXT'  : {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': -1},
-        'PROGRESS': {'width': 10, 'height': -1}
+        'TEXT'    : {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': 1},
+        'PROGRESS': {'width': 10, 'height': 1}
       };
-      let chsz = sz in ch.attributes? ch.attributes[sz].value/2: sz_def[ch.tagName][sz]/2;
+      let sz_adjust = {
+        'PROMPT'  : {'width': 0, 'height':  0},
+        'DIV'     : {'width': 0, 'height':  0},
+        'TEXT'    : {'width': 0, 'height': -2},
+        'PROGRESS': {'width': 0, 'height': -2}
+      }
+      let chsz = sz in ch.attributes? (parseInt(ch.attributes[sz].value) + sz_adjust[ch.tagName][sz])/2: (sz_def[ch.tagName][sz] + sz_adjust[ch.tagName][sz])/2;
       if(ch.localName == "prompt") return 0;
       if(pos in ch.attributes){
         if(ch.attributes[pos].value == "center"){
-          if(ch.parentElement.localName == "prompt"){
+          if(pr.localName == "prompt"){
             final_pos = Math.floor(screen[sz]/2 - chsz);
           }
           else {
-            final_pos = Math.floor(get_pos(ch.parentElement, pos) + get_attr(ch.parentElement, sz,sz_def[ch.parentElement.tagName][sz])/2 - chsz);
+            final_pos = Math.floor(get_pos(pr, pos) + (parseInt(get_attr(pr, sz,sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])/2 - chsz);
           }
         }
         else {
-          final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(ch.parentElement, pos));
+          final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(pr, pos));
         }
       }
       else {
-        final_pos = 1 + get_pos(ch.parentElement, pos);
+        final_pos = 1 + get_pos(pr, pos);
       }
 
       if(!(pos in ch.attributes) || ch.attributes[pos].value != "center"){
         final_pos += (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
-          parseInt(get_attr(ch.parentElement, sz, sz_def[ch.tagName][sz])  - get_attr(ch, sz, sz_def[ch.tagName][sz])) - 2: 0);
+                        (parseInt(get_attr(pr, sz, sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])
+                      - (parseInt(get_attr(ch, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) - 2: 0);
       }
 
       return final_pos;
@@ -264,7 +276,7 @@ function htmlConvert(){
         var max = parseInt(get_attr(child, 'max',  100));
         var val = parseInt(get_attr(child, 'value', 50));
         width   = parseInt(get_attr(child, 'width', 10));
-        height  = 1;
+        height  = parseInt(get_attr(child, 'height', 1));
         
         doProgress(posX, posY, width, height, val, max, [true, false, false, get_attr(child, 'color', false)], [get_attr(child, 'fill', ''), get_attr(child, 'empty', '')]);
 

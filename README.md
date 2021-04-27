@@ -120,7 +120,7 @@ Check the *index.html* file to see more examples of the elements.
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | text | *String* | Actual text to display
   | onclick | *String* | Script to execute on click
-- **PROGRESS**: converted to horizontal progress bar
+- **PROGRESS**: converted to horizontal progress bar, if *width* is adjusted to 1 can simulate a simple vertical bar
   Property | Argument type | Description
   --- | --- | ---
   | id | *String* | Id of element
@@ -131,6 +131,8 @@ Check the *index.html* file to see more examples of the elements.
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | value | *Number* | Defines the progress amount **(default: 50)**
+  | width | *Number* | Width of the progress bar **(default: 10)**
+  | height | *Number* | Height of the progress bar **(default: 1)**
   | max | *Number* | Defines the limit of progress **(default: 100)**
   | fill | *String* | Set the char to be used on filled part **(default: █)**
   | empty | *String* | Set the char to be used on unfilled part **(default:  )**
