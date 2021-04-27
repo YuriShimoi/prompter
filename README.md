@@ -15,7 +15,7 @@ Basic example:
 <prompt type="retro">
   <div width=15 height=10 y=2 x=3></div>
   <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
-    <button text="Inventory" x=6 y=11 onclick="toggleElement('inventory')"></button>
+    <text text="Inventory" x=6 y=11 onclick="toggleElement('inventory')"></text>
   </div>
   <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
 </prompt>
@@ -118,7 +118,7 @@ Check the *index.html* file to see more examples of the elements.
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
-  | text | *String* | Button text
+  | text | *String* | Actual text to display
   | onclick | *String* | Script to execute on click
 - **PROGRESS**: converted to horizontal progress bar
   Property | Argument type | Description
