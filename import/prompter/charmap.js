@@ -1,3 +1,4 @@
+WHITESPACE = " ";
 // [top, right, bottom, left]
 //  x  [single, double, bold]
 const DIRECTIONAL_CHAR_MAP = {

@@ -86,6 +86,9 @@ Positioning example:
  └───────────────────────────────────────────────────┘
 ```
 
+\
+Check the *index.html* file to see more examples of the elements.
+
 ## Currently
 #### HTML Support
 - **DIV**: converted to box
@@ -97,15 +100,15 @@ Positioning example:
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | color | *String* | Changes text color, any CSS valid color is available
-  | border-color | *String* | Changes bordering color, any CSS valid color is available
+  | color | *String* | Changes text color, any CSS valid color is available, including hex color
+  | border-color | *String* | Changes bordering color, any CSS valid color is available, including hex color
   | width | *Number* | Width of the box **(default: 10)**
   | height | *Number* | Height of the box **(default: 3)**
   | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
   | text | *String* | Text printed inside the box
   | clip | *Boolean* | If true clip text at end of line **(default: false)**
   | title | *String* | Text printed at top of the box
-- **BUTTON**: converted to interactive text
+- **TEXT**: converted to interactive text
   Property | Argument type | Description
   --- | --- | ---
   | id | *String* | Id of element
@@ -114,9 +117,24 @@ Positioning example:
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | color | *String* | Changes text color, any CSS valid color is available
+  | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | text | *String* | Button text
   | onclick | *String* | Script to execute on click
+- **PROGRESS**: converted to horizontal progress bar
+  Property | Argument type | Description
+  --- | --- | ---
+  | id | *String* | Id of element
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | color | *String* | Changes text color, any CSS valid color is available, including hex color
+  | value | *Number* | Defines the progress amount **(default: 50)**
+  | max | *Number* | Defines the limit of progress **(default: 100)**
+  | fill | *String* | Set the char to be used on filled part **(default: █)**
+  | empty | *String* | Set the char to be used on unfilled part **(default:  )**
+
 
 #### Script Support
 - **enableElement(eid)** - Remove disabled attribute of given element
@@ -130,6 +148,7 @@ Positioning example:
 
 ## On Going
 - More elements
+- Do *hover* property to **TEXT** element to configure hover color
 - Percentage allowed in width and height
 - Width/height can be calculated (E.g. 100% - 30)
 - Bold, Italic and Underline as option to do inside the texts
