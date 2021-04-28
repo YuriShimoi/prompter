@@ -196,7 +196,7 @@ function htmlConvert(){
       };
       let sz_adjust = {
         'PROMPT'  : {'width': 0, 'height':  0},
-        'DIV'     : {'width': 0, 'height':  0},
+        'DIV'     : {'width': 1, 'height':  0},
         'TEXT'    : {'width': 0, 'height': -2},
         'PROGRESS': {'width': 0, 'height': -2}
       }

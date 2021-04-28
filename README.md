@@ -13,12 +13,12 @@ Prompt color scheme can be changed with *type* attribute:
 Basic example:
 ```HTML
 <prompt type="retro">
-      <div width=15 height=10 y=2 x=3></div>
-      <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
-        <text text="Inventory" x=0 xalign="right" yalign="bottom" onclick="toggleElement('inventory')"></text>
-      </div>
-      <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
-    </prompt>
+  <div width=15 height=10 y=2 x=3></div>
+  <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
+    <text text="Inventory" x=0 xalign="right" yalign="bottom" onclick="toggleElement('inventory')"></text>
+  </div>
+  <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
+</prompt>
 ```
 ```text
  ┌ Main Menu ────┐
