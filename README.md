@@ -139,14 +139,16 @@ Check the *index.html* file to see more examples of the elements.
 
 
 #### Script Support
-- **enableElement(eid)** - Remove disabled attribute of given element
-- **disableElement(eid)** - Add disabled attribute of given element
-- **toggleElement(eid)** - Toggle disabled attribute of given element
-- **changeElement(eid, attrs)** - Change given attributes with **{\<attribute>:\<value>,...}** format
-- **newElement(type, attrs={}, pid=null)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
-- **delElement(eid)** - Delete element with given id
+- **enableElement(eid, draw=true)** - Remove disabled attribute of given element
+- **disableElement(eid, draw=true)** - Add disabled attribute of given element
+- **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
+- **changeElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
+- **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
+- **delElement(eid, draw=true)** - Delete element with given id
 
-> Note: If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
+> Note:
+  If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
+  By default at end of function will redraw the screen.
 
 ## On Going
 - More elements

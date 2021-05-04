@@ -1,39 +1,39 @@
-function enableElement(eid){
+function enableElement(eid, draw=true){
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
   elm.removeAttribute('disabled');
-  htmlConvert();
+  if(draw) htmlConvert();
 }
 
-function disableElement(eid){
+function disableElement(eid, draw=true){
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
   elm.setAttribute('disabled', "true");
-  htmlConvert();
+  if(draw) htmlConvert();
 }
 
-function toggleElement(eid){
+function toggleElement(eid, draw=true){
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
   if(elm.hasAttribute('disabled') && elm.getAttribute('disabled') === "true") elm.setAttribute('disabled', "false");
   else elm.setAttribute('disabled', "true");
-  htmlConvert();
+  if(draw) htmlConvert();
 }
 
-function changeElement(eid, attrs){
+function changeElement(eid, attrs, draw=true){
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
   for(let a in attrs){
     elm.setAttribute(a, attrs[a]);
   }
-  htmlConvert();
+  if(draw) htmlConvert();
 }
 
-function newElement(type, attrs={}, pid){
+function newElement(type, attrs={}, pid, draw=true){
   let elm = document.createElement(type);
   for(let a in attrs){
     elm.setAttribute(a, attrs[a]);
@@ -47,13 +47,13 @@ function newElement(type, attrs={}, pid){
 
     elmp.appendChild(elm);
   }
-  htmlConvert();
+  if(draw) htmlConvert();
 }
 
-function delElement(eid){
+function delElement(eid, draw=true){
   let elm = document.getElementById(eid);
   if(!elm) return false;
   
   elm.parentNode.removeChild(elm);
-  htmlConvert();
+  if(draw) htmlConvert();
 }
