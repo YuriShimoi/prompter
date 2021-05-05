@@ -38,59 +38,71 @@ function calcScreenSize(){ /* 8.8px width x 19px height */
 
 function drawScreen(){
   let html    = '';
-  let effect  = [false, false, false, ''];
+  let aeffect = [false, false, false, ''];
   let openeds = '';
   
   for(let y=0; y < screen.map.length; y++){
     for(let x=0; x < screen.map[y].length; x++){
       try{
+        let effect    = screen.effect[y][x];
+        let is_effect = [
+          effect[0] && effect[0] != aeffect[0],
+          effect[1] && effect[1] != aeffect[1],
+          effect[2] && effect[2] != aeffect[2],
+          effect[3] && effect[3] != aeffect[3]
+        ];
+
         // EXCLUDING
-        if((!screen.effect[y][x][0] || screen.effect[y][x][0] == effect[0]) && !screen.effect[y][x][0] && effect[0]) {
-          html     += openeds.includes('b')? '</b>': '';
-          effect[0] = false;
-          openeds   = openeds.split('b').slice(0,-1).join('b') + openeds.split('b').slice(-1)[0];
+        if(!is_effect[0] && !effect[0] && aeffect[0]) {
+          html      += openeds.includes('b')? '</b>': '';
+          aeffect[0] = false;
+          let e_pos  = openeds.lastIndexOf('b');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if((!screen.effect[y][x][1] || screen.effect[y][x][1] == effect[1]) && !screen.effect[y][x][1] && effect[1]) {
-          html     += openeds.includes('i')? '</i>': '';
-          effect[1] = false;
-          openeds   = openeds.split('i').slice(0,-1).join('i') + openeds.split('i').slice(-1)[0];
+        if(!is_effect[1] && !effect[1] && aeffect[1]) {
+          html      += openeds.includes('i')? '</i>': '';
+          aeffect[1] = false;
+          let e_pos  = openeds.lastIndexOf('i');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if((!screen.effect[y][x][2] || screen.effect[y][x][2] == effect[2]) && !screen.effect[y][x][2] && effect[2]) {
-          html     += openeds.includes('u')? '</u>': '';
-          effect[2] = false;
-          openeds   = openeds.split('u').slice(0,-1).join('u') + openeds.split('u').slice(-1)[0];
+        if(!is_effect[2] && !effect[2] && aeffect[2]) {
+          html      += openeds.includes('u')? '</u>': '';
+          aeffect[2] = false;
+          let e_pos  = openeds.lastIndexOf('u');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if((!screen.effect[y][x][3] || screen.effect[y][x][3] == effect[3]) && !screen.effect[y][x][3] && effect[3]) {
+        if(!is_effect[3] && !effect[3] && aeffect[3]) {
           while(openeds.includes('span')){
-            html   += '</span>';
-            openeds = openeds.split('span').slice(0,-1).join('span') + openeds.split('span').slice(-1)[0];
+            html     += '</span>';
+            let e_pos = openeds.lastIndexOf('span');
+            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
           }
-          effect[3] = '';
+          aeffect[3] = '';
         }
 
         // INCLUDING
-        if(screen.effect[y][x][3] && screen.effect[y][x][3] != effect[3] && screen.effect[y][x][3]){ // color
-          effect[3] = screen.effect[y][x][3];
-          html    += `<span style="color:${screen.effect[y][x][3]}">`;
-          openeds += 'span';
+        if(is_effect[3] && effect[3]){ // color
+          aeffect[3] = effect[3];
+          html      += `<span style="color:${effect[3]}">`;
+          openeds   += 'span';
         }
 
-        if(screen.effect[y][x][0] && screen.effect[y][x][0] != effect[0] && screen.effect[y][x][0] && !effect[0]){ // bold
-          effect[0] = screen.effect[y][x][0];
-          html    += `<b>`;
-          openeds += 'b';
+        if(is_effect[0] && effect[0] && !aeffect[0]){ // bold
+          aeffect[0] = effect[0];
+          html      += `<b>`;
+          openeds   += 'b';
         }
         
-        if(screen.effect[y][x][1] && screen.effect[y][x][1] != effect[1] && screen.effect[y][x][1] && !effect[1]){ // italic
-          effect[1] = screen.effect[y][x][1];
-          html    += `<i>`;
-          openeds += 'i';
+        if(is_effect[1] && effect[1] && !aeffect[1]){ // italic
+          aeffect[1] = effect[1];
+          html      += `<i>`;
+          openeds   += 'i';
         }
 
-        if(screen.effect[y][x][2] && screen.effect[y][x][2] != effect[2] && screen.effect[y][x][2] && !effect[2]){ // underline
-          effect[2] = screen.effect[y][x][2];
-          html    += `<u ${screen.decorator[y][x]?screen.decorator[y][x]:''}>`;
-          openeds += 'u';
+        if(is_effect[2] && effect[2] && !aeffect[2]){ // underline
+          aeffect[2] = effect[2];
+          html      += `<u ${screen.decorator[y][x]?screen.decorator[y][x]:''}>`;
+          openeds   += 'u';
         }
         
         html += screen.map[y][x]? screen.map[y][x]: ' ';
@@ -117,13 +129,13 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
     if(i >= y && i <= endy){
       screen.map[i].forEach((_, l) => {
         if(l >= x && l <= endx){
-          screen.effect[i][l] = [false, false, false, color];
+          screen.effect[i][l]    = [false, false, false, color];
           screen.decorator[i][l] = '';
         }
     });
     }
     if(i > y && i < endy){
-      row[x]    = charMap('left', type, row[x]);
+      row[x]    = charMap('left' , type, row[x]);
       row[endx] = charMap('right', type, row[endx]);
       if(fill) screen.map[i].forEach((_, l) => {if(l>x && l<endx) screen.map[i][l] = charMap('middle', type)});
     }
@@ -131,13 +143,13 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
 
   if(y >= 0 && y < screen.map.length){
     screen.map[y].forEach((e, i) => {if(i>x && i<endx) screen.map[y][i] = charMap('top', type, e)});
-    screen.map[y][x]    = charMap('top-left', type, screen.map[y][x]);
+    screen.map[y][x]    = charMap('top-left' , type, screen.map[y][x]);
     screen.map[y][endx] = charMap('top-right', type, screen.map[y][endx]);
   }
 
   if(endy >= 0 && endy < screen.map.length){
     screen.map[endy].forEach((e, i) => {if(i>x && i<endx) screen.map[endy][i] = charMap('bottom', type, e)});
-    screen.map[endy][x]    = charMap('bottom-left', type, screen.map[endy][x]);
+    screen.map[endy][x]    = charMap('bottom-left' , type, screen.map[endy][x]);
     screen.map[endy][endx] = charMap('bottom-right', type, screen.map[endy][endx]);
   }
 }
@@ -168,8 +180,8 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
 function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false], cst_char=['', '']){
   // textdec  = [bold, italic, underlined, color]
   // cst_char = [<fill>,<empty>]
-  value  = value < 0? 0: value > max? max: value;
-  width  = width < 0? 0: width;
+  value  = value  < 0? 0: value > max? max: value;
+  width  = width  < 0? 0: width;
   height = height < 1? 1: height;
 
   let fill_char  = cst_char[0] !== ''? cst_char[0] != ' '? cst_char[0]: WHITESPACE: '█';
@@ -189,8 +201,8 @@ function htmlConvert(){
     let valid_elements = ["DIV", "TEXT", "PROGRESS"];
     if(!valid_elements.includes(child.tagName)) return;
     
-    let get_attrs = (e) => Object.values(e.attributes).map(a => ({[a.name]:(a.value)})).reduce((ac, vl) => ({...ac, ...vl}), {});
-    let get_attr  = (attrs, a, d) => a in attrs? attrs[a]: d;
+    let get_attrs = (e) => e.attributes;
+    let get_attr  = (attrs, a, d) => a in attrs? attrs[a].value: d;
     let get_pos   = (ch, pos) => {
       let final_pos = 0;
       let pr        = ch.parentElement;
