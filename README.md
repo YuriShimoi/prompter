@@ -43,7 +43,7 @@ Positioning example:
   <div type='none' x='center' y='center' width=53 height=17>
     <div title="1" x='center' y=-3 width=51></div>
     <div title="2" width=25 height=15>
-      <div type="double" title="2.1" x='center' ></div>
+      <div type="double" title="2.1" x='center'></div>
       <div type="double" title="2.2" x='center' y='center'></div>
       <div type="double" title="2.3" x='center' yalign='bottom'></div>
     </div>
@@ -151,12 +151,14 @@ Check the *index.html* file to see more examples of the elements.
   By default at end of function will redraw the screen.
 
 ## On Going
-- More elements
+- More elements ( **IMAGE** )
 - Do *hover* property to **TEXT** element to configure hover color
+- Do *underline=True/False* to **TEXT** element
+- Do *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
 - Percentage allowed in width and height
 - Width/height can be calculated (E.g. 100% - 30)
 - Bold, Italic and Underline as option to do inside the texts
 
 ## Known Issues
 - Title not clipping properly
-- Inverted x/y properties when right/bottom aligned
+- Need to invert x/y properties when right/bottom aligned

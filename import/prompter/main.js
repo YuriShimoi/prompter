@@ -9,9 +9,9 @@ const importScript = (src, format='js') => {
 importScript("style","css");
 importScript("charmap","js");
 importScript("elementsupport","js");
-let prompt_container = null;
-let screen_container = null;
-let screen = {
+let prompt_container  = null;
+let screen_container  = null;
+let screen_properties = {
   'map'      : [[]],
   'effect'   : [[]],
   'decorator': [[]],
@@ -41,10 +41,10 @@ function drawScreen(){
   let aeffect = [false, false, false, ''];
   let openeds = '';
   
-  for(let y=0; y < screen.map.length; y++){
-    for(let x=0; x < screen.map[y].length; x++){
+  for(let y=0; y < screen_properties.map.length; y++){
+    for(let x=0; x < screen_properties.map[y].length; x++){
       try{
-        let effect    = screen.effect[y][x];
+        let effect    = screen_properties.effect[y][x];
         let is_effect = [
           effect[0] && effect[0] != aeffect[0],
           effect[1] && effect[1] != aeffect[1],
@@ -101,14 +101,14 @@ function drawScreen(){
 
         if(is_effect[2] && effect[2] && !aeffect[2]){ // underline
           aeffect[2] = effect[2];
-          html      += `<u ${screen.decorator[y][x]?screen.decorator[y][x]:''}>`;
+          html      += `<u ${screen_properties.decorator[y][x]?screen_properties.decorator[y][x]:''}>`;
           openeds   += 'u';
         }
         
-        html += screen.map[y][x]? screen.map[y][x]: ' ';
+        html += screen_properties.map[y][x]? screen_properties.map[y][x]: ' ';
       }
       catch {
-        html += screen.map[y][x]? screen.map[y][x]: ' ';
+        html += screen_properties.map[y][x]? screen_properties.map[y][x]: ' ';
       }
     }
     html += '\n';
@@ -117,7 +117,13 @@ function drawScreen(){
 }
 
 function clearScreen(){
-  screen = {...clean_screen};
+  screen_properties = {
+    decorator: new Array(clean_screen.decorator.length).fill().map(_ => [...clean_screen.decorator[0]]),
+    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(e => new Array(4).fill(false))),
+    map: new Array(clean_screen.map.length).fill().map(_ => [...clean_screen.map[0]]),
+    height: clean_screen.height,
+    width: clean_screen.width
+  };
   drawScreen();
 }
 
@@ -125,32 +131,32 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
-  screen.map.forEach((row, i) => {
+  screen_properties.map.forEach((row, i) => {
     if(i >= y && i <= endy){
-      screen.map[i].forEach((_, l) => {
+      screen_properties.map[i].forEach((_, l) => {
         if(l >= x && l <= endx){
-          screen.effect[i][l]    = [false, false, false, color];
-          screen.decorator[i][l] = '';
+          screen_properties.effect[i][l]    = [false, false, false, color];
+          screen_properties.decorator[i][l] = '';
         }
     });
     }
     if(i > y && i < endy){
       row[x]    = charMap('left' , type, row[x]);
       row[endx] = charMap('right', type, row[endx]);
-      if(fill) screen.map[i].forEach((_, l) => {if(l>x && l<endx) screen.map[i][l] = charMap('middle', type)});
+      if(fill) screen_properties.map[i].forEach((_, l) => {if(l>x && l<endx) screen_properties.map[i][l] = charMap('middle', type)});
     }
   });
 
-  if(y >= 0 && y < screen.map.length){
-    screen.map[y].forEach((e, i) => {if(i>x && i<endx) screen.map[y][i] = charMap('top', type, e)});
-    screen.map[y][x]    = charMap('top-left' , type, screen.map[y][x]);
-    screen.map[y][endx] = charMap('top-right', type, screen.map[y][endx]);
+  if(y >= 0 && y < screen_properties.map.length){
+    screen_properties.map[y].forEach((e, i) => {if(i>x && i<endx) screen_properties.map[y][i] = charMap('top', type, e)});
+    screen_properties.map[y][x]    = charMap('top-left' , type, screen_properties.map[y][x]);
+    screen_properties.map[y][endx] = charMap('top-right', type, screen_properties.map[y][endx]);
   }
 
-  if(endy >= 0 && endy < screen.map.length){
-    screen.map[endy].forEach((e, i) => {if(i>x && i<endx) screen.map[endy][i] = charMap('bottom', type, e)});
-    screen.map[endy][x]    = charMap('bottom-left' , type, screen.map[endy][x]);
-    screen.map[endy][endx] = charMap('bottom-right', type, screen.map[endy][endx]);
+  if(endy >= 0 && endy < screen_properties.map.length){
+    screen_properties.map[endy].forEach((e, i) => {if(i>x && i<endx) screen_properties.map[endy][i] = charMap('bottom', type, e)});
+    screen_properties.map[endy][x]    = charMap('bottom-left' , type, screen_properties.map[endy][x]);
+    screen_properties.map[endy][endx] = charMap('bottom-right', type, screen_properties.map[endy][endx]);
   }
 }
 
@@ -164,10 +170,10 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
   for(let i = y; i < height+y; i++){
     for(let l = x; l < width+x; l++){
       if(!clip && pivot > first_word_size && text[pivot] != ' ' && text.slice(pivot).indexOf(' ') >= ((width+x) - l)) break;
-      if((i >= 0&& i < screen.map.length) && (l >= 0 && l < screen.map[i].length)){
-        screen.map[i][l]       = text[pivot];
-        screen.effect[i][l]    = textdec;
-        screen.decorator[i][l] = decorators;
+      if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)){
+        screen_properties.map[i][l]       = text[pivot];
+        screen_properties.effect[i][l]    = textdec;
+        screen_properties.decorator[i][l] = decorators;
       }
       pivot++;
 
@@ -209,7 +215,7 @@ function htmlConvert(){
       let dir       = pos == 'x'? 'right': 'bottom';
       let sz        = pos == 'x'? 'width': 'height';
       let sz_def    = {
-        'PROMPT'  : {'width': screen.width, 'height': screen.height},
+        'PROMPT'  : {'width': screen_properties.width, 'height': screen_properties.height},
         'DIV'     : {'width': 10, 'height': 3},
         'TEXT'    : {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': 1},
         'PROGRESS': {'width': 10, 'height': 1}
@@ -230,7 +236,7 @@ function htmlConvert(){
       if(pos in ch.attributes){
         if(ch.attributes[pos].value == "center"){
           if(pr.localName == "prompt"){
-            final_pos = Math.floor(screen[sz]/2 - chsz);
+            final_pos = Math.floor(screen_properties[sz]/2 - chsz);
           }
           else {
             final_pos = Math.floor(get_pos(pr, pos) + (parseInt(get_attr(pr_attrs, sz,sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])/2 - chsz);
