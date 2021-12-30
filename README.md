@@ -8,6 +8,7 @@ Prompt color scheme can be changed with *type* attribute:
   - default: `background: black; color: white`
   - white: `background: white; color: black`
   - retro: `background: black; color: green`
+  - blueprint: `background: blue; color: white`
 
 
 <details>
