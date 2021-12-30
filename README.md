@@ -11,8 +11,8 @@ Prompt color scheme can be changed with *type* attribute:
   - blueprint: `background: blue; color: white`
 
 
-<details>
-<summary>Basic example</summary>
+<details open>
+<summary><b>Basic example</b></summary>
 <table>
   <tr>
     <th>Code</th>
@@ -59,8 +59,8 @@ Prompt color scheme can be changed with *type* attribute:
 </details>
 
 
-<details>
-  <summary>Positioning example</summary>
+<details open>
+  <summary><b>Positioning example</b></summary>
 <table>
   <tr>
     <th>Code</th>
