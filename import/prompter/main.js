@@ -22,7 +22,7 @@ let clean_screen = {};
 
 
 // FUNCTIONS
-function calcScreenSize(){ /* 8.8px width x 19px height */
+function calcScreenSize() { /* 8.8px width x 19px height */
   if(prompt_container === null) return;
   
   clean_screen.width     = Math.floor(prompt_container.offsetWidth  / 8.8);
@@ -35,13 +35,13 @@ function calcScreenSize(){ /* 8.8px width x 19px height */
   clearScreen();
 }
 
-function drawScreen(){
+function drawScreen() {
   let html    = '';
   let aeffect = [false, false, false, ''];
   let openeds = '';
   
-  for(let y=0; y < screen_properties.map.length; y++){
-    for(let x=0; x < screen_properties.map[y].length; x++){
+  for(let y=0; y < screen_properties.map.length; y++) {
+    for(let x=0; x < screen_properties.map[y].length; x++) {
       try{
         let effect    = screen_properties.effect[y][x];
         let is_effect = [
@@ -52,26 +52,26 @@ function drawScreen(){
         ];
 
         // EXCLUDING
-        if(!is_effect[0] && !effect[0] && aeffect[0]) {
+        if(!is_effect[0] && !effect[0] && aeffect[0]) { // bold
           html      += openeds.includes('b')? '</b>': '';
           aeffect[0] = false;
           let e_pos  = openeds.lastIndexOf('b');
           openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if(!is_effect[1] && !effect[1] && aeffect[1]) {
+        if(!is_effect[1] && !effect[1] && aeffect[1]) { // italic
           html      += openeds.includes('i')? '</i>': '';
           aeffect[1] = false;
           let e_pos  = openeds.lastIndexOf('i');
           openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if(!is_effect[2] && !effect[2] && aeffect[2]) {
+        if(!is_effect[2] && !effect[2] && aeffect[2]) { // underline
           html      += openeds.includes('u')? '</u>': '';
           aeffect[2] = false;
           let e_pos  = openeds.lastIndexOf('u');
           openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
         }
-        if(!is_effect[3] && !effect[3] && aeffect[3]) {
-          while(openeds.includes('span')){
+        if(!is_effect[3] && !effect[3] && aeffect[3]) { // color
+          while(openeds.includes('span')) {
             html     += '</span>';
             let e_pos = openeds.lastIndexOf('span');
             openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
@@ -80,34 +80,34 @@ function drawScreen(){
         }
 
         // INCLUDING
-        if(is_effect[3] && effect[3]){ // color
+        if(is_effect[3] && effect[3]) { // color
           aeffect[3] = effect[3];
           html      += `<span style="color:${effect[3]}">`;
           openeds   += 'span';
         }
 
-        if(is_effect[0] && effect[0] && !aeffect[0]){ // bold
-          aeffect[0] = effect[0];
-          html      += `<b>`;
-          openeds   += 'b';
-        }
-        
-        if(is_effect[1] && effect[1] && !aeffect[1]){ // italic
-          aeffect[1] = effect[1];
-          html      += `<i>`;
-          openeds   += 'i';
-        }
-
-        if(is_effect[2] && effect[2] && !aeffect[2]){ // underline
+        if(is_effect[2] && effect[2] && !aeffect[2]) { // underline
           aeffect[2] = effect[2];
           html      += `<u ${screen_properties.decorator[y][x]?screen_properties.decorator[y][x]:''}>`;
           openeds   += 'u';
         }
         
-        html += screen_properties.map[y][x]? screen_properties.map[y][x]: ' ';
+        if(is_effect[1] && effect[1] && !aeffect[1]) { // italic
+          aeffect[1] = effect[1];
+          html      += `<i>`;
+          openeds   += 'i';
+        }
+
+        if(is_effect[0] && effect[0] && !aeffect[0]) { // bold
+          aeffect[0] = effect[0];
+          html      += `<b>`;
+          openeds   += 'b';
+        }
+        
+        html += screen_properties.map[y][x]? screen_properties.map[y][x]: WHITESPACE;
       }
       catch {
-        html += screen_properties.map[y][x]? screen_properties.map[y][x]: ' ';
+        html += screen_properties.map[y][x]? screen_properties.map[y][x]: WHITESPACE;
       }
     }
     html += '\n';
@@ -115,7 +115,7 @@ function drawScreen(){
   screen_container.innerHTML = html;
 }
 
-function clearScreen(){
+function clearScreen() {
   screen_properties = {
     decorator: new Array(clean_screen.decorator.length).fill().map(_ => [...clean_screen.decorator[0]]),
     effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => [false,false,false,false])),
@@ -126,20 +126,20 @@ function clearScreen(){
   drawScreen();
 }
 
-function doBox(x, y, sx, sy, type="single", fill=true, color=false){
+function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
   screen_properties.map.forEach((row, i) => {
-    if(i >= y && i <= endy){
+    if(i >= y && i <= endy) {
       screen_properties.map[i].forEach((_, l) => {
-        if(l >= x && l <= endx){
+        if(l >= x && l <= endx) {
           screen_properties.effect[i][l]    = [false, false, false, color];
           screen_properties.decorator[i][l] = '';
         }
     });
     }
-    if(i > y && i < endy){
+    if(i > y && i < endy) {
       row[x]    = charMap('left' , type, row[x]);
       row[endx] = charMap('right', type, row[endx]);
 
@@ -152,7 +152,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
     }
   });
 
-  if(y >= 0 && y < screen_properties.map.length){
+  if(y >= 0 && y < screen_properties.map.length) {
     for(let i=x+1; i < endx; i++) {
       screen_properties.map[y][i]  = charMap('top', type, screen_properties.map[y][i]);
     }
@@ -160,7 +160,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
     screen_properties.map[y][endx] = charMap('top-right', type, screen_properties.map[y][endx]);
   }
 
-  if(endy >= 0 && endy < screen_properties.map.length){
+  if(endy >= 0 && endy < screen_properties.map.length) {
     for(let i=x+1; i < endx; i++) {
       screen_properties.map[endy][i]  = charMap('bottom', type, screen_properties.map[endy][i]);
     }
@@ -169,17 +169,17 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
   }
 }
 
-function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false], decorators=''){
+function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false], decorators='') {
   // textdec = [bold, italic, underlined, color]
   text = text + ' '; // just for clip adjust purpoises
   
   let pivot = 0;
   let first_word_size = text.split(' ')[0].length;
 
-  for(let i = y; i < height+y; i++){
-    for(let l = x; l < width+x; l++){
+  for(let i = y; i < height+y; i++) {
+    for(let l = x; l < width+x; l++) {
       if(!clip && pivot > first_word_size && text[pivot] != ' ' && text.slice(pivot).indexOf(' ') >= ((width+x) - l)) break;
-      if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)){
+      if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)) {
         screen_properties.map[i][l]       = text[pivot];
         screen_properties.effect[i][l]    = textdec;
         screen_properties.decorator[i][l] = decorators;
@@ -192,7 +192,7 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
   }
 }
 
-function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false], cst_char=['', '']){
+function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false], cst_char=['', '']) {
   // textdec  = [bold, italic, underlined, color]
   // cst_char = [<fill>,<empty>]
   value  = value  < 0? 0: value > max? max: value;
@@ -205,12 +205,12 @@ function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, fal
   let empty_amm  = Math.round(((width*height) / max) * (max - value));
   let ptext = Array(fill_amm).fill(fill_char).join('') + Array(empty_amm).fill(empty_char).join('');
 
-  for(let i=0; i < height; i++){
+  for(let i=0; i < height; i++) {
     doText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
   }
 }
 
-function htmlConvert(){
+function htmlConvert() {
   clearScreen();
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
     let valid_elements = ["DIV", "TEXT", "PROGRESS"];
@@ -240,9 +240,9 @@ function htmlConvert(){
 
       if(ch.localName == "prompt") return 0;
       
-      if(pos in ch.attributes){
-        if(ch.attributes[pos].value == "center"){
-          if(pr.localName == "prompt"){
+      if(pos in ch.attributes) {
+        if(ch.attributes[pos].value == "center") {
+          if(pr.localName == "prompt") {
             final_pos = Math.floor(screen_properties[sz]/2 - chsz);
           }
           else {
@@ -257,7 +257,7 @@ function htmlConvert(){
         final_pos = 1 + get_pos(pr, pos);
       }
 
-      if(!(pos in ch.attributes) || ch.attributes[pos].value != "center"){
+      if(!(pos in ch.attributes) || ch.attributes[pos].value != "center") {
         final_pos += (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
                         (parseInt(get_attr(pr_attrs, sz, sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])
                       - (parseInt(get_attr(ch_attrs, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) - 2: 0);
@@ -279,20 +279,20 @@ function htmlConvert(){
     let posX = get_pos(child, 'x');
     let posY = get_pos(child, 'y');
 
-    switch(child.tagName){
+    switch(child.tagName) {
       case 'DIV':
         // default keys
         var clip = get_attr(child_attrs, 'clip', false) == 'true';
         var type = get_attr(child_attrs, 'type', 'single');
 
-        if(type !== 'none'){
+        if(type !== 'none') {
           doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false));
-          if(child.attributes.title){
+          if(child.attributes.title) {
             var title = ` ${child.attributes.title.value} `;
             doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child_attrs, 'border-color', false)]);
           }
         }
-        if(child.attributes.text){
+        if(child.attributes.text) {
           var text = child.attributes.text.value;
           doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child_attrs, 'color', false)]);
         }
@@ -303,7 +303,7 @@ function htmlConvert(){
         // events
         let onclick = get_attr(child_attrs, 'onclick', false)? `onclick="${child.attributes.onclick.value}"`: '';
 
-        if(child.attributes.text){
+        if(child.attributes.text) {
           var text = child.attributes.text.value;
           width    = text.length;
           height   = 1;
@@ -328,7 +328,7 @@ function htmlConvert(){
 
 
 // WAKE UP
-_documentready = setInterval((f)=>{if(document.readyState == "complete"){clearInterval(_documentready);delete _documentready;f();}}, 1, ()=>{
+_documentready = setInterval((f)=>{if(document.readyState == "complete") {clearInterval(_documentready);delete _documentready;f();}}, 1, ()=>{
   //get prompt element
   prompt_container = document.getElementsByTagName("prompt")[0];
   prompt_container.innerHTML += "<screen></screen>";

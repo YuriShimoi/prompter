@@ -1,7 +1,8 @@
 :root {
   --black: #111111;
-  --white: #eeeeee;
+  --white: #f2f2f2;
   --green: #08eb00;
+  --blue : #007af5;
 }
 
 html, body {
@@ -29,6 +30,10 @@ prompt[type="retro"] {
   background: var(--black);
   color: var(--green);
 }
+prompt[type="blueprint"] {
+  background: var(--blue);
+  color: var(--white);
+}
 
 prompt *:not(:is(b, i, u, span)) {
   display: none;
@@ -38,9 +43,12 @@ prompt :is(b u, u b) {
 }
 prompt :is(b u, u b):hover {
   color: var(--green);
+  text-decoration: underline var(--green);
 }
-prompt[type="retro"] :is(b u, u b):hover {
+prompt[type="retro"] :is(b u, u b):hover,
+prompt[type="blueprint"] :is(b u, u b):hover {
   color: var(--white);
+  text-decoration: underline var(--white);
 }
 
 prompt screen {

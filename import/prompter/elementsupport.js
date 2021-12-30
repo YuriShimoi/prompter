@@ -1,4 +1,4 @@
-function enableElement(eid, draw=true){
+function enableElement(eid, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
@@ -6,7 +6,7 @@ function enableElement(eid, draw=true){
   if(draw) htmlConvert();
 }
 
-function disableElement(eid, draw=true){
+function disableElement(eid, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
@@ -14,7 +14,7 @@ function disableElement(eid, draw=true){
   if(draw) htmlConvert();
 }
 
-function toggleElement(eid, draw=true){
+function toggleElement(eid, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
@@ -23,22 +23,22 @@ function toggleElement(eid, draw=true){
   if(draw) htmlConvert();
 }
 
-function changeElement(eid, attrs, draw=true){
+function changeElement(eid, attrs, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
 
-  for(let a in attrs){
+  for(let a in attrs) {
     elm.setAttribute(a, attrs[a]);
   }
   if(draw) htmlConvert();
 }
 
-function newElement(type, attrs={}, pid, draw=true){
+function newElement(type, attrs={}, pid, draw=true) {
   let elm = document.createElement(type);
-  for(let a in attrs){
+  for(let a in attrs) {
     elm.setAttribute(a, attrs[a]);
   }
-  if(pid === null){
+  if(pid === null) {
     prompt_container.appendChild(elm);
   }
   else {
@@ -50,7 +50,7 @@ function newElement(type, attrs={}, pid, draw=true){
   if(draw) htmlConvert();
 }
 
-function delElement(eid, draw=true){
+function delElement(eid, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
   
