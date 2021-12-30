@@ -24,13 +24,12 @@ let clean_screen = {};
 // FUNCTIONS
 function calcScreenSize(){ /* 8.8px width x 19px height */
   if(prompt_container === null) return;
-  let prwidth  = prompt_container.offsetWidth  / 8.8;
-  let prheight = prompt_container.offsetHeight /  19;
+  
+  clean_screen.width     = Math.floor(prompt_container.offsetWidth  / 8.8);
+  clean_screen.height    = Math.floor(prompt_container.offsetHeight /  19);
 
-  clean_screen.width     = Math.floor(prwidth);
-  clean_screen.height    = Math.floor(prheight);
   clean_screen.map       = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(' '));
-  clean_screen.effect    = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(e => new Array(4).fill(false)));
+  clean_screen.effect    = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(__ => [false,false,false,false]));
   clean_screen.decorator = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(''));
 
   clearScreen();
@@ -119,7 +118,7 @@ function drawScreen(){
 function clearScreen(){
   screen_properties = {
     decorator: new Array(clean_screen.decorator.length).fill().map(_ => [...clean_screen.decorator[0]]),
-    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(e => new Array(4).fill(false))),
+    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => [false,false,false,false])),
     map: new Array(clean_screen.map.length).fill().map(_ => [...clean_screen.map[0]]),
     height: clean_screen.height,
     width: clean_screen.width
@@ -143,18 +142,28 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false){
     if(i > y && i < endy){
       row[x]    = charMap('left' , type, row[x]);
       row[endx] = charMap('right', type, row[endx]);
-      if(fill) screen_properties.map[i].forEach((_, l) => {if(l>x && l<endx) screen_properties.map[i][l] = charMap('middle', type)});
+
+      if(fill) {
+        let charmapMiddle = charMap('middle', type);
+        for(let l=x+1; l < endx; l++) {
+          screen_properties.map[i][l] = charmapMiddle;
+        }
+      }
     }
   });
 
   if(y >= 0 && y < screen_properties.map.length){
-    screen_properties.map[y].forEach((e, i) => {if(i>x && i<endx) screen_properties.map[y][i] = charMap('top', type, e)});
+    for(let i=x+1; i < endx; i++) {
+      screen_properties.map[y][i]  = charMap('top', type, screen_properties.map[y][i]);
+    }
     screen_properties.map[y][x]    = charMap('top-left' , type, screen_properties.map[y][x]);
     screen_properties.map[y][endx] = charMap('top-right', type, screen_properties.map[y][endx]);
   }
 
   if(endy >= 0 && endy < screen_properties.map.length){
-    screen_properties.map[endy].forEach((e, i) => {if(i>x && i<endx) screen_properties.map[endy][i] = charMap('bottom', type, e)});
+    for(let i=x+1; i < endx; i++) {
+      screen_properties.map[endy][i]  = charMap('bottom', type, screen_properties.map[endy][i]);
+    }
     screen_properties.map[endy][x]    = charMap('bottom-left' , type, screen_properties.map[endy][x]);
     screen_properties.map[endy][endx] = charMap('bottom-right', type, screen_properties.map[endy][endx]);
   }
@@ -207,17 +216,15 @@ function htmlConvert(){
     let valid_elements = ["DIV", "TEXT", "PROGRESS"];
     if(!valid_elements.includes(child.tagName)) return;
     
-    let get_attrs = (e) => e.attributes;
     let get_attr  = (attrs, a, d) => a in attrs? attrs[a].value: d;
     let get_pos   = (ch, pos) => {
       let final_pos = 0;
       let pr        = ch.parentElement;
-      let dir       = pos == 'x'? 'right': 'bottom';
-      let sz        = pos == 'x'? 'width': 'height';
+      let [dir, sz] = pos == 'x'? ['right', 'width']: ['bottom', 'height'];
       let sz_def    = {
         'PROMPT'  : {'width': screen_properties.width, 'height': screen_properties.height},
         'DIV'     : {'width': 10, 'height': 3},
-        'TEXT'    : {'width': 'text' in ch.attributes? Math.floor(ch.attributes.text.value.length-2): 0, 'height': 1},
+        'TEXT'    : {'width': ch.attributes.text? Math.floor(ch.attributes.text.value.length-2): 0, 'height': 1},
         'PROGRESS': {'width': 10, 'height': 1}
       };
       let sz_adjust = {
@@ -226,9 +233,9 @@ function htmlConvert(){
         'TEXT'    : {'width': 0, 'height': -2},
         'PROGRESS': {'width': 0, 'height': -2}
       }
-      let chsz = sz in ch.attributes? (parseInt(ch.attributes[sz].value) + sz_adjust[ch.tagName][sz])/2: (sz_def[ch.tagName][sz] + sz_adjust[ch.tagName][sz])/2;
-      let ch_attrs = get_attrs(ch);
-      let pr_attrs = get_attrs(pr);
+      let chsz = (parseInt(get_attr(ch.attributes, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) / 2;
+      let ch_attrs = ch.attributes;
+      let pr_attrs = pr.attributes;
 
 
       if(ch.localName == "prompt") return 0;
@@ -258,10 +265,10 @@ function htmlConvert(){
 
       return final_pos;
     };
-    let child_attrs = get_attrs(child);
+    let child_attrs = child.attributes;
 
     // disabling
-    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: 'disabled' in ch.parentElement.attributes? true: parent_disabled(ch.parentElement);
+    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: ch.parentElement.attributes.disabled? true: parent_disabled(ch.parentElement);
     let disabled = get_attr(child_attrs, 'disabled', false) == "true";
     if(disabled || parent_disabled(child)) return;
 
@@ -280,12 +287,12 @@ function htmlConvert(){
 
         if(type !== 'none'){
           doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false));
-          if('title' in child.attributes){
+          if(child.attributes.title){
             var title = ` ${child.attributes.title.value} `;
             doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child_attrs, 'border-color', false)]);
           }
         }
-        if('text' in child.attributes){
+        if(child.attributes.text){
           var text = child.attributes.text.value;
           doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child_attrs, 'color', false)]);
         }
@@ -296,7 +303,7 @@ function htmlConvert(){
         // events
         let onclick = get_attr(child_attrs, 'onclick', false)? `onclick="${child.attributes.onclick.value}"`: '';
 
-        if('text' in child.attributes){
+        if(child.attributes.text){
           var text = child.attributes.text.value;
           width    = text.length;
           height   = 1;
