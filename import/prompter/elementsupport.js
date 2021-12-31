@@ -23,7 +23,7 @@ function toggleElement(eid, draw=true) {
   if(draw) htmlConvert();
 }
 
-function changeElement(eid, attrs, draw=true) {
+function updateElement(eid, attrs, draw=true) {
   let elm = document.getElementById(eid);
   if(!elm) return false;
 

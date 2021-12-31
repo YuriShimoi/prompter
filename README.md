@@ -142,7 +142,7 @@ Check the *index.html* file to see examples on hold.
 - **enableElement(eid, draw=true)** - Remove disabled attribute of given element
 - **disableElement(eid, draw=true)** - Add disabled attribute of given element
 - **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
-- **changeElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
+- **updateElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
 - **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
 - **delElement(eid, draw=true)** - Delete element with given id
 
