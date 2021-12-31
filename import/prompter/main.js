@@ -14,7 +14,6 @@ let screen_container  = null;
 let screen_properties = {
   'map'   : [[]],
   'effect': [[]],
-  'events': [[]],
   'width' : 0,
   'height': 0
 };
@@ -29,13 +28,27 @@ function calcScreenSize() { /* 8.8px width x 19px height */
   clean_screen.height = Math.floor(prompt_container.offsetHeight /  19);
 
   clean_screen.map    = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(' '));
-  clean_screen.effect = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(__ => [false,false,false,false,false]));
-  clean_screen.events = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(''));
+  clean_screen.effect = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(__ => ({})));
 
   clearScreen();
 }
 
 function drawScreen() {
+  const excludeTag = (key, closeTag, repeat=false) => {
+    if(!repeat) {
+      html     += openeds.includes(key)? closeTag: '';
+      let e_pos = openeds.lastIndexOf(key);
+      openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos + key.length);
+    }
+    else
+      while(openeds.includes(key))
+        excludeTag(key, closeTag);
+  };
+  const includeTag = (key, openTag) => {
+    html    += openTag;
+    openeds += key;
+  }
+
   let html    = '';
   let aeffect = [false, false, false, '', false];
   let openeds = '';
@@ -45,76 +58,56 @@ function drawScreen() {
       try{
         let effect    = screen_properties.effect[y][x];
         let is_effect = [
-          effect[0] && effect[0] != aeffect[0], // bold
-          effect[1] && effect[1] != aeffect[1], // italic
-          effect[2] && effect[2] != aeffect[2], // underline
-          effect[3] && effect[3] != aeffect[3], // color
-          effect[4] && effect[4] != aeffect[4], // event
+          effect.bold      && effect.bold      != aeffect[0], // bold
+          effect.italic    && effect.italic    != aeffect[1], // italic
+          effect.underline && effect.underline != aeffect[2], // underline
+          effect.color     && effect.color     != aeffect[3], // color
+          effect.event     && effect.event     != aeffect[4], // event
         ];
 
         // EXCLUDING
-        if(!is_effect[0] && !effect[0] && aeffect[0]) { // bold
-          html      += openeds.includes('#b')? '</b>': '';
+        if(!is_effect[0] && !effect.bold && aeffect[0]) {
+          excludeTag('#b', '</b>');
           aeffect[0] = false;
-          let e_pos  = openeds.lastIndexOf('#b');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
         }
-        if(!is_effect[1] && !effect[1] && aeffect[1]) { // italic
-          html      += openeds.includes('#i')? '</i>': '';
+        if(!is_effect[1] && !effect.italic && aeffect[1]) {
+          excludeTag('#i', '</i>')
           aeffect[1] = false;
-          let e_pos  = openeds.lastIndexOf('#i');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
         }
-        if(!is_effect[2] && !effect[2] && aeffect[2]) { // underline
-          debugger;
-          html      += openeds.includes('#u')? '</u>': '';
+        if(!is_effect[2] && !effect.underline && aeffect[2]) {
+          excludeTag('#u', '</u>');
           aeffect[2] = false;
-          let e_pos  = openeds.lastIndexOf('#u');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
         }
-        if(!is_effect[4] && !effect[4] && aeffect[4]) { // event
-          while(openeds.includes('#a')) {
-            html     += '</a>';
-            let e_pos = openeds.lastIndexOf('#a');
-            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
-          }
+        if(!is_effect[4] && !effect.event && aeffect[4]) {
+          excludeTag('#a', '</a>', true);
           aeffect[4] = false;
         }
-        if(!is_effect[3] && !effect[3] && aeffect[3]) { // color
-          while(openeds.includes('#span')) {
-            html     += '</span>';
-            let e_pos = openeds.lastIndexOf('#span');
-            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+5);
-          }
+        if(!is_effect[3] && !effect.color && aeffect[3]) {
+          excludeTag('#span', '</span>', true);
           aeffect[3] = '';
         }
 
 
         // INCLUDING
-        if(is_effect[3] && effect[3]) { // color // COLOR MUST BE FIRST TO PROPERLY ON/OFF COLOR EFFECTS
-          aeffect[3] = effect[3];
-          html      += `<span style="color:${effect[3]}">`;
-          openeds   += '#span';
+        if(is_effect[3] && effect.color) { // COLOR MUST BE FIRST TO PROPERLY ON/OFF COLOR EFFECTS
+          includeTag('#span', `<span style="color:${effect.color}">`);
+          aeffect[3] = effect.color;
         }
-        if(is_effect[4] && effect[4] && !aeffect[4]) { // event
-          aeffect[4] = effect[4];
-          html      += `<a ${screen_properties.events[y][x]?screen_properties.events[y][x]:''}>`;
-          openeds   += '#a';
+        if(is_effect[4] && effect.event) {
+          includeTag('#a', `<a ${effect.event}>`);
+          aeffect[4] = effect.event;
         }
-        if(is_effect[2] && effect[2] && !aeffect[2]) { // underline
-          aeffect[2] = effect[2];
-          html      += `<u>`;
-          openeds   += '#u';
+        if(is_effect[2] && effect.underline && !aeffect[2]) {
+          includeTag('#u', `<u>`);
+          aeffect[2] = effect.underline;
         }
-        if(is_effect[1] && effect[1] && !aeffect[1]) { // italic
-          aeffect[1] = effect[1];
-          html      += `<i>`;
-          openeds   += '#i';
+        if(is_effect[1] && effect.italic && !aeffect[1]) {
+          includeTag('#i', `<i>`);
+          aeffect[1] = effect.italic;
         }
-        if(is_effect[0] && effect[0] && !aeffect[0]) { // bold
-          aeffect[0] = effect[0];
-          html      += `<b>`;
-          openeds   += '#b';
+        if(is_effect[0] && effect.bold && !aeffect[0]) {
+          includeTag('#b', `<b>`);
+          aeffect[0] = effect.bold;
         }
         
         html += screen_properties.map[y][x]? screen_properties.map[y][x]: WHITESPACE;
@@ -130,8 +123,7 @@ function drawScreen() {
 
 function clearScreen() {
   screen_properties = {
-    events: new Array(clean_screen.events.length).fill().map(_ => [...clean_screen.events[0]]),
-    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => [false,false,false,false,false])),
+    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => ({}))),
     map   : new Array(clean_screen.map.length).fill().map(_ => [...clean_screen.map[0]]),
     height: clean_screen.height,
     width : clean_screen.width
@@ -147,8 +139,8 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
     if(i >= y && i <= endy) {
       screen_properties.map[i].forEach((_, l) => {
         if(l >= x && l <= endx) {
-          screen_properties.effect[i][l] = [false, false, false, color, false];
-          screen_properties.events[i][l] = '';
+          screen_properties.effect[i][l].color = color;
+          delete screen_properties.effect[i][l].events;
         }
     });
     }
@@ -182,7 +174,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
   }
 }
 
-function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false, false], events='') {
+function doText(text, x, y, width, height, clip=false, textdec={}) {
   // textdec = [bold, italic, underlined, color]
   text = text + ' '; // just for clip adjust purpoises
   
@@ -193,10 +185,8 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
     for(let l = x; l < width+x; l++) {
       if(!clip && pivot > first_word_size && text[pivot] != ' ' && text.slice(pivot).indexOf(' ') >= ((width+x) - l)) break;
       if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)) {
-        screen_properties.map[i][l]       = text[pivot];
-        screen_properties.effect[i][l]    = textdec;
-        screen_properties.effect[i][l][4] = events != '';
-        screen_properties.events[i][l]    = events;
+        screen_properties.map[i][l]    = text[pivot];
+        screen_properties.effect[i][l] = textdec;
       }
       pivot++;
 
@@ -206,7 +196,7 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
   }
 }
 
-function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false, false], cst_char=['', false]) {
+function doProgress(x, y, width=10, height=1, value=50, max=100, textdec={}, cst_char=['', null]) {
   // textdec  = [bold, italic, underlined, color]
   // cst_char = [<fill>,<empty>]
   value  = value  < 0? 0: value > max? max: value;
@@ -215,8 +205,9 @@ function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, fal
 
   let fill_char  = cst_char[0] !== ''  ? cst_char[0] != ' '? cst_char[0]: WHITESPACE: '█';
   let empty_char = cst_char[1] !== null? cst_char[1] != ' '? cst_char[1]: WHITESPACE: WHITESPACE;
-  let fill_amm   = Math.round(((width*height) / max) * value);
-  let empty_amm  = Math.round(((width*height) / max) * (max - value));
+  let fill_amm   = ((width*height) / max) * value;
+  fill_amm       = value <= Math.ceil(max/4)? Math.ceil(fill_amm): value >= Math.floor(max/4)*2? Math.floor(fill_amm): Math.round(fill_amm);
+  let empty_amm  = (width * height) - fill_amm;
   let ptext = Array(fill_amm).fill(fill_char).join('') + Array(empty_amm).fill(empty_char).join('');
 
   for(let i=0; i < height; i++) {
@@ -303,12 +294,12 @@ function htmlConvert() {
           doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false));
           if(child.attributes.title) {
             var title = ` ${child.attributes.title.value} `;
-            doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child_attrs, 'border-color', false), false]);
+            doText(title, posX+1, posY, width-1, 1, true, { bold: type.includes('bold'), italic: type.includes('double'), color: get_attr(child_attrs, 'border-color', false) });
           }
         }
         if(child.attributes.text) {
           var text = child.attributes.text.value;
-          doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child_attrs, 'color', false), false]);
+          doText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false) });
         }
         break;
       case 'TEXT':
@@ -321,8 +312,10 @@ function htmlConvert() {
           var text = child.attributes.text.value;
           width    = text.length;
           height   = 1;
-          doText(text, posX, posY, width, height, true,
-            [type.includes('bold'), type.includes('italic'), type.includes('underline'), get_attr(child_attrs, 'color', onclick != '')], onclick);
+          doText(text, posX, posY, width, height, true, {
+            bold: type.includes('bold'), italic: type.includes('italic'), underline: type.includes('underline'),
+            color: get_attr(child_attrs, 'color', onclick != ''), event: onclick
+          });
         }
         break;
       case 'PROGRESS':
@@ -333,7 +326,7 @@ function htmlConvert() {
         height  = parseInt(get_attr(child_attrs, 'height', 1));
         
         doProgress(posX, posY, width, height, val, max,
-          [true, false, false, get_attr(child_attrs, 'color', false)], // effects
+          { bold: true, color: get_attr(child_attrs, 'color') }, // effects
           [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', null)] // style
         );
 
