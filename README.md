@@ -142,13 +142,13 @@ Check the *index.html* file to see examples on hold.
 - **enableElement(eid, draw=true)** - Remove disabled attribute of given element
 - **disableElement(eid, draw=true)** - Add disabled attribute of given element
 - **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
-- **updateElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
+- **updateElement(eid, attrs, draw=true)** - Update given attributes, attrs must be in **{\<attribute>:\<value>,...}** format
 - **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
 - **delElement(eid, draw=true)** - Delete element with given id
 
 > Note:
-  If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
-  By default at end of function will redraw the screen.
+  If has no element with given id (same in parent id cases), this functions will return **false**.
+  By default at end of function will redraw the screen as long *draw* argument is **true**.
 
 
 #### HTML Support
