@@ -174,9 +174,9 @@ Check the *index.html* file to see examples on hold.
 - **TEXT**: converted to interactive text
   Property | Argument type | Description
   --- | --- | ---
+  | id | *String* | Id of element
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | id | *String* | Id of element
   | onclick | *String* | Script to execute on click
   | text | *String* | Actual text to display
   | type | *String* | List of styles separated by space, valid ones are bold, underline and italic **(default: '')**
@@ -188,12 +188,12 @@ Check the *index.html* file to see examples on hold.
 - **PROGRESS**: converted to horizontal progress bar, if *width* is adjusted to 1 can simulate a simple vertical bar
   Property | Argument type | Description
   --- | --- | ---
+  | id | *String* | Id of element
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | empty | *String* | Set the char to be used on unfilled part, setting as '' will not infill **(default: ' ')**
   | fill | *String* | Set the char to be used on filled part **(default: '█')**
   | height | *Number* | Height of the progress bar **(default: 1)**
-  | id | *String* | Id of element
   | max | *Number* | Defines the limit of progress **(default: 100)**
   | value | *Number* | Defines the progress amount **(default: 50)**
   | width | *Number* | Width of the progress bar **(default: 10)**
