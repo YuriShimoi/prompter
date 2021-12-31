@@ -2,14 +2,15 @@
 Converts HTML to fully char prompt-like interface.
 
 ## How To
-To start the lib copy **prompter** folder and import *prompter/main.js* file as script, create a **prompt** element and create elements like above *Currently* description, any other elements inside prompt will be ignored and hidden.
+To start this lib copy **prompter** folder and import *prompter/main.js* file as script, create a **<prompt>** element and create elements like above *Currently* description, any other elements inside prompt will be ignored and hidden.
 
-Prompt color scheme can be changed with *type* attribute:
+Prompt color scheme can be easily changed with *type* attribute:
   - default: `background: black; color: white`
   - white: `background: white; color: black`
   - retro: `background: black; color: green`
   - blueprint: `background: blue; color: white`
 
+> Also, if needed, in *main.css* you can manually change prompt base color or inside a *style property*, changing *background* and *color* will affect everything.
 
 <details open>
 <summary><b>Basic example</b></summary>
@@ -60,7 +61,7 @@ Prompt color scheme can be changed with *type* attribute:
 
 
 <details open>
-  <summary><b>Positioning example</b></summary>
+  <summary><b>Complex positioned example</b></summary>
 <table>
   <tr>
     <th>Code</th>
@@ -137,6 +138,7 @@ Check the *index.html* file to see examples on hold.
 ## Currently
 
 #### Script Support
+
 - **enableElement(eid, draw=true)** - Remove disabled attribute of given element
 - **disableElement(eid, draw=true)** - Add disabled attribute of given element
 - **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
@@ -150,62 +152,67 @@ Check the *index.html* file to see examples on hold.
 
 
 #### HTML Support
+
 - **DIV**: converted to box
   Property | Argument type | Description
   --- | --- | ---
   | id | *String* | Id of element
-  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
-  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
-  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
-  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | border-color | *String* | Changes bordering color, any CSS valid color is available, including hex color
-  | width | *Number* | Width of the box **(default: 10)**
-  | height | *Number* | Height of the box **(default: 3)**
-  | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
-  | text | *String* | Text printed inside the box
   | clip | *Boolean* | If true clip text at end of line **(default: false)**
+  | color | *String* | Changes text color, any CSS valid color is available, including hex color
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | height | *Number* | Height of the box **(default: 3)**
+  | text | *String* | Text printed inside the box
   | title | *String* | Text printed at top of the box
+  | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
+  | width | *Number* | Width of the box **(default: 10)**
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+  
 - **TEXT**: converted to interactive text
   Property | Argument type | Description
   --- | --- | ---
-  | id | *String* | Id of element
-  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
-  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
-  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
-  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
-  | text | *String* | Actual text to display
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | id | *String* | Id of element
   | onclick | *String* | Script to execute on click
+  | text | *String* | Actual text to display
+  | type | *String* | List of styles separated by space, valid ones are bold, underline and italic **(default: '')**
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+  
 - **PROGRESS**: converted to horizontal progress bar, if *width* is adjusted to 1 can simulate a simple vertical bar
   Property | Argument type | Description
   --- | --- | ---
-  | id | *String* | Id of element
-  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
-  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
-  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
-  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | empty | *String* | Set the char to be used on unfilled part, setting as '' will not infill **(default: ' ')**
+  | fill | *String* | Set the char to be used on filled part **(default: '█')**
+  | height | *Number* | Height of the progress bar **(default: 1)**
+  | id | *String* | Id of element
+  | max | *Number* | Defines the limit of progress **(default: 100)**
   | value | *Number* | Defines the progress amount **(default: 50)**
   | width | *Number* | Width of the progress bar **(default: 10)**
-  | height | *Number* | Height of the progress bar **(default: 1)**
-  | max | *Number* | Defines the limit of progress **(default: 100)**
-  | fill | *String* | Set the char to be used on filled part **(default: █)**
-  | empty | *String* | Set the char to be used on unfilled part **(default:  )**
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
 
 
 ## On Going
-- More elements ( **IMAGE** )
-- Do *hover* property to **TEXT** element to configure hover color
-- Do *underline=True/False* to **TEXT** element
-- Do *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
+
+- More elements ( **IMAGE**, **HR** )
+- Add *hover* property to **TEXT** element to configure hover color
+- Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
 - Percentage allowed in width and height
 - Width/height can be calculated (E.g. 100% - 30)
-- Bold, Italic and Underline as option to do inside the texts
+- Add *scroll* property to **DIV** element
 
 ## Known Issues
+
 - Title not clipping properly
-- Need to invert x/y properties when right/bottom aligned
+- Right/Bottom aligned does'nt effect x/y orientation
