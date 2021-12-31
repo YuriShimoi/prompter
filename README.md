@@ -8,18 +8,35 @@ Prompt color scheme can be changed with *type* attribute:
   - default: `background: black; color: white`
   - white: `background: white; color: black`
   - retro: `background: black; color: green`
+  - blueprint: `background: blue; color: white`
 
-\
-Basic example:
+
+<details open>
+<summary><b>Basic example</b></summary>
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Preview</th>
+  </tr>
+  <tr>
+<td>
+      
 ```HTML
 <prompt type="retro">
   <div width=15 height=10 y=2 x=3></div>
-  <div id="menu" title="Main Menu" text="Main text" width=15 height=10 x=2>
-    <text text="Inventory" x=0 xalign="right" yalign="bottom" onclick="toggleElement('inventory')"></text>
+  <div id="menu" title="Main Menu" text="Main text"
+       width=15 height=10 x=2>
+    <text text="Inventory" x=0 xalign="right" yalign="bottom"
+          onclick="toggleElement('inventory')"></text>
   </div>
-  <div id="inventory" title="Inventory" x='center' y='center' disabled="true" width=15></div>
+  <div id="inventory" title="Inventory" x="center" y="center"
+       disabled="true" width=15></div>
 </prompt>
 ```
+      
+</td>
+<td>
+      
 ```text
  ┌ Main Menu ────┐
  │Main text      ├┐
@@ -35,29 +52,52 @@ Basic example:
  └┬──────────────┘│
   └───────────────┘
 ```
+      
+</td>
+  </tr>
+</table>
+</details>
 
-\
-Positioning example:
+
+<details open>
+  <summary><b>Positioning example</b></summary>
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Preview</th>
+  </tr>
+  <tr>
+<td>
+      
 ```HTML
 <prompt type="retro">
   <div type='none' x='center' y='center' width=53 height=17>
     <div title="1" x='center' y=-3 width=51></div>
     <div title="2" width=25 height=15>
       <div type="double" title="2.1" x='center'></div>
-      <div type="double" title="2.2" x='center' y='center'></div>
-      <div type="double" title="2.3" x='center' yalign='bottom'></div>
+      <div type="double" title="2.2" x='center'
+           y='center'></div>
+      <div type="double" title="2.3" x='center'
+           yalign='bottom'></div>
     </div>
     <div title="3" xalign='right' width=25 height=15>
-      <div type="none" title="3.1" x='center' y='center' height=7>
+      <div type="none" title="3.1" x='center' y='center'
+           height=7>
         <div type="double" title="3.1.1" x=0 y=0></div>
-        <div type="double" title="3.1.2" x=0 y=2 yalign='bottom'></div>
+        <div type="double" title="3.1.2" x=0 y=2
+             yalign='bottom'></div>
       </div>
     </div>
     <div title="4" x='center' y='center'></div>
-    <div title="5" x='center' yalign='bottom' y=5 width=51></div>
+    <div title="5" x='center' yalign='bottom' y=5
+         width=51></div>
   </div>
 </prompt>
 ```
+      
+</td>
+<td>
+      
 ```text
  ┌ 1 ────────────────────────────────────────────────┐
  │                                                   │
@@ -85,11 +125,30 @@ Positioning example:
  │                                                   │
  └───────────────────────────────────────────────────┘
 ```
+      
+</td>
+  </tr>
+</table>
+</details>
 
-\
-Check the *index.html* file to see more examples of the elements.
+
+Check the *index.html* file to see examples on hold.
 
 ## Currently
+
+#### Script Support
+- **enableElement(eid, draw=true)** - Remove disabled attribute of given element
+- **disableElement(eid, draw=true)** - Add disabled attribute of given element
+- **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
+- **changeElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
+- **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
+- **delElement(eid, draw=true)** - Delete element with given id
+
+> Note:
+  If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
+  By default at end of function will redraw the screen.
+
+
 #### HTML Support
 - **DIV**: converted to box
   Property | Argument type | Description
@@ -137,18 +196,6 @@ Check the *index.html* file to see more examples of the elements.
   | fill | *String* | Set the char to be used on filled part **(default: █)**
   | empty | *String* | Set the char to be used on unfilled part **(default:  )**
 
-
-#### Script Support
-- **enableElement(eid, draw=true)** - Remove disabled attribute of given element
-- **disableElement(eid, draw=true)** - Add disabled attribute of given element
-- **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
-- **changeElement(eid, attrs, draw=true)** - Change given attributes with **{\<attribute>:\<value>,...}** format
-- **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, last argument is the parent id, if null its prompt
-- **delElement(eid, draw=true)** - Delete element with given id
-
-> Note:
-  If has no element with given id (same in parent id cases), this functions will return **false** in that cases.
-  By default at end of function will redraw the screen.
 
 ## On Going
 - More elements ( **IMAGE** )
