@@ -42,11 +42,13 @@ prompt a {
   cursor: pointer;
 }
 prompt a:hover {
-  color: var(--green);
-}
-prompt[type="retro"] a:hover,
-prompt[type="blueprint"] a:hover {
   color: var(--white);
+}
+prompt[type="white"] a:hover {
+  color: var(--blue);
+}
+prompt[type="blueprint"] a:hover {
+  color: var(--black);
 }
 
 

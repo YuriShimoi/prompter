@@ -273,7 +273,7 @@ function htmlConvert() {
     let child_attrs = child.attributes;
 
     // disabling
-    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: ch.parentElement.attributes.disabled? true: parent_disabled(ch.parentElement);
+    let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: ch.parentElement.attributes.disabled?.value === "true"? true: parent_disabled(ch.parentElement);
     let disabled = get_attr(child_attrs, 'disabled', false) == "true";
     if(disabled || parent_disabled(child)) return;
 
