@@ -12,11 +12,11 @@ importScript("elementsupport","js");
 let prompt_container  = null;
 let screen_container  = null;
 let screen_properties = {
-  'map'      : [[]],
-  'effect'   : [[]],
-  'decorator': [[]],
-  'width'    : 0,
-  'height'   : 0
+  'map'   : [[]],
+  'effect': [[]],
+  'events': [[]],
+  'width' : 0,
+  'height': 0
 };
 let clean_screen = {};
 
@@ -25,19 +25,19 @@ let clean_screen = {};
 function calcScreenSize() { /* 8.8px width x 19px height */
   if(prompt_container === null) return;
   
-  clean_screen.width     = Math.floor(prompt_container.offsetWidth  / 8.8);
-  clean_screen.height    = Math.floor(prompt_container.offsetHeight /  19);
+  clean_screen.width  = Math.floor(prompt_container.offsetWidth  / 8.8);
+  clean_screen.height = Math.floor(prompt_container.offsetHeight /  19);
 
-  clean_screen.map       = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(' '));
-  clean_screen.effect    = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(__ => [false,false,false,false]));
-  clean_screen.decorator = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(''));
+  clean_screen.map    = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(' '));
+  clean_screen.effect = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill().map(__ => [false,false,false,false,false]));
+  clean_screen.events = new Array(clean_screen.height).fill().map(_ => new Array(clean_screen.width).fill(''));
 
   clearScreen();
 }
 
 function drawScreen() {
   let html    = '';
-  let aeffect = [false, false, false, ''];
+  let aeffect = [false, false, false, '', false];
   let openeds = '';
   
   for(let y=0; y < screen_properties.map.length; y++) {
@@ -45,63 +45,76 @@ function drawScreen() {
       try{
         let effect    = screen_properties.effect[y][x];
         let is_effect = [
-          effect[0] && effect[0] != aeffect[0],
-          effect[1] && effect[1] != aeffect[1],
-          effect[2] && effect[2] != aeffect[2],
-          effect[3] && effect[3] != aeffect[3]
+          effect[0] && effect[0] != aeffect[0], // bold
+          effect[1] && effect[1] != aeffect[1], // italic
+          effect[2] && effect[2] != aeffect[2], // underline
+          effect[3] && effect[3] != aeffect[3], // color
+          effect[4] && effect[4] != aeffect[4], // event
         ];
 
         // EXCLUDING
         if(!is_effect[0] && !effect[0] && aeffect[0]) { // bold
-          html      += openeds.includes('b')? '</b>': '';
+          html      += openeds.includes('#b')? '</b>': '';
           aeffect[0] = false;
-          let e_pos  = openeds.lastIndexOf('b');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
+          let e_pos  = openeds.lastIndexOf('#b');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
         }
         if(!is_effect[1] && !effect[1] && aeffect[1]) { // italic
-          html      += openeds.includes('i')? '</i>': '';
+          html      += openeds.includes('#i')? '</i>': '';
           aeffect[1] = false;
-          let e_pos  = openeds.lastIndexOf('i');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
+          let e_pos  = openeds.lastIndexOf('#i');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
         }
         if(!is_effect[2] && !effect[2] && aeffect[2]) { // underline
-          html      += openeds.includes('u')? '</u>': '';
+          debugger;
+          html      += openeds.includes('#u')? '</u>': '';
           aeffect[2] = false;
-          let e_pos  = openeds.lastIndexOf('u');
-          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
+          let e_pos  = openeds.lastIndexOf('#u');
+          openeds    = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
+        }
+        if(!is_effect[4] && !effect[4] && aeffect[4]) { // event
+          while(openeds.includes('#a')) {
+            html     += '</a>';
+            let e_pos = openeds.lastIndexOf('#a');
+            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+2);
+          }
+          aeffect[4] = false;
         }
         if(!is_effect[3] && !effect[3] && aeffect[3]) { // color
-          while(openeds.includes('span')) {
+          while(openeds.includes('#span')) {
             html     += '</span>';
-            let e_pos = openeds.lastIndexOf('span');
-            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+1);
+            let e_pos = openeds.lastIndexOf('#span');
+            openeds   = openeds.substring(0, e_pos) + openeds.substring(e_pos+5);
           }
           aeffect[3] = '';
         }
 
+
         // INCLUDING
-        if(is_effect[3] && effect[3]) { // color
+        if(is_effect[3] && effect[3]) { // color // COLOR MUST BE FIRST TO PROPERLY ON/OFF COLOR EFFECTS
           aeffect[3] = effect[3];
           html      += `<span style="color:${effect[3]}">`;
-          openeds   += 'span';
+          openeds   += '#span';
         }
-
+        if(is_effect[4] && effect[4] && !aeffect[4]) { // event
+          aeffect[4] = effect[4];
+          html      += `<a ${screen_properties.events[y][x]?screen_properties.events[y][x]:''}>`;
+          openeds   += '#a';
+        }
         if(is_effect[2] && effect[2] && !aeffect[2]) { // underline
           aeffect[2] = effect[2];
-          html      += `<u ${screen_properties.decorator[y][x]?screen_properties.decorator[y][x]:''}>`;
-          openeds   += 'u';
+          html      += `<u>`;
+          openeds   += '#u';
         }
-        
         if(is_effect[1] && effect[1] && !aeffect[1]) { // italic
           aeffect[1] = effect[1];
           html      += `<i>`;
-          openeds   += 'i';
+          openeds   += '#i';
         }
-
         if(is_effect[0] && effect[0] && !aeffect[0]) { // bold
           aeffect[0] = effect[0];
           html      += `<b>`;
-          openeds   += 'b';
+          openeds   += '#b';
         }
         
         html += screen_properties.map[y][x]? screen_properties.map[y][x]: WHITESPACE;
@@ -117,11 +130,11 @@ function drawScreen() {
 
 function clearScreen() {
   screen_properties = {
-    decorator: new Array(clean_screen.decorator.length).fill().map(_ => [...clean_screen.decorator[0]]),
-    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => [false,false,false,false])),
-    map: new Array(clean_screen.map.length).fill().map(_ => [...clean_screen.map[0]]),
+    events: new Array(clean_screen.events.length).fill().map(_ => [...clean_screen.events[0]]),
+    effect: new Array(clean_screen.effect.length).fill().map(_ => new Array(clean_screen.effect[0].length).fill().map(__ => [false,false,false,false,false])),
+    map   : new Array(clean_screen.map.length).fill().map(_ => [...clean_screen.map[0]]),
     height: clean_screen.height,
-    width: clean_screen.width
+    width : clean_screen.width
   };
   drawScreen();
 }
@@ -134,8 +147,8 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
     if(i >= y && i <= endy) {
       screen_properties.map[i].forEach((_, l) => {
         if(l >= x && l <= endx) {
-          screen_properties.effect[i][l]    = [false, false, false, color];
-          screen_properties.decorator[i][l] = '';
+          screen_properties.effect[i][l] = [false, false, false, color, false];
+          screen_properties.events[i][l] = '';
         }
     });
     }
@@ -169,7 +182,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
   }
 }
 
-function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false], decorators='') {
+function doText(text, x, y, width, height, clip=false, textdec=[false, false, false, false, false], events='') {
   // textdec = [bold, italic, underlined, color]
   text = text + ' '; // just for clip adjust purpoises
   
@@ -182,7 +195,8 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
       if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)) {
         screen_properties.map[i][l]       = text[pivot];
         screen_properties.effect[i][l]    = textdec;
-        screen_properties.decorator[i][l] = decorators;
+        screen_properties.effect[i][l][4] = events != '';
+        screen_properties.events[i][l]    = events;
       }
       pivot++;
 
@@ -192,15 +206,15 @@ function doText(text, x, y, width, height, clip=false, textdec=[false, false, fa
   }
 }
 
-function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false], cst_char=['', '']) {
+function doProgress(x, y, width, height=1, value=50, max=100, textdec=[true, false, false, false, false], cst_char=['', false]) {
   // textdec  = [bold, italic, underlined, color]
   // cst_char = [<fill>,<empty>]
   value  = value  < 0? 0: value > max? max: value;
   width  = width  < 0? 0: width;
   height = height < 1? 1: height;
 
-  let fill_char  = cst_char[0] !== ''? cst_char[0] != ' '? cst_char[0]: WHITESPACE: '█';
-  let empty_char = cst_char[1] !== ''? cst_char[1] != ' '? cst_char[1]: WHITESPACE: WHITESPACE;
+  let fill_char  = cst_char[0] !== ''  ? cst_char[0] != ' '? cst_char[0]: WHITESPACE: '█';
+  let empty_char = cst_char[1] !== null? cst_char[1] != ' '? cst_char[1]: WHITESPACE: WHITESPACE;
   let fill_amm   = Math.round(((width*height) / max) * value);
   let empty_amm  = Math.round(((width*height) / max) * (max - value));
   let ptext = Array(fill_amm).fill(fill_char).join('') + Array(empty_amm).fill(empty_char).join('');
@@ -289,17 +303,17 @@ function htmlConvert() {
           doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false));
           if(child.attributes.title) {
             var title = ` ${child.attributes.title.value} `;
-            doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child_attrs, 'border-color', false)]);
+            doText(title, posX+1, posY, width-1, 1, true, [type.includes('bold'), type.includes('double'), false, get_attr(child_attrs, 'border-color', false), false]);
           }
         }
         if(child.attributes.text) {
           var text = child.attributes.text.value;
-          doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child_attrs, 'color', false)]);
+          doText(text, posX+1, posY+1, width, height, clip, [false, false, false, get_attr(child_attrs, 'color', false), false]);
         }
         break;
       case 'TEXT':
         // default keys
-        var type = get_attr(child_attrs, 'type', 'bold');
+        var type = get_attr(child_attrs, 'type', '');
         // events
         let onclick = get_attr(child_attrs, 'onclick', false)? `onclick="${child.attributes.onclick.value}"`: '';
 
@@ -307,7 +321,8 @@ function htmlConvert() {
           var text = child.attributes.text.value;
           width    = text.length;
           height   = 1;
-          doText(text, posX, posY, width, height, true, [true, false, true, get_attr(child_attrs, 'color', false)], onclick);
+          doText(text, posX, posY, width, height, true,
+            [type.includes('bold'), type.includes('italic'), type.includes('underline'), get_attr(child_attrs, 'color', onclick != '')], onclick);
         }
         break;
       case 'PROGRESS':
@@ -317,7 +332,10 @@ function htmlConvert() {
         width   = parseInt(get_attr(child_attrs, 'width', 10));
         height  = parseInt(get_attr(child_attrs, 'height', 1));
         
-        doProgress(posX, posY, width, height, val, max, [true, false, false, get_attr(child_attrs, 'color', false)], [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', '')]);
+        doProgress(posX, posY, width, height, val, max,
+          [true, false, false, get_attr(child_attrs, 'color', false)], // effects
+          [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', null)] // style
+        );
 
         break;
     }

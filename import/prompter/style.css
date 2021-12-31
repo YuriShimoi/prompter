@@ -35,21 +35,20 @@ prompt[type="blueprint"] {
   color: var(--white);
 }
 
-prompt *:not(:is(b, i, u, span)) {
+prompt *:not(:is(b, i, u, span, a)) {
   display: none;
 }
-prompt :is(b u, u b) {
+prompt a {
   cursor: pointer;
 }
-prompt :is(b u, u b):hover {
+prompt a:hover {
   color: var(--green);
-  text-decoration: underline var(--green);
 }
-prompt[type="retro"] :is(b u, u b):hover,
-prompt[type="blueprint"] :is(b u, u b):hover {
+prompt[type="retro"] a:hover,
+prompt[type="blueprint"] a:hover {
   color: var(--white);
-  text-decoration: underline var(--white);
 }
+
 
 prompt screen {
   display: block;
