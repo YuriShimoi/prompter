@@ -106,6 +106,7 @@ const CHARMAP_MISS_VALUE = {
 
 function charMap(side, type='single', pre=' ') {
   // REFERENCE: https://en.wikipedia.org/wiki/Box_Drawing_(Unicode_block)
+  if(!(type in CHARMAP_CHAR)) return '';
   return mergeChar(CHARMAP_CHAR[type][CHARMAP_SQUARE_MAP[side]], pre, CHARMAP_MISS_VALUE[side]);
 }
 

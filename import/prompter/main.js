@@ -213,17 +213,24 @@ function doProgress(x, y, width=10, height=1, value=50, max=100, textdec={}, cst
   let fill_amm   = ((width*height) / max) * value;
   fill_amm       = value <= Math.ceil(max/4)? Math.ceil(fill_amm): value >= Math.floor(max/4)*2? Math.floor(fill_amm): Math.round(fill_amm);
   let empty_amm  = (width * height) - fill_amm;
-  let ptext = Array(fill_amm).fill(fill_char).join('') + Array(empty_amm).fill(empty_char).join('');
+  let ptext = new Array(fill_amm).fill(fill_char).join('') + new Array(empty_amm).fill(empty_char).join('');
 
   for(let i=0; i < height; i++) {
     doText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
   }
 }
 
+function doLine(x, y, width, type="single", textdec={}, cst_char=null) {
+  width = width  < 0? 0: width;
+  let fillChar = cst_char !== null && cst_char !== ''? cst_char: charMap('top', type);
+  let ptext    = new Array(width).fill(fillChar).join('');
+  doText(ptext, x, y, width, 1, true, textdec);
+}
+
 function htmlConvert() {
   clearScreen();
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
-    let valid_elements = ["DIV", "TEXT", "PROGRESS"];
+    let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR"];
     if(!valid_elements.includes(child.tagName)) return;
     
     let get_attr  = (attrs, a, d) => a in attrs? attrs[a].value: d;
@@ -235,13 +242,15 @@ function htmlConvert() {
         'PROMPT'  : {'width': screen_properties.width, 'height': screen_properties.height},
         'DIV'     : {'width': 10, 'height': 3},
         'TEXT'    : {'width': ch.attributes.text? Math.floor(ch.attributes.text.value.length-2): 0, 'height': 1},
-        'PROGRESS': {'width': 10, 'height': 1}
+        'PROGRESS': {'width': 10, 'height': 1},
+        'HR'      : {'width': 10, 'height': 1}
       };
       let sz_adjust = {
         'PROMPT'  : {'width': 0, 'height':  0},
         'DIV'     : {'width': 1, 'height':  0},
         'TEXT'    : {'width': 0, 'height': -2},
-        'PROGRESS': {'width': 0, 'height': -2}
+        'PROGRESS': {'width': 0, 'height': -2},
+        'HR'      : {'width': 0, 'height': -2}
       }
       let chsz = (parseInt(get_attr(ch.attributes, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) / 2;
       let ch_attrs = ch.attributes;
@@ -285,6 +294,7 @@ function htmlConvert() {
     // sizes
     let width  = parseInt(get_attr(child_attrs, 'width', 10));
     let height = parseInt(get_attr(child_attrs, 'height', 3));
+
     // positioning
     let posX = get_pos(child, 'x');
     let posY = get_pos(child, 'y');
@@ -334,7 +344,12 @@ function htmlConvert() {
           { bold: true, color: get_attr(child_attrs, 'color') }, // effects
           [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', null)] // style
         );
-
+        break;
+      case 'HR':
+        var type = get_attr(child_attrs, 'type', 'single').toLowerCase();
+        var char = get_attr(child_attrs, 'fill', null);
+        width    = parseInt(get_attr(child_attrs, 'width', 10));
+        doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color') }, char);
         break;
     }
   });

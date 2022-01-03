@@ -208,10 +208,24 @@ Check the *index.html* file to see examples on hold.
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
 
+- **HR**: a simple horizontal line
+  Property | Argument type | Description
+  --- | --- | ---
+  | id | *String* | Id of element
+  | color | *String* | Changes text color, any CSS valid color is available, including hex color
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | fill | *String* | Set the char to be used, overwrite **type** argument **(default: null)**
+  | type | *String* | line type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
+  | width | *Number* | Width of the line **(default: 10)**
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+
 
 ## On Going
 
-- More elements ( **IMAGE**, **HR** )
+- More elements ( **IMAGE** )
 - Add *hover* property to **TEXT** element to configure hover color
 - Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
 - Percentage allowed in width and height
