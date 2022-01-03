@@ -132,11 +132,18 @@ function clearScreen() {
 }
 
 function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
+  const isValid = (coord, axis) => {
+    if(axis == 0) // y
+      return coord >= 0 || coord < screen_properties.map.length;
+    else // x
+      return coord >= 0 || coord < screen_properties.map[0].length;
+  };
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
   let charmapMiddle = charMap('middle', type);
-  for(let i=y; i<= endy; i++) {
+  for(let i=y; i <= endy; i++) {
+    if(i < 0 || i >= screen_properties.map.length) continue;
     let row = screen_properties.map[i];
     if(i > y && i < endy) {
       row[x]    = charMap('left' , type, row[x]);
@@ -144,6 +151,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
     }
 
     for(let l=x; l <= endx; l++) {
+      if(l < 0 || l >= screen_properties.map[0].length) continue;
       if(fill) {
         screen_properties.effect[i][l] = {};
         if(l > x && l < endx) {
@@ -151,24 +159,24 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
         }
       }
       screen_properties.effect[i][l].color = color;
+
+      if(i == y && (l > x && l < endx)) {
+        screen_properties.map[i][l] = charMap('top', type, screen_properties.map[i][l]);
+      }
+      if(i == endy && (l > x && l < endx)) {
+        screen_properties.map[endy][l] = charMap('bottom', type, screen_properties.map[endy][l]);
+      }
     }
   }
 
-  if(y >= 0 && y < screen_properties.map.length) {
-    for(let i=x+1; i < endx; i++) {
-      screen_properties.map[y][i]  = charMap('top', type, screen_properties.map[y][i]);
-    }
-    screen_properties.map[y][x]    = charMap('top-left' , type, screen_properties.map[y][x]);
-    screen_properties.map[y][endx] = charMap('top-right', type, screen_properties.map[y][endx]);
-  }
-
-  if(endy >= 0 && endy < screen_properties.map.length) {
-    for(let i=x+1; i < endx; i++) {
-      screen_properties.map[endy][i]  = charMap('bottom', type, screen_properties.map[endy][i]);
-    }
+  if(isValid(y, 0) && isValid(x, 1))
+    screen_properties.map[y][x]       = charMap('top-left'    , type, screen_properties.map[y][x]);
+  if(isValid(y, 0) && isValid(endx, 1))
+    screen_properties.map[y][endx]    = charMap('top-right'   , type, screen_properties.map[y][endx]);
+  if(isValid(endy, 0) && isValid(x, 1))
     screen_properties.map[endy][x]    = charMap('bottom-left' , type, screen_properties.map[endy][x]);
+  if(isValid(endy, 0) && isValid(endx, 1))
     screen_properties.map[endy][endx] = charMap('bottom-right', type, screen_properties.map[endy][endx]);
-  }
 }
 
 function doText(text, x, y, width, height, clip=false, textdec={}) {
