@@ -135,27 +135,18 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
-  screen_properties.map.forEach((row, i) => {
-    if(i >= y && i <= endy) {
-      screen_properties.map[i].forEach((_, l) => {
-        if(l >= x && l <= endx) {
-          screen_properties.effect[i][l].color = color;
-          delete screen_properties.effect[i][l].events;
-        }
-    });
-    }
+  for(let i=y; i<= endy; i++) {
+    let row = screen_properties.map[i];
     if(i > y && i < endy) {
       row[x]    = charMap('left' , type, row[x]);
       row[endx] = charMap('right', type, row[endx]);
-
-      if(fill) {
-        let charmapMiddle = charMap('middle', type);
-        for(let l=x+1; l < endx; l++) {
-          screen_properties.map[i][l] = charmapMiddle;
-        }
-      }
     }
-  });
+
+    for(let l=x; l <= endx; l++) {
+      if(fill) screen_properties.effect[i][l] = {};
+      screen_properties.effect[i][l].color = color;
+    }
+  }
 
   if(y >= 0 && y < screen_properties.map.length) {
     for(let i=x+1; i < endx; i++) {
