@@ -335,6 +335,7 @@ _documentready = setInterval((f)=>{if(document.readyState == "complete") {clearI
   prompt_container = document.getElementsByTagName("prompt")[0];
   prompt_container.innerHTML += "<screen></screen>";
   screen_container = prompt_container.getElementsByTagName("screen")[0];
+  if(prompt_container.hasAttribute("debug")) screen_container.setAttribute("contenteditable", true);
 
   window.onresize = () => {
     calcScreenSize();

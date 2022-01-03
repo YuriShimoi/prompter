@@ -12,6 +12,13 @@ Prompt color scheme can be easily changed with *type* attribute:
 
 > Also, if needed, in *main.css* you can manually change prompt base color or inside a *style property*, changing *background* and *color* will affect everything.
 
+Adding the attribute **debug** on **prompt** enable manually edit entire screen text.
+
+```HTML
+<prompt debug>
+</prompt>
+```
+
 <details open>
 <summary><b>Basic example</b></summary>
 <table>
