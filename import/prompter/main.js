@@ -135,6 +135,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
   let endx = x + sx + 1;
   let endy = y + sy + 1;
 
+  let charmapMiddle = charMap('middle', type);
   for(let i=y; i<= endy; i++) {
     let row = screen_properties.map[i];
     if(i > y && i < endy) {
@@ -143,7 +144,12 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
     }
 
     for(let l=x; l <= endx; l++) {
-      if(fill) screen_properties.effect[i][l] = {};
+      if(fill) {
+        screen_properties.effect[i][l] = {};
+        if(l > x && l < endx) {
+          screen_properties.map[i][l] = charmapMiddle;
+        }
+      }
       screen_properties.effect[i][l].color = color;
     }
   }
