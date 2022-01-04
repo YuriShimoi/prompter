@@ -63,50 +63,59 @@ function drawScreen() {
           effect.underline && effect.underline != aeffect[2], // underline
           effect.color     && effect.color     != aeffect[3], // color
           effect.event     && effect.event     != aeffect[4], // event
+          effect.style     && effect.style     != aeffect[5], // style
         ];
 
         // EXCLUDING
         if(!is_effect[0] && !effect.bold && aeffect[0]) {
-          excludeTag('#b', '</b>');
+          excludeTag('#bold', '</b>');
           aeffect[0] = false;
         }
         if(!is_effect[1] && !effect.italic && aeffect[1]) {
-          excludeTag('#i', '</i>')
+          excludeTag('#italic', '</i>')
           aeffect[1] = false;
         }
         if(!is_effect[2] && !effect.underline && aeffect[2]) {
-          excludeTag('#u', '</u>');
+          excludeTag('#underline', '</u>');
           aeffect[2] = false;
         }
         if(!is_effect[4] && !effect.event && aeffect[4]) {
-          excludeTag('#a', '</a>', true);
+          excludeTag('#event', '</a>', true);
           aeffect[4] = false;
         }
         if(!is_effect[3] && !effect.color && aeffect[3]) {
-          excludeTag('#span', '</span>', true);
+          excludeTag('#color', '</span>', true);
           aeffect[3] = '';
+        }
+        if(!is_effect[5] && !effect.style && aeffect[5]) {
+          excludeTag('#style', '</span>', true);
+          aeffect[5] = '';
         }
 
 
         // INCLUDING
-        if(is_effect[3] && effect.color) { // COLOR MUST BE FIRST TO PROPERLY ON/OFF COLOR EFFECTS
-          includeTag('#span', `<span style="color:${effect.color}">`);
+        if(is_effect[5] && effect.style) { // STYLE MUST BE FIRST TO OVERWRITES COLOR EFFECTS
+          includeTag('#style', `<span style="${effect.style}">`);
+          aeffect[5] = effect.style;
+        }
+        if(is_effect[3] && effect.color) { // COLOR MUST BE NEXT TO PROPERLY ON/OFF COLOR EFFECTS
+          includeTag('#color', `<span style="color:${effect.color}">`);
           aeffect[3] = effect.color;
         }
         if(is_effect[4] && effect.event) {
-          includeTag('#a', `<a ${effect.event}>`);
+          includeTag('#event', `<a ${effect.event}>`);
           aeffect[4] = effect.event;
         }
         if(is_effect[2] && effect.underline && !aeffect[2]) {
-          includeTag('#u', `<u>`);
+          includeTag('#underline', `<u>`);
           aeffect[2] = effect.underline;
         }
         if(is_effect[1] && effect.italic && !aeffect[1]) {
-          includeTag('#i', `<i>`);
+          includeTag('#italic', `<i>`);
           aeffect[1] = effect.italic;
         }
         if(is_effect[0] && effect.bold && !aeffect[0]) {
-          includeTag('#b', `<b>`);
+          includeTag('#bold', `<b>`);
           aeffect[0] = effect.bold;
         }
         
@@ -131,7 +140,7 @@ function clearScreen() {
   drawScreen();
 }
 
-function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
+function doBox(x, y, sx, sy, type="single", fill=true, color=false, style=false) {
   const isValid = (coord, axis) => {
     if(axis == 0) // y
       return coord >= 0 || coord < screen_properties.map.length;
@@ -159,6 +168,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false) {
         }
       }
       screen_properties.effect[i][l].color = color;
+      screen_properties.effect[i][l].style = style;
 
       if(i == y && (l > x && l < endx)) {
         screen_properties.map[i][l] = charMap('top', type, screen_properties.map[i][l]);
@@ -306,15 +316,20 @@ function htmlConvert() {
         var type = get_attr(child_attrs, 'type', 'single');
 
         if(type !== 'none') {
-          doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false));
+          doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false), get_attr(child_attrs, 'style', false));
           if(child.attributes.title) {
             var title = ` ${child.attributes.title.value} `;
-            doText(title, posX+1, posY, width-1, 1, true, { bold: type.includes('bold'), italic: type.includes('double'), color: get_attr(child_attrs, 'border-color', false) });
+            doText(title, posX+1, posY, width-1, 1, true, {
+              bold: type.includes('bold'),
+              italic: type.includes('double'),
+              color: get_attr(child_attrs, 'border-color', false),
+              style: get_attr(child_attrs, 'style', false)
+          });
           }
         }
         if(child.attributes.text) {
           var text = child.attributes.text.value;
-          doText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false) });
+          doText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false), style: get_attr(child_attrs, 'style', false) });
         }
         break;
       case 'TEXT':
@@ -329,7 +344,8 @@ function htmlConvert() {
           height   = 1;
           doText(text, posX, posY, width, height, true, {
             bold: type.includes('bold'), italic: type.includes('italic'), underline: type.includes('underline'),
-            color: get_attr(child_attrs, 'color', false), event: onclick
+            color: get_attr(child_attrs, 'color', false), event: onclick,
+            style: get_attr(child_attrs, 'style', false)
           });
         }
         break;
@@ -341,7 +357,7 @@ function htmlConvert() {
         height  = parseInt(get_attr(child_attrs, 'height', 1));
         
         doProgress(posX, posY, width, height, val, max,
-          { bold: true, color: get_attr(child_attrs, 'color') }, // effects
+          { bold: true, color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, // effects
           [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', null)] // style
         );
         break;
@@ -349,7 +365,7 @@ function htmlConvert() {
         var type = get_attr(child_attrs, 'type', 'single').toLowerCase();
         var char = get_attr(child_attrs, 'fill', null);
         width    = parseInt(get_attr(child_attrs, 'width', 10));
-        doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color') }, char);
+        doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
         break;
     }
   });

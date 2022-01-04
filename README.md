@@ -168,6 +168,7 @@ Check the *index.html* file to see examples on hold.
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | height | *Number* | Height of the box **(default: 3)**
+  | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | text | *String* | Text printed inside the box
   | title | *String* | Text printed at top of the box
   | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
@@ -184,6 +185,7 @@ Check the *index.html* file to see examples on hold.
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | onclick | *String* | Script to execute on click
+  | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | text | *String* | Actual text to display
   | type | *String* | List of styles separated by space, valid ones are bold, underline and italic **(default: '')**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
@@ -201,6 +203,7 @@ Check the *index.html* file to see examples on hold.
   | fill | *String* | Set the char to be used on filled part **(default: '█')**
   | height | *Number* | Height of the progress bar **(default: 1)**
   | max | *Number* | Defines the limit of progress **(default: 100)**
+  | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | value | *Number* | Defines the progress amount **(default: 50)**
   | width | *Number* | Width of the progress bar **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
@@ -215,6 +218,7 @@ Check the *index.html* file to see examples on hold.
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | fill | *String* | Set the char to be used, overwrite **type** argument **(default: null)**
+  | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | type | *String* | line type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
   | width | *Number* | Width of the line **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
