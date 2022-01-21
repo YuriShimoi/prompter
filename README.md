@@ -1,7 +1,20 @@
 # Prompter
-Converts HTML to fully char prompt-like interface.
+Converts HTML to fully character prompt-like interface.
+
+<details open>
+<summary><b>Table of Contents</b></summary>
+
+  - [How To](#how-to)
+  - [Currently](#currently)
+    - [Formatting](#formatting)
+    - [Script Support](#script-support)
+    - [HTML Support](#html-support)
+  - [On Going](#on-going)
+  - [Known Issues](#known-issues)
+</detail>
 
 ## How To
+
 To start this lib copy **prompter** folder and import *prompter/main.js* file as script, create a **<prompt>** element and create elements like above *Currently* description, any other elements inside prompt will be ignored and hidden.
 
 Prompt color scheme can be easily changed with *type* attribute:
@@ -139,7 +152,6 @@ Adding the attribute **debug** on **prompt** enable manually edit entire screen 
 </table>
 </details>
 
-
 Check the *index.html* file to see examples on hold.
 
 ## Currently
@@ -191,7 +203,7 @@ Every **text** and **title** properties accept `${variable}` format, every calle
 </table>
 </details>
 
-#### Script Support
+### Script Support
 
 - **enableElement(eid, draw=true)** - Remove disabled attribute of given element
 - **disableElement(eid, draw=true)** - Add disabled attribute of given element
@@ -203,8 +215,7 @@ Every **text** and **title** properties accept `${variable}` format, every calle
 > Note:
   If has no element with given id (same in parent id cases), this functions will return **false**. By default, at end of function will redraw the screen as long *draw* argument is **true**.
 
-
-#### HTML Support
+### HTML Support
 
 - **DIV**: converted to box
   Property | Argument type | Description
@@ -272,7 +283,6 @@ Every **text** and **title** properties accept `${variable}` format, every calle
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
-
 
 ## On Going
 
