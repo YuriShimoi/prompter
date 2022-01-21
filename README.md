@@ -11,7 +11,8 @@ Converts HTML to fully character prompt-like interface.
     - [HTML Support](#html-support)
   - [On Going](#on-going)
   - [Known Issues](#known-issues)
-</detail>
+
+</details>
 
 ## How To
 
