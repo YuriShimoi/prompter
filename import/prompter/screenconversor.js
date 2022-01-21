@@ -263,3 +263,8 @@ function htmlConvert() {
 
   drawScreen();
 }
+
+function updateScreen() {
+  calcScreenSize();
+  htmlConvert();
+}

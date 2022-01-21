@@ -176,11 +176,7 @@ _documentready = setInterval((f)=>{if(document.readyState == "complete") {clearI
   screen_container = prompt_container.getElementsByTagName("screen")[0];
   if(prompt_container.hasAttribute("debug")) screen_container.setAttribute("contenteditable", true);
 
-  window.onresize = () => {
-    calcScreenSize();
-    htmlConvert();
-  };
+  window.onresize = updateScreen;
 
-  calcScreenSize();
-  htmlConvert();
+  updateScreen();
 });
