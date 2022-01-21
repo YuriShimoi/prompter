@@ -3,15 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <title>Prompter</title>
+
+    <script src="import/prompter/main.js" charset="utf-8"></script>
   </head>
   <body>
-    <prompt type="retro" debug>
-      <div id="test" border-color="magenta" color="yellow" text="Some text" title="test" width=20 height=9 x="center" y="center">
+    <prompt type="retro">
+      <div id="test" border-color="magenta" color="yellow" text="Some text ${testvar} and ${testvar2.c1.2.c3.color}" title="${sometitle}" width=20 height=9 x="center" y="center">
         <progress id="progress" fill="#" empty="-" color="yellow" width=20 height=2 value=25 max=100 yalign="bottom"></progress>
-        <text onclick="alert('click')" color="red" text="simple" y="center" x="center"></text>
+        <text onclick="alert('click')" color="red" text="${testvar}" y="center" x="center"></text>
       </div>
     </prompt>
 
-    <script src="import/prompter/main.js" charset="utf-8"></script>
+    <script>
+      GLOBAL_VARIABLE_REGISTER['sometitle'] = "Title";
+      GLOBAL_VARIABLE_REGISTER['testvar']   = "cool";
+      GLOBAL_VARIABLE_REGISTER['testvar2']  = {'c1':['a','b',{'c3':{'color': "yellow"}}]};
+    </script>
   </body>
 </html>

@@ -102,7 +102,7 @@ Adding the attribute **debug** on **prompt** enable manually edit entire screen 
   </div>
 </prompt>
 ```
-      
+
 </td>
 <td>
       
@@ -143,6 +143,53 @@ Adding the attribute **debug** on **prompt** enable manually edit entire screen 
 Check the *index.html* file to see examples on hold.
 
 ## Currently
+
+### Formatting
+
+Every **text** and **title** properties accept `${variable}` format, every called variable must be registered in **GLOBAL_VARIABLE_REGISTER**.
+
+<details>
+  <summary><b>Variable in title and text example</b></summary>
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Preview</th>
+  </tr>
+  <tr>
+<td>
+
+``` html
+<prompt>
+  <div id="menu" title="${sometitle}" width=12 height=4 x=2>
+    <text text="${Translator.eng}" x=0 xalign="right"
+      yalign="bottom">
+    </text>
+  </div>
+</prompt>
+<script>
+  GLOBAL_VARIABLE_REGISTER["sometitle"]  =
+    "My Title";
+  GLOBAL_VARIABLE_REGISTER["Translator"] =
+    {"eng": "cool", "ptb": "legal"};
+</script>
+```
+
+</td>
+<td>
+
+``` text
+┌ My Title ──┐
+│            │
+│            │
+│            │
+│        cool│
+└────────────┘
+```
+
+</td>
+  </tr>
+</table>
+</details>
 
 #### Script Support
 
