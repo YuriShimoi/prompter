@@ -9,7 +9,7 @@
   <body>
     <prompt type="retro">
       <div id="test" border-color="magenta" color="yellow" text="Some text ${testvar} and ${testvar2.c1.2.c3.color}" title="${sometitle}" width=20 height=9 x="center" y="center">
-        <progress id="progress" fill="#" empty="-" color="yellow" width=20 height=2 value=25 max=100 yalign="bottom"></progress>
+        <progress id="progress" fill="#" empty="-" color="yellow" width=20 height=2 value="progress" max=100 yalign="bottom"></progress>
         <text onclick="alert('click')" color="red" text="${testvar}" y="center" x="center"></text>
       </div>
     </prompt>
@@ -18,6 +18,7 @@
       GLOBAL_VARIABLE_REGISTER['sometitle'] = "Title";
       GLOBAL_VARIABLE_REGISTER['testvar']   = "cool";
       GLOBAL_VARIABLE_REGISTER['testvar2']  = {'c1':['a','b',{'c3':{'color': "yellow"}}]};
+      GLOBAL_VARIABLE_REGISTER['progress']  = 50;
     </script>
   </body>
 </html>

@@ -134,8 +134,14 @@ function htmlConvert() {
     let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR"];
     if(!valid_elements.includes(child.tagName)) return;
     
-    let get_attr  = (attrs, a, d) => a in attrs? attrs[a].value: d;
-    let get_pos   = (ch, pos) => {
+    let get_attr = (attrs, a, d) => a in attrs? attrs[a].value: d;
+    let glob_var = (attrs, a, d, checkNumeric=true) => {
+      let val = get_attr(attrs, a, d);
+      if((!checkNumeric || isNaN(val)) && GLOBAL_VARIABLE_REGISTER._searchByName(val))
+        return GLOBAL_VARIABLE_REGISTER._getByName(val);
+      return val;
+    };
+    let get_pos  = (ch, pos) => {
       let final_pos = 0;
       let pr        = ch.parentElement;
       let [dir, sz] = pos == 'x'? ['right', 'width']: ['bottom', 'height'];
@@ -193,8 +199,8 @@ function htmlConvert() {
     if(disabled || parent_disabled(child)) return;
 
     // sizes
-    let width  = parseInt(get_attr(child_attrs, 'width', 10));
-    let height = parseInt(get_attr(child_attrs, 'height', 3));
+    let width  = parseInt(glob_var(child_attrs, 'width', 10));
+    let height = parseInt(glob_var(child_attrs, 'height', 3));
 
     // positioning
     let posX = get_pos(child, 'x');
@@ -242,10 +248,10 @@ function htmlConvert() {
         break;
       case 'PROGRESS':
         // default keys
-        var max = parseInt(get_attr(child_attrs, 'max',  100));
-        var val = parseInt(get_attr(child_attrs, 'value', 50));
-        width   = parseInt(get_attr(child_attrs, 'width', 10));
-        height  = parseInt(get_attr(child_attrs, 'height', 1));
+        var max = parseInt(glob_var(child_attrs, 'max',  100));
+        var val = parseInt(glob_var(child_attrs, 'value', 50));
+        width   = parseInt(glob_var(child_attrs, 'width', 10));
+        height  = parseInt(glob_var(child_attrs, 'height', 1));
         
         doProgress(posX, posY, width, height, val, max,
           { bold: true, color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, // effects
@@ -255,7 +261,7 @@ function htmlConvert() {
       case 'HR':
         var type = get_attr(child_attrs, 'type', 'single').toLowerCase();
         var char = get_attr(child_attrs, 'fill', null);
-        width    = parseInt(get_attr(child_attrs, 'width', 10));
+        width    = parseInt(glob_var(child_attrs, 'width', 10));
         doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
         break;
     }

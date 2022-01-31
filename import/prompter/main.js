@@ -35,6 +35,7 @@ const GLOBAL_VARIABLE_REGISTER = {
     return pText;
   },
   _searchByName: (scKeyName, _iteration=null) => {
+    scKeyName = String(scKeyName);
     if(scKeyName.includes('.') && (_iteration?? GLOBAL_VARIABLE_REGISTER) instanceof Object)
       return scKeyName.split('.')[0] in (_iteration?? GLOBAL_VARIABLE_REGISTER)
           && GLOBAL_VARIABLE_REGISTER._searchByName(scKeyName.slice(scKeyName.indexOf('.')+1),

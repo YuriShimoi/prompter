@@ -171,7 +171,7 @@ Every **text** and **title** properties accept `${variable}` format, every calle
   <tr>
 <td>
 
-``` html
+```HTML
 <prompt>
   <div id="menu" title="${sometitle}" width=12 height=4 x=2>
     <text text="${Translator.eng}" x=0 xalign="right"
@@ -190,7 +190,7 @@ Every **text** and **title** properties accept `${variable}` format, every calle
 </td>
 <td>
 
-``` text
+```text
 ┌ My Title ──┐
 │            │
 │            │
@@ -203,6 +203,19 @@ Every **text** and **title** properties accept `${variable}` format, every calle
   </tr>
 </table>
 </details>
+
+Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can be set with a single variable.
+
+```HTML
+<prompt>
+  <progress width="prg_siz" value="prg_val" max="prg_max"></progress>
+</prompt>
+<script>
+  GLOBAL_VARIABLE_REGISTER['prg_siz'] = 20;
+  GLOBAL_VARIABLE_REGISTER['prg_val'] = 100;
+  GLOBAL_VARIABLE_REGISTER['prg_max'] = 200;
+</script>
+```
 
 ### Script Support
 
