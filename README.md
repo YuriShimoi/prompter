@@ -317,10 +317,10 @@ When passing the variable format `"${variable}"` in a *img src* they will send a
   Property | Argument type | Description
   --- | --- | ---
   | id | *String* | Id of element
-  | ignore | *String* | List of hexadecimals to be transparent, must be separated by commas and without spaces, and must use full 6 digits with **#** at start and no alpha. **(example: "#000000,#ff0000", will ignore black and red and set as transparent pixel)**
   | color | *String* | Changes image color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | height | *Number* | Height of the image **(default: 3)**
+  | ignore | *String* | List of hexadecimals to be transparent, must be separated by commas and without spaces, and must use full 6 digits with **#** at start and no alpha. **(example: "#000000,#ff0000", will ignore black and red and set as transparent pixel)**
   | src | *String* | Image mapping, need to be in a strict format, see more in [Image Support](#image-support)
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | width | *Number* | Width of the image **(default: 10)**
@@ -331,14 +331,15 @@ When passing the variable format `"${variable}"` in a *img src* they will send a
 
 ## On Going
 
-- Add *hover* property to **TEXT** element to configure hover color
-- Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
-- Add *Color* property to **IMAGE**
-- Percentage allowed in width and height
-- Width/height can be calculated (E.g. 100% - 30)
-- Add *scroll* property to **DIV** element
+- Add *hover* property to **TEXT** element to configure hover color;
+- Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill;
+- Percentage allowed in width and height;
+- Width/height can be calculated (E.g. 100% - 30);
+- Add *scroll* property to **DIV** element;
+- Make **IMG** plot every color in src and consider transparent from png;
+- Evaluate migrate *"center"* value from *x* and *y* to *xalign* and *yalign*.
 
 ## Known Issues
 
-- Title not clipping properly
-- Right/Bottom aligned does'nt affect x/y orientation
+- Title not clipping properly;
+- Right/Bottom aligned does'nt affect x/y orientation.
