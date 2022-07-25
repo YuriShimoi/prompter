@@ -233,8 +233,11 @@ Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can b
 ### Image Support
 
 Images can be plotted in the canvas! If you have that awesome pixel art you just need to show in the prompt, ou just need to convert to a proper readable string.
-Actualy images are readed with full color support, **but drawed in the prompt as monochromaticaly only**, coloring will be supported in a new update soon, if you reading that warning, wait just a bit.
+
+Actually images are read with full color support, **but drawed in the prompt as monochromaticaly only**, coloring will be supported in a new update soon, if you reading that warning, wait just a bit.
+
 In the root of this library you can find an file called *imageConversor.html* that contains a web page with a easy-to-use conversor from a image file to string-based readable image, you can also access it [here](https://yurishimoi.github.io/prompter/imageConversor.html), the conversor tool will show the actual supported status of the image prompted, as well the string you will need to pass in the **src** field when adding the image in the screen.
+
 > Hint:
   You can save your string-like images anywhere you want, but its easier pass they all to the [GLOBAL_VARIABLE_REGISTER](#formatting) to make a more readable HTML tags on development when passing to **src** image field.
 
