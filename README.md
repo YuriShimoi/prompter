@@ -241,6 +241,9 @@ In the root of this library you can find an file called *imageConversor.html* th
 > Hint:
   You can save your string-like images anywhere you want, but its easier pass they all to the [GLOBAL_VARIABLE_REGISTER](#formatting) to make a more readable HTML tags on development when passing to **src** image field.
 
+> Note:
+When passing the variable format `"${variable}"` in a *img src* they will send an error message in console, if you are like me (yes, i know) and want to suppress the error you must add a "#" at start of the *src*, so the interpreter will ignore that and also the browser will not shoot the error anymore. So will be just like `"#${variable}"`.
+
 ### HTML Support
 
 - **DIV**: converted to box
@@ -314,6 +317,7 @@ In the root of this library you can find an file called *imageConversor.html* th
   Property | Argument type | Description
   --- | --- | ---
   | id | *String* | Id of element
+  | ignore | *String* | List of hexadecimals to be transparent, must be separated by commas and without spaces, and must use full 6 digits with **#** at start and no alpha. **(example: "#000000,#ff0000", will ignore black and red and set as transparent pixel)**
   | color | *String* | Changes image color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | height | *Number* | Height of the image **(default: 3)**
