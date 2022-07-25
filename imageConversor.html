@@ -27,6 +27,7 @@
         }
         #outputSource {
             float: right;
+            width: 252px;
         }
     </style>
 
@@ -36,11 +37,12 @@
   <body>
     <div id="imageLoader">
         <textarea id="outputSource" cols="30" rows="10"></textarea>
-        <div style="float:left;margin-right: 7px;">
+        <div style="float:left;margin-right:7px;">
             <label id="labelForImage" for="sendImage">Send Image</label>
             <input id="sendImage" type="file" accept="image/png, image/jpeg" onchange="reloadImage(this)" hidden>
-            <label for="ignoreColors">Ignore List</label><br>
-            <input id="ignoreColors" type="text" placeholder="Ignore list" value="000000,111111"><br><br>
+            <label for="ignoreColors">Hex Ignore List</label><br>
+            <input id="ignoreColors" type="text" placeholder="Ignore list" value="#000000,#111111"><br>
+            <span id="imageProportion" style="float:right;"></span><br>
             <img id="inputPreview" src="">
         </div>
     </div>
@@ -86,6 +88,7 @@
             PrompterImageInterpreter.map(source, width, height).then((mapping) => {
                 let ignoreColors = document.getElementById("ignoreColors").value;
                 document.getElementById("outputSource").value = mapping;
+                document.getElementById("imageProportion").innerHTML = `${width}px - ${height}px`;
                 delElement("imagePreview");
                 newElement("IMG", {'id':"imagePreview", 'src': mapping, 'width': width, 'height': height, 'x': "center", 'y': "center", 'ignore': ignoreColors}, null);
             });
