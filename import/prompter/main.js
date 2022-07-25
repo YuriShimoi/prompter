@@ -172,6 +172,8 @@ function doLine(x, y, width, type="single", textdec={}, cst_char=null) {
 function doImage(x, y, width, height, source, ignoreList=[], fill=true, color=false, style=false) {
   let pixelBlock = '██';
 
+  source = GLOBAL_VARIABLE_REGISTER._parseText(source);
+
   let imageStyle = (style || "") + `text-shadow:1px 0 0 ${color? color:"var(--color)"}`;
   for(let h=0; h < height; h++) {
     let fillChart = source.split(',').slice(h*width, width+h*width);
