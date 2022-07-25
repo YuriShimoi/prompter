@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <title>Image Conversor</title>
+    
+    <style>
+        #imageLoader {
+            position: absolute;
+            background: white;
+            border: 1px solid lightgray;
+            margin: 5px;
+            padding: 7px;
+            border-radius: 5px;
+        }
+        #imageLoader #labelForImage {
+            cursor: pointer;
+            display: block;
+            border: 1px solid lightgray;
+            padding: 3px 10px;
+            border-radius: 3px;
+            text-align: center;
+        }
+        #inputPreview {
+            width: 100%;
+            image-rendering: pixelated;
+        }
+        #outputSource {
+            float: right;
+        }
+    </style>
+
+    <script src="import/prompter/imageinterpreter.js" charset="utf-8"></script>
+    <script src="import/prompter/main.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="imageLoader">
+        <textarea id="outputSource" cols="30" rows="10"></textarea>
+        <div style="float:left;margin-right: 7px;">
+            <label id="labelForImage" for="sendImage">Send Image</label>
+            <input id="sendImage" type="file" accept="image/png, image/jpeg" onchange="reloadImage(this)" hidden>
+            <label for="ignoreColors">Ignore List</label><br>
+            <input id="ignoreColors" type="text" placeholder="Ignore list" value="000000,111111"><br><br>
+            <img id="inputPreview" src="">
+        </div>
+    </div>
+    <prompt></prompt>
+
+    <script>
+        const b64toBlob = (b64Data, contentType='image/png') => {
+            const SLICESIZE = 512;
+            let byteCharacters = atob(b64Data);
+            let byteArrays     = [];
+          
+            for (let offset = 0; offset < byteCharacters.length; offset += SLICESIZE) {
+                let byteSlice = byteCharacters.slice(offset, offset + SLICESIZE);
+                let byteNumbers = new Array(byteSlice.length);
+                for (let i = 0; i < byteSlice.length; i++) {
+                    byteNumbers[i] = byteSlice.charCodeAt(i);
+                }
+                
+                byteArrays.push(new Uint8Array(byteNumbers));
+            }
+            
+            return new Blob(byteArrays, {type: contentType});
+        };
+
+        function reloadImage(e) {
+            if (!e.files || !e.files[0]) return;
+            let file_reader = new FileReader();
+            file_reader.onload = (evt) => {
+                let src_path = evt.target.result;
+                let image_holder = new Image();
+                image_holder.src = src_path;
+
+                let source = URL.createObjectURL(b64toBlob(image_holder.src.substr(22)));
+                document.getElementById("inputPreview").src = source;
+                image_holder.onload = () => {
+                    loadPreview(source, image_holder.width, image_holder.height);
+                }
+            };
+            file_reader.readAsDataURL(e.files[0]);
+        }
+
+        function loadPreview(source, width, height) {
+            PrompterImageInterpreter.map(source, width, height).then((mapping) => {
+                let ignoreColors = document.getElementById("ignoreColors").value;
+                document.getElementById("outputSource").value = mapping;
+                delElement("imagePreview");
+                newElement("IMG", {'id':"imagePreview", 'src': mapping, 'width': width, 'height': height, 'x': "center", 'y': "center", 'ignore': ignoreColors}, null);
+            });
+        }
+    </script>
+  </body>
+</html>

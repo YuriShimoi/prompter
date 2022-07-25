@@ -116,7 +116,7 @@ function doBox(x, y, sx, sy, type="single", fill=true, color=false, style=false)
     screen_properties.map[endy][endx] = charMap('bottom-right', type, screen_properties.map[endy][endx]);
 }
 
-function doText(text, x, y, width, height, clip=false, textdec={}, parseText=true) {
+function doText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false) {
   // textdec = {bold, italic, underlined, color}
 
   // parsing variables
@@ -133,6 +133,7 @@ function doText(text, x, y, width, height, clip=false, textdec={}, parseText=tru
       if((i >= 0&& i < screen_properties.map.length) && (l >= 0 && l < screen_properties.map[i].length)) {
         screen_properties.map[i][l]    = text[pivot];
         screen_properties.effect[i][l] = textdec;
+        if(style) screen_properties.effect[i][l].style = style;
       }
       pivot++;
 
@@ -166,6 +167,19 @@ function doLine(x, y, width, type="single", textdec={}, cst_char=null) {
   let fillChar = cst_char !== null && cst_char !== ''? cst_char: charMap('top', type);
   let ptext    = new Array(width).fill(fillChar).join('');
   doText(ptext, x, y, width, 1, true, textdec);
+}
+
+function doImage(x, y, width, height, source, ignoreList=[], fill=true, color=false, style=false) {
+  let pixelBlock = '██';
+
+  let imageStyle = (style || "") + `text-shadow:1px 0 0 ${color? color:"var(--color)"}`;
+  for(let h=0; h < height; h++) {
+    let fillChart = source.split(',').slice(h*width, width+h*width);
+    fillChart = fillChart.map(p => ignoreList.includes(p) || ignoreList.includes(p.substr(1))? WHITESPACE+WHITESPACE: pixelBlock);
+    if(fill || fillChart.includes(pixelBlock)) {
+      doText(fillChart.join(''), x, y+h, width*2, 1, true, color?{'color':color}:{}, false, imageStyle);
+    }
+  }
 }
 
 

@@ -8,6 +8,7 @@ Converts HTML to fully character prompt-like interface.
   - [Currently](#currently)
     - [Formatting](#formatting)
     - [Script Support](#script-support)
+    - [Image Support](#image-support)
     - [HTML Support](#html-support)
   - [On Going](#on-going)
   - [Known Issues](#known-issues)
@@ -229,6 +230,14 @@ Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can b
 > Note:
   If has no element with given id (same in parent id cases), this functions will return **false**. By default, at end of function will redraw the screen as long *draw* argument is **true**.
 
+### Image Support
+
+Images can be plotted in the canvas! If you have that awesome pixel art you just need to show in the prompt, ou just need to convert to a proper readable string.
+Actualy images are readed with full color support, **but drawed in the prompt as monochromaticaly only**, coloring will be supported in a new update soon, if you reading that warning, wait just a bit.
+In the root of this library you can find an file called *imageConversor.html* that contains a web page with a easy-to-use conversor from a image file to string-based readable image, you can also access it [here](https://yurishimoi.github.io/prompter/imageConversor.html), the conversor tool will show the actual supported status of the image prompted, as well the string you will need to pass in the **src** field when adding the image in the screen.
+> Hint:
+  You can save your string-like images anywhere you want, but its easier pass they all to the [GLOBAL_VARIABLE_REGISTER](#formatting) to make a more readable HTML tags on development when passing to **src** image field.
+
 ### HTML Support
 
 - **DIV**: converted to box
@@ -298,11 +307,26 @@ Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can b
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
 
+- **IMAGE**: converted to a pixel art image
+  Property | Argument type | Description
+  --- | --- | ---
+  | id | *String* | Id of element
+  | color | *String* | Changes image color, any CSS valid color is available, including hex color
+  | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
+  | height | *Number* | Height of the image **(default: 3)**
+  | src | *String* | Image mapping, need to be in a strict format, see more in [Image Support](#image-support)
+  | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
+  | width | *Number* | Width of the image **(default: 10)**
+  | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
+  | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
+  | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
+  | yalign | *String* | Y alignment relative to parent, can be 'top' or 'bottom' **(default: 'top')**
+
 ## On Going
 
-- More elements ( **IMAGE** )
 - Add *hover* property to **TEXT** element to configure hover color
 - Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill
+- Add *Color* property to **IMAGE**
 - Percentage allowed in width and height
 - Width/height can be calculated (E.g. 100% - 30)
 - Add *scroll* property to **DIV** element
@@ -310,4 +334,4 @@ Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can b
 ## Known Issues
 
 - Title not clipping properly
-- Right/Bottom aligned does'nt effect x/y orientation
+- Right/Bottom aligned does'nt affect x/y orientation

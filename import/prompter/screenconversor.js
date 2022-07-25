@@ -131,7 +131,7 @@ function drawScreen() {
 function htmlConvert() {
   clearScreen();
   prompt_container.querySelectorAll(":not(screen)").forEach(child => {
-    let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR"];
+    let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR", "IMG"];
     if(!valid_elements.includes(child.tagName)) return;
     
     let get_attr = (attrs, a, d) => a in attrs? attrs[a].value: d;
@@ -150,14 +150,16 @@ function htmlConvert() {
         'DIV'     : {'width': 10, 'height': 3},
         'TEXT'    : {'width': ch.attributes.text? Math.floor(GLOBAL_VARIABLE_REGISTER._parseText(ch.attributes.text.value).length-2): 0, 'height': 1},
         'PROGRESS': {'width': 10, 'height': 1},
-        'HR'      : {'width': 10, 'height': 1}
+        'HR'      : {'width': 10, 'height': 1},
+        'IMG'     : {'width': 10, 'height': 3}
       };
       let sz_adjust = {
         'PROMPT'  : {'width': 0, 'height':  0},
         'DIV'     : {'width': 1, 'height':  0},
         'TEXT'    : {'width': 0, 'height': -2},
         'PROGRESS': {'width': 0, 'height': -2},
-        'HR'      : {'width': 0, 'height': -2}
+        'HR'      : {'width': 0, 'height': -2},
+        'IMG'     : {'width': parseInt(get_attr(ch.attributes,'width', 0)), 'height': -2}
       }
       let chsz = (parseInt(get_attr(ch.attributes, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) / 2;
       let ch_attrs = ch.attributes;
@@ -263,6 +265,12 @@ function htmlConvert() {
         var char = get_attr(child_attrs, 'fill', null);
         width    = parseInt(glob_var(child_attrs, 'width', 10));
         doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
+        break;
+      case 'IMG':
+        doImage(posX, posY, width, height, get_attr(child_attrs, 'src', null),
+                get_attr(child_attrs, 'ignore', []), true,
+                get_attr(child_attrs, 'color', false), get_attr(child_attrs, 'style', false)
+        );
         break;
     }
   });
