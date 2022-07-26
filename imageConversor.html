@@ -31,8 +31,8 @@
         }
     </style>
 
-    <script src="import/prompter/imageinterpreter.js" charset="utf-8"></script>
     <script src="import/prompter/main.js" charset="utf-8"></script>
+    <script src="import/prompter/imageinterpreter.js" charset="utf-8"></script>
   </head>
   <body>
     <div id="imageLoader">
@@ -89,8 +89,8 @@
                 let ignoreColors = document.getElementById("ignoreColors").value;
                 document.getElementById("outputSource").value = mapping;
                 document.getElementById("imageProportion").innerHTML = `${width}px - ${height}px`;
-                delElement("imagePreview");
-                newElement("IMG", {'id':"imagePreview", 'src': mapping, 'width': width, 'height': height, 'x': "center", 'y': "center", 'ignore': ignoreColors}, null);
+                Prompter.delElement("imagePreview");
+                Prompter.newElement("IMG", {'id':"imagePreview", 'src': mapping, 'width': width, 'height': height, 'x': "center", 'y': "center", 'ignore': ignoreColors}, null);
             });
         }
     </script>
