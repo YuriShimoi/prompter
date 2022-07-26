@@ -84,13 +84,13 @@ class PrompterPlotting {
     let endx = x + sx + 1;
     let endy = y + sy + 1;
   
-    let charmapMiddle = charMap('middle', type);
+    let charmapMiddle = PrompterCharmap.charMap('middle', type);
     for(let i=y; i <= endy; i++) {
       if(i < 0 || i >= PrompterPlotting.screen_properties.map.length) continue;
       let row = PrompterPlotting.screen_properties.map[i];
       if(i > y && i < endy) {
-        row[x]    = charMap('left' , type, row[x]);
-        row[endx] = charMap('right', type, row[endx]);
+        row[x]    = PrompterCharmap.charMap('left' , type, row[x]);
+        row[endx] = PrompterCharmap.charMap('right', type, row[endx]);
       }
   
       for(let l=x; l <= endx; l++) {
@@ -105,22 +105,22 @@ class PrompterPlotting {
         PrompterPlotting.screen_properties.effect[i][l].style = style;
   
         if(i == y && (l > x && l < endx)) {
-          PrompterPlotting.screen_properties.map[i][l] = charMap('top', type, PrompterPlotting.screen_properties.map[i][l]);
+          PrompterPlotting.screen_properties.map[i][l] = PrompterCharmap.charMap('top', type, PrompterPlotting.screen_properties.map[i][l]);
         }
         if(i == endy && (l > x && l < endx)) {
-          PrompterPlotting.screen_properties.map[endy][l] = charMap('bottom', type, PrompterPlotting.screen_properties.map[endy][l]);
+          PrompterPlotting.screen_properties.map[endy][l] = PrompterCharmap.charMap('bottom', type, PrompterPlotting.screen_properties.map[endy][l]);
         }
       }
     }
   
     if(isValid(y, 0) && isValid(x, 1))
-      PrompterPlotting.screen_properties.map[y][x]       = charMap('top-left'    , type, PrompterPlotting.screen_properties.map[y][x]);
+      PrompterPlotting.screen_properties.map[y][x]       = PrompterCharmap.charMap('top-left'    , type, PrompterPlotting.screen_properties.map[y][x]);
     if(isValid(y, 0) && isValid(endx, 1))
-      PrompterPlotting.screen_properties.map[y][endx]    = charMap('top-right'   , type, PrompterPlotting.screen_properties.map[y][endx]);
+      PrompterPlotting.screen_properties.map[y][endx]    = PrompterCharmap.charMap('top-right'   , type, PrompterPlotting.screen_properties.map[y][endx]);
     if(isValid(endy, 0) && isValid(x, 1))
-      PrompterPlotting.screen_properties.map[endy][x]    = charMap('bottom-left' , type, PrompterPlotting.screen_properties.map[endy][x]);
+      PrompterPlotting.screen_properties.map[endy][x]    = PrompterCharmap.charMap('bottom-left' , type, PrompterPlotting.screen_properties.map[endy][x]);
     if(isValid(endy, 0) && isValid(endx, 1))
-      PrompterPlotting.screen_properties.map[endy][endx] = charMap('bottom-right', type, PrompterPlotting.screen_properties.map[endy][endx]);
+      PrompterPlotting.screen_properties.map[endy][endx] = PrompterCharmap.charMap('bottom-right', type, PrompterPlotting.screen_properties.map[endy][endx]);
   }
   
   static doText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false) {
@@ -171,7 +171,7 @@ class PrompterPlotting {
   
   static doLine(x, y, width, type="single", textdec={}, cst_char=null) {
     width = width  < 0? 0: width;
-    let fillChar = cst_char !== null && cst_char !== ''? cst_char: charMap('top', type);
+    let fillChar = cst_char !== null && cst_char !== ''? cst_char: PrompterCharmap.charMap('top', type);
     let ptext    = new Array(width).fill(fillChar).join('');
     PrompterPlotting.doText(ptext, x, y, width, 1, true, textdec);
   }
