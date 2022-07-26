@@ -74,7 +74,7 @@ class PrompterPlotting {
   static prompt_container = null;
   static screen_container = {};
 
-  static doBox(x, y, sx, sy, type="single", fill=true, color=false, style=false) {
+  static DoBox(x, y, sx, sy, type="single", fill=true, color=false, style=false) {
     const isValid = (coord, axis) => {
       if(axis == 0) // y
         return coord >= 0 || coord < PrompterPlotting.screen_properties.map.length;
@@ -84,13 +84,13 @@ class PrompterPlotting {
     let endx = x + sx + 1;
     let endy = y + sy + 1;
   
-    let charmapMiddle = PrompterCharmap.charMap('middle', type);
+    let charmapMiddle = PrompterCharmap.CharMap('middle', type);
     for(let i=y; i <= endy; i++) {
       if(i < 0 || i >= PrompterPlotting.screen_properties.map.length) continue;
       let row = PrompterPlotting.screen_properties.map[i];
       if(i > y && i < endy) {
-        row[x]    = PrompterCharmap.charMap('left' , type, row[x]);
-        row[endx] = PrompterCharmap.charMap('right', type, row[endx]);
+        row[x]    = PrompterCharmap.CharMap('left' , type, row[x]);
+        row[endx] = PrompterCharmap.CharMap('right', type, row[endx]);
       }
   
       for(let l=x; l <= endx; l++) {
@@ -105,25 +105,25 @@ class PrompterPlotting {
         PrompterPlotting.screen_properties.effect[i][l].style = style;
   
         if(i == y && (l > x && l < endx)) {
-          PrompterPlotting.screen_properties.map[i][l] = PrompterCharmap.charMap('top', type, PrompterPlotting.screen_properties.map[i][l]);
+          PrompterPlotting.screen_properties.map[i][l] = PrompterCharmap.CharMap('top', type, PrompterPlotting.screen_properties.map[i][l]);
         }
         if(i == endy && (l > x && l < endx)) {
-          PrompterPlotting.screen_properties.map[endy][l] = PrompterCharmap.charMap('bottom', type, PrompterPlotting.screen_properties.map[endy][l]);
+          PrompterPlotting.screen_properties.map[endy][l] = PrompterCharmap.CharMap('bottom', type, PrompterPlotting.screen_properties.map[endy][l]);
         }
       }
     }
   
     if(isValid(y, 0) && isValid(x, 1))
-      PrompterPlotting.screen_properties.map[y][x]       = PrompterCharmap.charMap('top-left'    , type, PrompterPlotting.screen_properties.map[y][x]);
+      PrompterPlotting.screen_properties.map[y][x]       = PrompterCharmap.CharMap('top-left'    , type, PrompterPlotting.screen_properties.map[y][x]);
     if(isValid(y, 0) && isValid(endx, 1))
-      PrompterPlotting.screen_properties.map[y][endx]    = PrompterCharmap.charMap('top-right'   , type, PrompterPlotting.screen_properties.map[y][endx]);
+      PrompterPlotting.screen_properties.map[y][endx]    = PrompterCharmap.CharMap('top-right'   , type, PrompterPlotting.screen_properties.map[y][endx]);
     if(isValid(endy, 0) && isValid(x, 1))
-      PrompterPlotting.screen_properties.map[endy][x]    = PrompterCharmap.charMap('bottom-left' , type, PrompterPlotting.screen_properties.map[endy][x]);
+      PrompterPlotting.screen_properties.map[endy][x]    = PrompterCharmap.CharMap('bottom-left' , type, PrompterPlotting.screen_properties.map[endy][x]);
     if(isValid(endy, 0) && isValid(endx, 1))
-      PrompterPlotting.screen_properties.map[endy][endx] = PrompterCharmap.charMap('bottom-right', type, PrompterPlotting.screen_properties.map[endy][endx]);
+      PrompterPlotting.screen_properties.map[endy][endx] = PrompterCharmap.CharMap('bottom-right', type, PrompterPlotting.screen_properties.map[endy][endx]);
   }
   
-  static doText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false) {
+  static DoText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false) {
     // textdec = {bold, italic, underlined, color}
   
     // parsing variables
@@ -150,7 +150,7 @@ class PrompterPlotting {
     }
   }
   
-  static doProgress(x, y, width=10, height=1, value=50, max=100, textdec={}, cst_char=['', null]) {
+  static DoProgress(x, y, width=10, height=1, value=50, max=100, textdec={}, cst_char=['', null]) {
     // textdec  = {bold, italic, underlined, color}
     // cst_char = [<fill>,<empty>]
     value  = value  < 0? 0: value > max? max: value;
@@ -165,18 +165,18 @@ class PrompterPlotting {
     let ptext = new Array(fill_amm).fill(fill_char).join('') + new Array(empty_amm).fill(empty_char).join('');
   
     for(let i=0; i < height; i++) {
-      PrompterPlotting.doText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
+      PrompterPlotting.DoText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
     }
   }
   
-  static doLine(x, y, width, type="single", textdec={}, cst_char=null) {
+  static DoLine(x, y, width, type="single", textdec={}, cst_char=null) {
     width = width  < 0? 0: width;
-    let fillChar = cst_char !== null && cst_char !== ''? cst_char: PrompterCharmap.charMap('top', type);
+    let fillChar = cst_char !== null && cst_char !== ''? cst_char: PrompterCharmap.CharMap('top', type);
     let ptext    = new Array(width).fill(fillChar).join('');
-    PrompterPlotting.doText(ptext, x, y, width, 1, true, textdec);
+    PrompterPlotting.DoText(ptext, x, y, width, 1, true, textdec);
   }
   
-  static doImage(x, y, width, height, source, ignoreList=[], fill=true, color=false, style=false) {
+  static DoImage(x, y, width, height, source, ignoreList=[], fill=true, color=false, style=false) {
     let pixelBlock = '██';
   
     source = GLOBAL_VARIABLE_REGISTER._parseText(source);
@@ -186,7 +186,7 @@ class PrompterPlotting {
       let fillChart = source.split(',').slice(h*width, width+h*width);
       fillChart = fillChart.map(p => ignoreList.includes(p) || ignoreList.includes(p.substr(1))? PrompterCharmap.WHITESPACE+PrompterCharmap.WHITESPACE: pixelBlock);
       if(fill || fillChart.includes(pixelBlock)) {
-        PrompterPlotting.doText(fillChart.join(''), x, y+h, width*2, 1, true, color?{'color':color}:{}, false, imageStyle);
+        PrompterPlotting.DoText(fillChart.join(''), x, y+h, width*2, 1, true, color?{'color':color}:{}, false, imageStyle);
       }
     }
   }

@@ -8,6 +8,7 @@ Converts HTML to fully character prompt-like interface.
   - [Currently](#currently)
     - [Formatting](#formatting)
     - [Script Support](#script-support)
+      - [Internal Script Support](#internal-script-support)
     - [Image Support](#image-support)
     - [HTML Support](#html-support)
   - [On Going](#on-going)
@@ -220,15 +221,25 @@ Actually, any numeric attribute (E.g **with**, **height**, **value**, etc) can b
 
 ### Script Support
 
-- **enableElement(eid, draw=true)** - Remove disabled attribute of given element
-- **disableElement(eid, draw=true)** - Add disabled attribute of given element
-- **toggleElement(eid, draw=true)** - Toggle disabled attribute of given element
-- **updateElement(eid, attrs, draw=true)** - Update given attributes, attrs must be in **{\<attribute>:\<value>,...}** format
-- **newElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, second argument is the parent id, if null its prompt
-- **delElement(eid, draw=true)** - Delete element with given id
+- **Prompter.EnableElement(eid, draw=true)** - Remove disabled attribute of given element;
+- **Prompter.DisableElement(eid, draw=true)** - Add disabled attribute of given element;
+- **Prompter.ToggleElement(eid, draw=true)** - Toggle disabled attribute of given element;
+- **Prompter.UpdateElement(eid, attrs, draw=true)** - Update given attributes, attrs must be in **{\<attribute>:\<value>,...}** format;
+- **Prompter.NewElement(type, attrs={}, pid=null, draw=true)** - Create an element, id can be passed on attrs, second argument is the parent id, if null its prompt;
+- **Prompter.DelElement(eid, draw=true)** - Delete element with given id.
 
 > Note:
   If has no element with given id (same in parent id cases), this functions will return **false**. By default, at end of function will redraw the screen as long *draw* argument is **true**.
+
+#### Internal Script Support
+
+I do really hope you never have to manually call no one other than **UpdateScreen** when you need to refresh the page.
+
+- **PrompterScreen.UpdateScreen()** - Calls for **PrompterScreen.CalcScreenSize** passing *false*, and calls for **PrompterScreen.HtmlConvert**;
+- **PrompterScreen.CalcScreenSize(drawAtEnd=true)** - Recalculate the screen sizes, at end calls for **PrompterScreen.ClearScreen** passing the *drawAtEnd* property;
+- **PrompterScreen.HtmlConvert()** - Query over every element in *HTML prompt* and starts populate the internal mapping, at end calls for **PrompterScreen.DrawScreen**;
+- **PrompterScreen.ClearScreen(drawAtEnd=true)** - Emptyes the internal mapping based on default configurations, at end calls for **PrompterScreen.DrawScreen**;
+- **PrompterScreen.DrawScreen()** - Reads intern char mapping and do the magic to as fast as possible shows they as text in the screen.
 
 ### Image Support
 
@@ -336,10 +347,11 @@ When passing the variable format `"${variable}"` in a *img src* they will send a
 - Percentage allowed in width and height;
 - Width/height can be calculated (E.g. 100% - 30);
 - Add *scroll* property to **DIV** element;
-- Make **IMG** plot every color in src and consider transparent from png;
-- Evaluate migrate *"center"* value from *x* and *y* to *xalign* and *yalign*.
+- Make **IMG** plot every color in src and consider transparent from **PNG**;
+- Consider migrate the *"center"* value from *x* and *y* to *xalign* and *yalign*.
 
 ## Known Issues
 
 - Title not clipping properly;
-- Right/Bottom aligned does'nt affect x/y orientation.
+- Right/Bottom aligned does'nt affect x/y orientation;
+- IMG can't read **PNG** transparency, already planned as future feature.

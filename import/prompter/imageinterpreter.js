@@ -1,5 +1,5 @@
 class PrompterImageInterpreter {
-    static map(source, width, height) {
+    static Map(source, width, height) {
         return new Promise((resolve, reject) => {
             let image = new Image();
             image.src = source;

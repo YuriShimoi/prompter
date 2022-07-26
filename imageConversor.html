@@ -87,14 +87,14 @@
         }
 
         function loadPreview(source, width, height) {
-            PrompterImageInterpreter.map(source, width, height).then((mapping) => {
+            PrompterImageInterpreter.Map(source, width, height).then((mapping) => {
                 let ignoreColors = document.getElementById("ignoreColors").value;
 
                 document.getElementById("outputSource").value = mapping;
                 document.getElementById("imageProportion").innerHTML = `${width}px - ${height}px`;
                 
-                Prompter.delElement("imagePreview");
-                Prompter.newElement("IMG", {
+                Prompter.DelElement("imagePreview");
+                Prompter.NewElement("IMG", {
                     'id'    : "imagePreview", 'src'   : mapping,
                     'width' : width         , 'height': height,
                     'x'     : "center"      , 'y'     : "center",

@@ -1,7 +1,7 @@
 class PrompterScreen {
   static clean_screen = {};
 
-  static calcScreenSize() { /* 8.8px width x 19px height */
+  static CalcScreenSize(drawAtEnd=true) { /* 8.8px width x 19px height */
     if(PrompterPlotting.prompt_container === null) return;
     
     PrompterScreen.clean_screen.width  = Math.floor(PrompterPlotting.prompt_container.offsetWidth  / 8.8);
@@ -10,20 +10,20 @@ class PrompterScreen {
     PrompterScreen.clean_screen.map    = new Array(PrompterScreen.clean_screen.height).fill().map(_ => new Array(PrompterScreen.clean_screen.width).fill(' '));
     PrompterScreen.clean_screen.effect = new Array(PrompterScreen.clean_screen.height).fill().map(_ => new Array(PrompterScreen.clean_screen.width).fill().map(__ => ({})));
   
-    PrompterScreen.clearScreen();
+    PrompterScreen.ClearScreen(drawAtEnd);
   }
   
-  static clearScreen() {
+  static ClearScreen(drawAtEnd=true) {
     PrompterPlotting.screen_properties = {
       effect: new Array(PrompterScreen.clean_screen.effect.length).fill().map(_ => new Array(PrompterScreen.clean_screen.effect[0].length).fill().map(__ => ({}))),
       map   : new Array(PrompterScreen.clean_screen.map.length).fill().map(_ => [...PrompterScreen.clean_screen.map[0]]),
       height: PrompterScreen.clean_screen.height,
       width : PrompterScreen.clean_screen.width
     };
-    PrompterScreen.drawScreen();
+    if(drawAtEnd) PrompterScreen.DrawScreen();
   }
   
-  static drawScreen() {
+  static DrawScreen() {
     const excludeTag = (key, closeTag, repeat=false) => {
       if(!repeat) {
         html     += openeds.includes(key)? closeTag: '';
@@ -120,8 +120,8 @@ class PrompterScreen {
     PrompterPlotting.screen_container.innerHTML = html;
   }
   
-  static htmlConvert() {
-    PrompterScreen.clearScreen();
+  static HtmlConvert() {
+    PrompterScreen.ClearScreen();
     PrompterPlotting.prompt_container.querySelectorAll(":not(screen)").forEach(child => {
       let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR", "IMG"];
       if(!valid_elements.includes(child.tagName)) return;
@@ -207,10 +207,10 @@ class PrompterScreen {
           var type = get_attr(child_attrs, 'type', 'single');
   
           if(type !== 'none') {
-            PrompterPlotting.doBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false), get_attr(child_attrs, 'style', false));
+            PrompterPlotting.DoBox(posX, posY, width, height, type, true, get_attr(child_attrs, 'border-color', false), get_attr(child_attrs, 'style', false));
             if(child.attributes.title) {
               var title = ` ${child.attributes.title.value} `;
-              PrompterPlotting.doText(title, posX+1, posY, width-1, 1, true, {
+              PrompterPlotting.DoText(title, posX+1, posY, width-1, 1, true, {
                 bold  : type.includes('bold'),
                 italic: type.includes('double'),
                 color : get_attr(child_attrs, 'border-color', false),
@@ -220,7 +220,7 @@ class PrompterScreen {
           }
           if(child.attributes.text) {
             var text = child.attributes.text.value;
-            PrompterPlotting.doText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false), style: get_attr(child_attrs, 'style', false) });
+            PrompterPlotting.DoText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false), style: get_attr(child_attrs, 'style', false) });
           }
           break;
         case 'TEXT':
@@ -233,7 +233,7 @@ class PrompterScreen {
             var text = child.attributes.text.value;
             width    = text.length;
             height   = 1;
-            PrompterPlotting.doText(text, posX, posY, width, height, true, {
+            PrompterPlotting.DoText(text, posX, posY, width, height, true, {
               bold : type.includes('bold'), italic: type.includes('italic'), underline: type.includes('underline'),
               color: get_attr(child_attrs, 'color', false), event: onclick,
               style: get_attr(child_attrs, 'style', false)
@@ -247,7 +247,7 @@ class PrompterScreen {
           width   = parseInt(glob_var(child_attrs, 'width', 10));
           height  = parseInt(glob_var(child_attrs, 'height', 1));
           
-          PrompterPlotting.doProgress(posX, posY, width, height, val, max,
+          PrompterPlotting.DoProgress(posX, posY, width, height, val, max,
             { bold: true, color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, // effects
             [get_attr(child_attrs, 'fill', ''), get_attr(child_attrs, 'empty', null)] // style
           );
@@ -256,10 +256,10 @@ class PrompterScreen {
           var type = get_attr(child_attrs, 'type', 'single').toLowerCase();
           var char = get_attr(child_attrs, 'fill', null);
           width    = parseInt(glob_var(child_attrs, 'width', 10));
-          PrompterPlotting.doLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
+          PrompterPlotting.DoLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
           break;
         case 'IMG':
-          PrompterPlotting.doImage(posX, posY, width, height, get_attr(child_attrs, 'src', null),
+          PrompterPlotting.DoImage(posX, posY, width, height, get_attr(child_attrs, 'src', null),
             get_attr(child_attrs, 'ignore', []), true,
             get_attr(child_attrs, 'color', false), get_attr(child_attrs, 'style', false)
         );
@@ -267,12 +267,12 @@ class PrompterScreen {
       }
     });
   
-    PrompterScreen.drawScreen();
+    PrompterScreen.DrawScreen();
   }
   
-  static updateScreen() {
-    PrompterScreen.calcScreenSize();
-    PrompterScreen.htmlConvert();
+  static UpdateScreen() {
+    PrompterScreen.CalcScreenSize(false);
+    PrompterScreen.HtmlConvert();
   }
 }
 
@@ -285,7 +285,7 @@ _documentready = setInterval((f)=>{if(document.readyState == "complete") {clearI
   PrompterPlotting.screen_container = PrompterPlotting.prompt_container.getElementsByTagName("screen")[0];
   if(PrompterPlotting.prompt_container.hasAttribute("debug")) PrompterPlotting.screen_container.setAttribute("contenteditable", true);
 
-  window.onresize = PrompterScreen.updateScreen;
+  window.onresize = PrompterScreen.UpdateScreen;
 
-  PrompterScreen.updateScreen();
+  PrompterScreen.UpdateScreen();
 });

@@ -1,5 +1,5 @@
 class Prompter {
-  static enableElement(eid, draw=true) {
+  static EnableElement(eid, draw=true) {
     let elm = document.getElementById(eid);
     if(!elm) return false;
   
@@ -7,7 +7,7 @@ class Prompter {
     if(draw) PrompterScreen.htmlConvert();
   }
   
-  static disableElement(eid, draw=true) {
+  static DisableElement(eid, draw=true) {
     let elm = document.getElementById(eid);
     if(!elm) return false;
   
@@ -15,7 +15,7 @@ class Prompter {
     if(draw) PrompterScreen.htmlConvert();
   }
   
-  static toggleElement(eid, draw=true) {
+  static ToggleElement(eid, draw=true) {
     let elm = document.getElementById(eid);
     if(!elm) return false;
   
@@ -24,7 +24,7 @@ class Prompter {
     if(draw) PrompterScreen.htmlConvert();
   }
   
-  static updateElement(eid, attrs, draw=true) {
+  static UpdateElement(eid, attrs, draw=true) {
     let elm = document.getElementById(eid);
     if(!elm) return false;
   
@@ -34,7 +34,7 @@ class Prompter {
     if(draw) PrompterScreen.htmlConvert();
   }
   
-  static newElement(type, attrs={}, pid, draw=true) {
+  static NewElement(type, attrs={}, pid, draw=true) {
     let elm = document.createElement(type);
     for(let a in attrs) {
       elm.setAttribute(a, attrs[a]);
@@ -51,7 +51,7 @@ class Prompter {
     if(draw) PrompterScreen.htmlConvert();
   }
   
-  static delElement(eid, draw=true) {
+  static DelElement(eid, draw=true) {
     let elm = document.getElementById(eid);
     if(!elm) return false;
     

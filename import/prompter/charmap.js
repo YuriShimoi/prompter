@@ -105,13 +105,13 @@ class PrompterCharmap {
     'bottom-right': [1,0,0,1]
   };
   
-  static charMap(side, type='single', pre=' ') {
+  static CharMap(side, type='single', pre=' ') {
     // REFERENCE: https://en.wikipedia.org/wiki/Box_Drawing_(Unicode_block)
     if(!(type in PrompterCharmap.CHARMAP_CHAR)) return '';
-    return PrompterCharmap.mergeChar(PrompterCharmap.CHARMAP_CHAR[type][PrompterCharmap.CHARMAP_SQUARE_MAP[side]], pre, PrompterCharmap.CHARMAP_MISS_VALUE[side]);
+    return PrompterCharmap.MergeChar(PrompterCharmap.CHARMAP_CHAR[type][PrompterCharmap.CHARMAP_SQUARE_MAP[side]], pre, PrompterCharmap.CHARMAP_MISS_VALUE[side]);
   }
   
-  static mergeChar(ch1, ch2, miss=[0,0,0,0]) {
+  static MergeChar(ch1, ch2, miss=[0,0,0,0]) {
     if(!(ch1 in PrompterCharmap.DIRECTIONAL_CHAR_MAP) || !(ch2 in PrompterCharmap.DIRECTIONAL_CHAR_MAP)) return ch1;
     let cformat1 = PrompterCharmap.DIRECTIONAL_CHAR_MAP[ch1][0];
     let cformat2 = PrompterCharmap.DIRECTIONAL_CHAR_MAP[ch2][0];
