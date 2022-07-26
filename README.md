@@ -1,5 +1,5 @@
 # Prompter
-Converts HTML to fully character prompt-like interface.
+Auto interpreter to convert HTML to fully character prompt-like interface.
 
 <details open>
 <summary><b>Table of Contents</b></summary>
@@ -18,7 +18,8 @@ Converts HTML to fully character prompt-like interface.
 
 ## How To
 
-To start this lib copy **prompter** folder and import *prompter/main.js* file as script, create a **<prompt>** element and create elements like above *Currently* description, any other elements inside prompt will be ignored and hidden.
+To start this lib copy **prompter** folder and import *prompter/main.js* file as script or add a script import to `https://yurishimoi.github.io/prompter/import/prompter/main.js`, create a **<prompt>** element and create elements like above [Currently](#currently) description, any other elements inside prompt will be ignored and hidden.
+You can check the *[online demo page](https://yurishimoi.github.io/prompter/)* where the new features will be in implementation test phase.
 
 Prompt color scheme can be easily changed with *type* attribute:
   - default: `background: black; color: white`
@@ -243,17 +244,17 @@ I do really hope you never have to manually call no one other than **UpdateScree
 
 ### Image Support
 
-Images can be plotted in the canvas! If you have that awesome pixel art you just need to show in the prompt, ou just need to convert to a proper readable string.
+Images can be plotted in the canvas! If you have that awesome pixel art you just need to show in the prompt, you just need to convert to a properly readable string.
 
-Actually images are read with full color support, **but drawed in the prompt as monochromaticaly only**, coloring will be supported in a new update soon, if you reading that warning, wait just a bit.
+Actually images are **read** with full color support, but **drawed** in the prompt as **monochromaticaly only**, coloring will be supported in a new update soon, if you reading that warning, wait just a bit.
 
-In the root of this library you can find an file called *imageConversor.html* that contains a web page with a easy-to-use conversor from a image file to string-based readable image, you can also access it [here](https://yurishimoi.github.io/prompter/imageConversor.html), the conversor tool will show the actual supported status of the image prompted, as well the string you will need to pass in the **src** field when adding the image in the screen.
+In the root of this library you can find an file called *imageConversor.html* that contains a web page with a easy to use converter from an image file to string based readable image, you can also access it [here](https://yurishimoi.github.io/prompter/imageConversor.html), the conversor tool will show the actual supported mapping of the image prompted, as well the string you will need to pass in the **src** field when adding the image in the screen.
 
 > Hint:
-  You can save your string-like images anywhere you want, but its easier pass they all to the [GLOBAL_VARIABLE_REGISTER](#formatting) to make a more readable HTML tags on development when passing to **src** image field.
+  You can save your string-like images anywhere you want, but its easier pass they all to the [GLOBAL_VARIABLE_REGISTER](#formatting) to make a more readable HTML on development when passing to **src** image field.
 
 > Note:
-When passing the variable format `"${variable}"` in a *img src* they will send an error message in console, if you are like me (yes, i know) and want to suppress the error you must add a "#" at start of the *src*, so the interpreter will ignore that and also the browser will not shoot the error anymore. So will be just like `"#${variable}"`.
+When using the variable format `"${variable}"` in a *img src* they will send an error message in console, if you are like me and want to suppress the error you can add a "#" at start of the *src*, so the interpreter will ignore that and also the browser will not shoot the error anymore. So will be just like `"#${variable}"`.
 
 ### HTML Support
 

@@ -4,7 +4,7 @@ class Prompter {
     if(!elm) return false;
   
     elm.removeAttribute('disabled');
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
   
   static DisableElement(eid, draw=true) {
@@ -12,7 +12,7 @@ class Prompter {
     if(!elm) return false;
   
     elm.setAttribute('disabled', "true");
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
   
   static ToggleElement(eid, draw=true) {
@@ -21,7 +21,7 @@ class Prompter {
   
     if(elm.hasAttribute('disabled') && elm.getAttribute('disabled') === "true") elm.setAttribute('disabled', "false");
     else elm.setAttribute('disabled', "true");
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
   
   static UpdateElement(eid, attrs, draw=true) {
@@ -31,7 +31,7 @@ class Prompter {
     for(let a in attrs) {
       elm.setAttribute(a, attrs[a]);
     }
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
   
   static NewElement(type, attrs={}, pid, draw=true) {
@@ -48,7 +48,7 @@ class Prompter {
   
       elmp.appendChild(elm);
     }
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
   
   static DelElement(eid, draw=true) {
@@ -56,6 +56,6 @@ class Prompter {
     if(!elm) return false;
     
     elm.parentNode.removeChild(elm);
-    if(draw) PrompterScreen.htmlConvert();
+    if(draw) PrompterScreen.HtmlConvert();
   }
 }

@@ -184,7 +184,7 @@ class PrompterPlotting {
     let imageStyle = (style || "") + `;text-shadow: 1px 0 0; color: ${color? color:"var(--color)"}`;
     for(let h=0; h < height; h++) {
       let fillChart = source.split(',').slice(h*width, width+h*width);
-      fillChart = fillChart.map(p => ignoreList.includes(p) || ignoreList.includes(p.substr(1))? PrompterCharmap.WHITESPACE+PrompterCharmap.WHITESPACE: pixelBlock);
+      fillChart = fillChart.map(p => ignoreList.includes(p) || ignoreList.includes(p.replaceAll('#',''))? PrompterCharmap.WHITESPACE+PrompterCharmap.WHITESPACE: pixelBlock);
       if(fill || fillChart.includes(pixelBlock)) {
         PrompterPlotting.DoText(fillChart.join(''), x, y+h, width*2, 1, true, color?{'color':color}:{}, false, imageStyle);
       }
