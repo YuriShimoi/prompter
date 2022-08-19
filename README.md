@@ -266,12 +266,12 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | clip | *Boolean* | If true clip text at end of line **(default: false)**
   | color | *String* | Changes text color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | height | *Number* | Height of the box **(default: 3)**
+  | height | *Number* | Height of the box, can be a number or a percentage *(E.g: "100%")* **(default: 3)**
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | text | *String* | Text printed inside the box
   | title | *String* | Text printed at top of the box
   | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
-  | width | *Number* | Width of the box **(default: 10)**
+  | width | *Number* | Width of the box, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
@@ -300,11 +300,11 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
   | empty | *String* | Set the char to be used on unfilled part, setting as '' will not infill **(default: ' ')**
   | fill | *String* | Set the char to be used on filled part **(default: '█')**
-  | height | *Number* | Height of the progress bar **(default: 1)**
+  | height | *Number* | Height of the progress bar, can be a number or a percentage *(E.g: "100%")* **(default: 1)**
   | max | *Number* | Defines the limit of progress **(default: 100)**
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | value | *Number* | Defines the progress amount **(default: 50)**
-  | width | *Number* | Width of the progress bar **(default: 10)**
+  | width | *Number* | Width of the progress bar, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
@@ -319,7 +319,7 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | fill | *String* | Set the char to be used, overwrite **type** argument **(default: null)**
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | type | *String* | line type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
-  | width | *Number* | Width of the line **(default: 10)**
+  | width | *Number* | Width of the line, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
@@ -331,11 +331,11 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | id | *String* | Id of element
   | color | *String* | Changes image color, any CSS valid color is available, including hex color
   | disabled | *Boolean* | Disable element to be seen on screen **(default: false)**
-  | height | *Number* | Height of the image **(default: 3)**
+  | height | *Number* | Height of the image, can be a number or a percentage *(E.g: "100%")* **(default: 3)**
   | ignore | *String* | List of hexadecimals to be transparent, must be separated by commas and without spaces, and must use full 6 digits with **#** at start and no alpha. **(example: "#000000,#ff0000", will ignore black and red and set as transparent pixel)**
   | src | *String* | Image mapping, need to be in a strict format, see more in [Image Support](#image-support)
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
-  | width | *Number* | Width of the image **(default: 10)**
+  | width | *Number* | Width of the image, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
   | x | *Number* | Position x in screen, can also be 'center', 'center' has priority above xalign **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left' or 'right' **(default: 'left')**
   | y | *Number* | Position y in screen, can also be 'center', 'center' has priority above yalign **(default: 1)**
@@ -345,7 +345,6 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
 
 - Add *hover* property to **TEXT** element to configure hover color;
 - Add *Transparent=True/False* to **DIV** / **IMAGE** elements to configure infill;
-- Percentage allowed in width and height;
 - Width/height can be calculated (E.g. 100% - 30);
 - Add *scroll* property to **DIV** element;
 - Make **IMG** plot every color in src and consider transparent from **PNG**;

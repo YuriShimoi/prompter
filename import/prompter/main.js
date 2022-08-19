@@ -69,7 +69,9 @@ class PrompterPlotting {
     'map'   : [[]],
     'effect': [[]],
     'width' : 0,
-    'height': 0
+    'height': 0,
+    'x'     : 0,
+    'y'     : 0
   };
   static prompt_container = null;
   static screen_container = {};
@@ -77,9 +79,9 @@ class PrompterPlotting {
   static DoBox(x, y, sx, sy, type="single", fill=true, color=false, style=false) {
     const isValid = (coord, axis) => {
       if(axis == 0) // y
-        return coord >= 0 || coord < PrompterPlotting.screen_properties.map.length;
+        return coord >= 0 && coord < PrompterPlotting.screen_properties.map.length;
       else // x
-        return coord >= 0 || coord < PrompterPlotting.screen_properties.map[0].length;
+        return coord >= 0 && coord < PrompterPlotting.screen_properties.map[0].length;
     };
     let endx = x + sx + 1;
     let endy = y + sy + 1;

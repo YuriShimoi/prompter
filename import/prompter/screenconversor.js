@@ -109,10 +109,10 @@ class PrompterScreen {
             aeffect[0] = effect.bold;
           }
           
-          html += PrompterPlotting.screen_properties.map[y][x]? PrompterPlotting.screen_properties.map[y][x]: WHITESPACE;
+          html += PrompterPlotting.screen_properties.map[y][x]? PrompterPlotting.screen_properties.map[y][x]: PrompterCharmap.WHITESPACE;
         }
         catch {
-          html += PrompterPlotting.screen_properties.map[y][x]? PrompterPlotting.screen_properties.map[y][x]: WHITESPACE;
+          html += PrompterPlotting.screen_properties.map[y][x]? PrompterPlotting.screen_properties.map[y][x]: PrompterCharmap.WHITESPACE;
         }
       }
       html += '\n';
@@ -125,10 +125,18 @@ class PrompterScreen {
     PrompterPlotting.prompt_container.querySelectorAll(":not(screen)").forEach(child => {
       let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR", "IMG"];
       if(!valid_elements.includes(child.tagName)) return;
+
+      let isPercentageFormat = (v) => typeof v == "string" && v.substring(v.length-1) == '%' && !isNaN(v.substring(0, v.length-1));
+      let parentAttrPercentage = (pr, a, v, d) => {
+        if(pr.localName == "prompt") return calcByPercentage(v, PrompterPlotting.screen_properties[a], d);
+        else return calcByPercentage(v, glob_var(pr.attributes, a, d, false, true, pr), d);
+      };
+      let calcByPercentage = (p, t, d) => isPercentageFormat(p) && !isNaN(t)? Math.floor(Number(p.substring(0, p.length-1))*t/100)-2: d;
       
       let get_attr = (attrs, a, d) => a in attrs? attrs[a].value: d;
-      let glob_var = (attrs, a, d, checkNumeric=true) => {
+      let glob_var = (attrs, a, d, checkNumeric=true, checkPercentage=false, ch=child) => {
         let val = get_attr(attrs, a, d);
+        if(checkPercentage && isPercentageFormat(val)) return parentAttrPercentage(ch.parentElement, a, val, d);
         if((!checkNumeric || isNaN(val)) && GLOBAL_VARIABLE_REGISTER._searchByName(val))
           return GLOBAL_VARIABLE_REGISTER._getByName(val);
         return val;
@@ -153,7 +161,7 @@ class PrompterScreen {
           'HR'      : {'width': 0, 'height': -2},
           'IMG'     : {'width': parseInt(get_attr(ch.attributes,'width', 0)), 'height': -2}
         }
-        let chsz = (parseInt(get_attr(ch.attributes, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) / 2;
+        let chsz = (parseInt(glob_var(ch.attributes, sz, sz_def[ch.tagName][sz], false, true, ch)) + sz_adjust[ch.tagName][sz]) / 2;
         let ch_attrs = ch.attributes;
         let pr_attrs = pr.attributes;
   
@@ -166,7 +174,7 @@ class PrompterScreen {
               final_pos = Math.floor(PrompterPlotting.screen_properties[sz]/2 - chsz);
             }
             else {
-              final_pos = Math.floor(get_pos(pr, pos) + (parseInt(get_attr(pr_attrs, sz,sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])/2 - chsz);
+              final_pos = Math.floor(get_pos(pr, pos) + (parseInt(glob_var(pr_attrs, sz,sz_def[pr.tagName][sz], false, true, pr)) + sz_adjust[pr.tagName][sz])/2 - chsz);
             }
           }
           else {
@@ -193,8 +201,8 @@ class PrompterScreen {
       if(disabled || parent_disabled(child)) return;
   
       // sizes
-      let width  = parseInt(glob_var(child_attrs, 'width', 10));
-      let height = parseInt(glob_var(child_attrs, 'height', 3));
+      let width  = parseInt(glob_var(child_attrs, 'width', 10, false, true));
+      let height = parseInt(glob_var(child_attrs, 'height', 3, false, true));
   
       // positioning
       let posX = get_pos(child, 'x');
