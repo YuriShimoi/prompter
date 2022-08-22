@@ -188,7 +188,7 @@ class PrompterScreen {
           }
         }
   
-        if(!(pos in ch.attributes) && ch.attributes[`${pos}align`]?.value != "center") {
+        if(ch.attributes[`${pos}align`]?.value != "center") {
           final_pos += (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
                           (parseInt(get_attr(pr_attrs, sz, sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])
                         - (parseInt(get_attr(ch_attrs, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) - 2: 0);

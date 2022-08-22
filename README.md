@@ -52,9 +52,9 @@ Adding the attribute **debug** on **prompt** enable manually edit entire screen 
   <div id="menu" title="Main Menu" text="Main text"
        width=15 height=10 x=2>
     <text text="Inventory" x=0 xalign="right" yalign="bottom"
-          onclick="toggleElement('inventory')"></text>
+          onclick="Prompter.ToggleElement('inventory')"></text>
   </div>
-  <div id="inventory" title="Inventory" x="center" y="center"
+  <div id="inventory" title="Inventory" xalign="center" yalign="center"
        disabled="true" width=15></div>
 </prompt>
 ```
@@ -96,25 +96,25 @@ Adding the attribute **debug** on **prompt** enable manually edit entire screen 
       
 ```HTML
 <prompt type="retro">
-  <div type='none' x='center' y='center' width=53 height=17>
-    <div title="1" x='center' y=-3 width=51></div>
+  <div type='none' xalign='center' yalign='center' width=53 height=17>
+    <div title="1" xalign='center' y=-3 width=51></div>
     <div title="2" width=25 height=15>
-      <div type="double" title="2.1" x='center'></div>
-      <div type="double" title="2.2" x='center'
-           y='center'></div>
-      <div type="double" title="2.3" x='center'
+      <div type="double" title="2.1" xalign='center'></div>
+      <div type="double" title="2.2" xalign='center'
+           yalign='center'></div>
+      <div type="double" title="2.3" xalign='center'
            yalign='bottom'></div>
     </div>
     <div title="3" xalign='right' width=25 height=15>
-      <div type="none" title="3.1" x='center' y='center'
+      <div type="none" title="3.1" xalign='center' yalign='center'
            height=7>
         <div type="double" title="3.1.1" x=0 y=0></div>
         <div type="double" title="3.1.2" x=0 y=2
              yalign='bottom'></div>
       </div>
     </div>
-    <div title="4" x='center' y='center'></div>
-    <div title="5" x='center' yalign='bottom' y=5
+    <div title="4" xalign='center' yalign='center'></div>
+    <div title="5" xalign='center' yalign='bottom' y=5
          width=51></div>
   </div>
 </prompt>
