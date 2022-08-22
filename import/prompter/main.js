@@ -129,7 +129,10 @@ class PrompterPlotting {
     // textdec = {bold, italic, underlined, color}
   
     // parsing variables
-    if(parseText) text = GLOBAL_VARIABLE_REGISTER._parseText(text);
+    if(parseText) {
+      text  = GLOBAL_VARIABLE_REGISTER._parseText(text);
+      width = text.length;
+    }
   
     text += ' '; // just for clip adjust purpoises
     
