@@ -272,9 +272,9 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | title | *String* | Text printed at top of the box
   | type | *String* | Box bordering type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
   | width | *Number* | Width of the box, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
-  | x | *Number* | Position x in screen **(default: 1)**
+  | x | *Number* | Position x relative to its parent **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left', 'right' or 'center' **(default: 'left')**
-  | y | *Number* | Position y in screen **(default: 1)**
+  | y | *Number* | Position y relative to its parent **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top', 'bottom' or 'center' **(default: 'top')**
   
 - **TEXT**: converted to interactive text
@@ -287,9 +287,9 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | text | *String* | Actual text to display
   | type | *String* | List of styles separated by space, valid ones are bold, underline and italic **(default: '')**
-  | x | *Number* | Position x in screen **(default: 1)**
+  | x | *Number* | Position x relative to its parent **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left', 'right' or 'center' **(default: 'left')**
-  | y | *Number* | Position y in screen **(default: 1)**
+  | y | *Number* | Position y relative to its parent **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top', 'bottom' or 'center' **(default: 'top')**
   
 - **PROGRESS**: converted to horizontal progress bar, if *width* is adjusted to 1 can simulate a simple vertical bar
@@ -305,9 +305,9 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | value | *Number* | Defines the progress amount **(default: 50)**
   | width | *Number* | Width of the progress bar, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
-  | x | *Number* | Position x in screen **(default: 1)**
+  | x | *Number* | Position x relative to its parent **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left', 'right' or 'center' **(default: 'left')**
-  | y | *Number* | Position y in screen **(default: 1)**
+  | y | *Number* | Position y relative to its parent **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top', 'bottom' or 'center' **(default: 'top')**
 
 - **HR**: a simple horizontal line
@@ -320,9 +320,9 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | type | *String* | line type, can be none, single, bold, double, chess, bold|chess, double|chess **(default: single)**
   | width | *Number* | Width of the line, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
-  | x | *Number* | Position x in screen **(default: 1)**
+  | x | *Number* | Position x relative to its parent **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left', 'right' or 'center' **(default: 'left')**
-  | y | *Number* | Position y in screen **(default: 1)**
+  | y | *Number* | Position y relative to its parent **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top', 'bottom' or 'center' **(default: 'top')**
 
 - **IMAGE**: converted to a pixel art image
@@ -336,9 +336,9 @@ When using the variable format `"${variable}"` in a *img src* they will send an 
   | src | *String* | Image mapping, need to be in a strict format, see more in [Image Support](#image-support)
   | style | *String* | CSS style, overwrites any other argument styling **(Not recommended, use only if really necessary)**
   | width | *Number* | Width of the image, can be a number or a percentage *(E.g: "100%")* **(default: 10)**
-  | x | *Number* | Position x in screen **(default: 1)**
+  | x | *Number* | Position x relative to its parent **(default: 1)**
   | xalign | *String* | X alignment relative to parent, can be 'left', 'right' or 'center' **(default: 'left')**
-  | y | *Number* | Position y in screen **(default: 1)**
+  | y | *Number* | Position y relative to its parent **(default: 1)**
   | yalign | *String* | Y alignment relative to parent, can be 'top', 'bottom' or 'center' **(default: 'top')**
 
 ## On Going
