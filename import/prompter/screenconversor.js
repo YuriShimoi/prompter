@@ -168,24 +168,27 @@ class PrompterScreen {
   
         if(ch.localName == "prompt") return 0;
         
-        if(pos in ch.attributes) {
-          if(ch.attributes[pos].value == "center") {
-            if(pr.localName == "prompt") {
-              final_pos = Math.floor(PrompterPlotting.screen_properties[sz]/2 - chsz);
-            }
-            else {
-              final_pos = Math.floor(get_pos(pr, pos) + (parseInt(glob_var(pr_attrs, sz,sz_def[pr.tagName][sz], false, true, pr)) + sz_adjust[pr.tagName][sz])/2 - chsz);
-            }
+        if(ch.attributes[`${pos}align`]?.value == "center") {
+          if(pr.localName == "prompt") {
+            final_pos = Math.floor(PrompterPlotting.screen_properties[sz]/2 - chsz);
           }
           else {
-            final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(pr, pos));
+            final_pos = Math.floor(get_pos(pr, pos) + (parseInt(glob_var(pr_attrs, sz,sz_def[pr.tagName][sz], false, true, pr)) + sz_adjust[pr.tagName][sz])/2 - chsz);
+          }
+          if(pos in ch.attributes) {
+            final_pos += Math.floor(Number(ch.attributes[pos].value));
           }
         }
         else {
-          final_pos = 1 + get_pos(pr, pos);
+          if(pos in ch.attributes) {
+            final_pos = Math.floor(parseFloat(ch.attributes[pos].value) + get_pos(pr, pos));
+          }
+          else {
+            final_pos = 1 + get_pos(pr, pos);
+          }
         }
   
-        if(!(pos in ch.attributes) || ch.attributes[pos].value != "center") {
+        if(!(pos in ch.attributes) && ch.attributes[`${pos}align`]?.value != "center") {
           final_pos += (`${pos}align` in ch.attributes && ch.attributes[`${pos}align`].value == dir?
                           (parseInt(get_attr(pr_attrs, sz, sz_def[pr.tagName][sz])) + sz_adjust[pr.tagName][sz])
                         - (parseInt(get_attr(ch_attrs, sz, sz_def[ch.tagName][sz])) + sz_adjust[ch.tagName][sz]) - 2: 0);
