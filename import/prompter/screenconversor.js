@@ -126,22 +126,22 @@ class PrompterScreen {
       let valid_elements = ["DIV", "TEXT", "PROGRESS", "HR", "IMG"];
       if(!valid_elements.includes(child.tagName)) return;
 
-      let isPercentageFormat = (v) => typeof v == "string" && v.substring(v.length-1) == '%' && !isNaN(v.substring(0, v.length-1));
-      let parentAttrPercentage = (pr, a, v, d) => {
+      const isPercentageFormat = (v) => typeof v == "string" && v.substring(v.length-1) == '%' && !isNaN(v.substring(0, v.length-1));
+      const parentAttrPercentage = (pr, a, v, d) => {
         if(pr.localName == "prompt") return calcByPercentage(v, PrompterPlotting.screen_properties[a], d);
         else return calcByPercentage(v, glob_var(pr.attributes, a, d, false, true, pr), d);
       };
-      let calcByPercentage = (p, t, d) => isPercentageFormat(p) && !isNaN(t)? Math.floor(Number(p.substring(0, p.length-1))*t/100)-2: d;
+      const calcByPercentage = (p, t, d) => isPercentageFormat(p) && !isNaN(t)? Math.floor(Number(p.substring(0, p.length-1))*t/100)-2: d;
       
-      let get_attr = (attrs, a, d) => a in attrs? attrs[a].value: d;
-      let glob_var = (attrs, a, d, checkNumeric=true, checkPercentage=false, ch=child) => {
+      const get_attr = (attrs, a, d) => a in attrs? attrs[a].value: d;
+      const glob_var = (attrs, a, d, checkNumeric=true, checkPercentage=false, ch=child) => {
         let val = get_attr(attrs, a, d);
         if(checkPercentage && isPercentageFormat(val)) return parentAttrPercentage(ch.parentElement, a, val, d);
         if((!checkNumeric || isNaN(val)) && GLOBAL_VARIABLE_REGISTER._searchByName(val))
           return GLOBAL_VARIABLE_REGISTER._getByName(val);
         return val;
       };
-      let get_pos  = (ch, pos) => {
+      const get_pos  = (ch, pos) => {
         let final_pos = 0;
         let pr        = ch.parentElement;
         let [dir, sz] = pos == 'x'? ['right', 'width']: ['bottom', 'height'];
@@ -199,7 +199,7 @@ class PrompterScreen {
       let child_attrs = child.attributes;
   
       // disabling
-      let parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: ch.parentElement.attributes.disabled?.value === "true"? true: parent_disabled(ch.parentElement);
+      const parent_disabled = (ch) => ch.parentElement.localName == "prompt"? false: ch.parentElement.attributes.disabled?.value === "true"? true: parent_disabled(ch.parentElement);
       let disabled = get_attr(child_attrs, 'disabled', false) == "true";
       if(disabled || parent_disabled(child)) return;
   
@@ -259,8 +259,8 @@ class PrompterScreen {
           // default keys
           var max = parseInt(glob_var(child_attrs, 'max',  100));
           var val = parseInt(glob_var(child_attrs, 'value', 50));
-          width   = parseInt(glob_var(child_attrs, 'width', 10));
-          height  = parseInt(glob_var(child_attrs, 'height', 1));
+          width   = parseInt(glob_var(child_attrs, 'width', 10, false, true));
+          height  = parseInt(glob_var(child_attrs, 'height', 1, false, true));
           
           PrompterPlotting.DoProgress(posX, posY, width, height, val, max,
             { bold: true, color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, // effects
@@ -270,7 +270,7 @@ class PrompterScreen {
         case 'HR':
           var type = get_attr(child_attrs, 'type', 'single').toLowerCase();
           var char = get_attr(child_attrs, 'fill', null);
-          width    = parseInt(glob_var(child_attrs, 'width', 10));
+          width    = parseInt(glob_var(child_attrs, 'width', 10, false, true));
           PrompterPlotting.DoLine(posX, posY, width, type, { color: get_attr(child_attrs, 'color'), style: get_attr(child_attrs, 'style', false) }, char);
           break;
         case 'IMG':
