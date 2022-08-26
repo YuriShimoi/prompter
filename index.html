@@ -8,7 +8,6 @@
   </head>
   <body>
     <prompt type="retro">
-      <text text="${a}"></text>
       <div id="screen" type="double" width="80" height="20" xalign="center" yalign="center">
         <div type="double" xalign="right" title="ctrl" x=2 y=0 height=2 width=7>
           <text text="↑" xalign="center" onclick="move.up()"></text>
@@ -21,8 +20,6 @@
     </prompt>
 
     <script>
-      GLOBAL_VARIABLE_REGISTER['a'] = "some kind of test";
-
       const move = {
         'up': () => {
           let p = document.getElementById("player");

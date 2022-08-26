@@ -77,7 +77,7 @@
                 let image_holder = new Image();
                 image_holder.src = src_path;
 
-                let source = URL.createObjectURL(b64toBlob(image_holder.src.substr(22)));
+                let source = URL.createObjectURL(b64toBlob(image_holder.src.substring(22)));
                 document.getElementById("inputPreview").src = source;
                 image_holder.onload = () => {
                     loadPreview(source, image_holder.width, image_holder.height);

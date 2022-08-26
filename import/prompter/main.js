@@ -125,13 +125,13 @@ class PrompterPlotting {
       PrompterPlotting.screen_properties.map[endy][endx] = PrompterCharmap.CharMap('bottom-right', type, PrompterPlotting.screen_properties.map[endy][endx]);
   }
   
-  static DoText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false) {
+  static DoText(text, x, y, width, height, clip=false, textdec={}, parseText=true, style=false, enforceWidth=false) {
     // textdec = {bold, italic, underlined, color}
   
     // parsing variables
     if(parseText) {
       text  = GLOBAL_VARIABLE_REGISTER._parseText(text);
-      width = text.length;
+      if(!enforceWidth) width = text.length;
     }
   
     text += ' '; // just for clip adjust purpoises
@@ -170,7 +170,7 @@ class PrompterPlotting {
     let ptext = new Array(fill_amm).fill(fill_char).join('') + new Array(empty_amm).fill(empty_char).join('');
   
     for(let i=0; i < height; i++) {
-      PrompterPlotting.DoText(ptext.substr(width*i, width), x, y+parseInt(i), width, 1, true, textdec);
+      PrompterPlotting.DoText(ptext.substring(width*i, (width*i)+width), x, y+parseInt(i), width, 1, true, textdec);
     }
   }
   

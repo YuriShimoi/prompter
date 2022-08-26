@@ -231,7 +231,11 @@ class PrompterScreen {
           }
           if(child.attributes.text) {
             var text = child.attributes.text.value;
-            PrompterPlotting.DoText(text, posX+1, posY+1, width, height, clip, { color: get_attr(child_attrs, 'color', false), style: get_attr(child_attrs, 'style', false) });
+            PrompterPlotting.DoText(
+              text, posX+1, posY+1, width, height, clip,
+              { color: get_attr(child_attrs, 'color', false), style: get_attr(child_attrs, 'style', false) },
+              true, false, true
+            );
           }
           break;
         case 'TEXT':
