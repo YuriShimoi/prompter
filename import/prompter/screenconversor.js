@@ -1,10 +1,10 @@
 class PrompterScreen {
   static clean_screen = {};
 
-  static CalcScreenSize(drawAtEnd=true) { /* 8.4px width x 16px height */
+  static CalcScreenSize(drawAtEnd=true) { /* 8px width x 16px height */
     if(PrompterPlotting.prompt_container === null) return;
     
-    PrompterScreen.clean_screen.width  = Math.floor(PrompterPlotting.prompt_container.offsetWidth  / 8.4);
+    PrompterScreen.clean_screen.width  = Math.floor(PrompterPlotting.prompt_container.offsetWidth  / 8);
     PrompterScreen.clean_screen.height = Math.floor(PrompterPlotting.prompt_container.offsetHeight /  16);
   
     PrompterScreen.clean_screen.map    = new Array(PrompterScreen.clean_screen.height).fill().map(_ => new Array(PrompterScreen.clean_screen.width).fill(' '));
