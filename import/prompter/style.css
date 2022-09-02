@@ -67,7 +67,12 @@ prompt screen {
 
   font-family: monospace;
   white-space: pre;
-  font-size: 16px; /* 8.8px width x 19px height */
+  
+  /* 8.4px width x 16px height */
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: -0.4px;
+
   text-indent: 0;
   text-overflow: clip;
   overflow: hidden;
