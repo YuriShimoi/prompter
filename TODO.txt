@@ -1,0 +1,14 @@
+TODO:
+- Try to emulate screen resizes only on object instances and/or
+  screen mapping, to reduce conversions (idk if already did it)
+
+ON CODE:
+- TODO: NEED REWRITING
+  - Entire PrompterElImage rewriting, never worked since JS couldn't
+    read an external img file and process its pixels in a simple and
+    convenient way.
+- TODO: PrompterScreen.mutationCallback
+  - Update elements by getting the prompter id on DOM element and
+    using the PrompterScreen.id_elem_list to update the object without
+    changing the entire scene
+  - Must create new DOM elements, and delete if needed from the lists

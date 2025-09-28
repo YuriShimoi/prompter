@@ -2,46 +2,27 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompter</title>
-
-    <script src="import/prompter/main.js" charset="utf-8"></script>
+    
+    <link rel="stylesheet" href="source/style.css">
   </head>
   <body>
     <prompt type="retro">
       <div id="screen" type="double" width="80" height="20" xalign="center" yalign="center">
-        <div type="double" xalign="right" title="ctrl" x=2 y=0 height=2 width=7>
+        <div type="double" xalign="right" title="ctrl" x=1 y=-1 height=4 width=9 id="control">
           <text text="↑" xalign="center" onclick="move.up()"></text>
-          <text text="←" xalign="center" x=-2 y=2 onclick="move.left()"></text>
-          <text text="↓" xalign="center" y=2 onclick="move.down()"></text>
-          <text text="→" xalign="center" x=2 y=2 onclick="move.right()"></text>
+          <text text="←" xalign="center" x=-2 y=1 onclick="move.left()"></text>
+          <text text="↓" xalign="center" y=1 onclick="move.down()"></text>
+          <text text="→" xalign="center" x=2 y=1 onclick="move.right()"></text>
         </div>
       </div>
       <text id="player" text="^" x=0 y=0 xalign="center" yalign="center"></text>
     </prompt>
 
-    <script>
-      const move = {
-        'up': () => {
-          let p = document.getElementById("player");
-          p.setAttribute('y', Number(p.getAttribute('y')) - 1);
-          PrompterScreen.HtmlConvert();
-        },
-        'left': () => {
-          let p = document.getElementById("player");
-          p.setAttribute('x', Number(p.getAttribute('x')) - 2);
-          PrompterScreen.HtmlConvert();
-        },
-        'down': () => {
-          let p = document.getElementById("player");
-          p.setAttribute('y', Number(p.getAttribute('y')) + 1);
-          PrompterScreen.HtmlConvert();
-        },
-        'right': () => {
-          let p = document.getElementById("player");
-          p.setAttribute('x', Number(p.getAttribute('x')) + 2);
-          PrompterScreen.HtmlConvert();
-        },
-      };
-    </script>
+    <script src="source/elementSupport.js" charset="utf-8"></script>
+    <script src="source/main.js" charset="utf-8"></script>
+    <script src="script.js"></script>
   </body>
 </html>
