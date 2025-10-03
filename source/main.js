@@ -664,6 +664,8 @@ class PrompterScreen {
 	static z_index_flag = {1: 0}; // index of each first element from each 'z' layer
 	static element_list = []; // elements ordened by layer, for overlapping control
 	static id_elem_list = {}; // elements referenced by the _id for optimization purposes
+
+	static cursorPosition = [null, null];
 	//#endregion
 
 	//#region [Utils]
@@ -699,6 +701,8 @@ class PrompterScreen {
 		PrompterScreen.bindMutation();
 		PrompterScreen.MountCleanScreen();
 		PrompterScreen.ConvertHTMLToObjects();
+
+		PrompterScreen.trackCursor();
 	}
 
 	static MountCleanScreen() {
@@ -1246,5 +1250,19 @@ class PrompterScreen {
 
 		PrompterScreen.container.innerHTML = final_text;
 	}
+
+	//#region [Cursor]
+	static trackCursor() {
+		PrompterScreen.container.addEventListener('mousemove', (ev) => {
+			PrompterScreen.cursorPosition = [ev.offsetX, ev.offsetY];
+		});
+	}
+
+	static getCursorPosition() {
+		let cursorPosX = Math.floor(PrompterScreen.cursorPosition[0] / PrompterCharmap.CHARSIZE[0]);
+		let cursorPosY = Math.floor(PrompterScreen.cursorPosition[1] / PrompterCharmap.CHARSIZE[1]);
+		return [cursorPosX, cursorPosY];
+	}
+	//#endregion
 }
 //#endregion

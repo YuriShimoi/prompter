@@ -8,7 +8,4 @@ ON CODE:
     read an external img file and process its pixels in a simple and
     convenient way.
 - TODO: PrompterScreen.mutationCallback
-  - Update elements by getting the prompter id on DOM element and
-    using the PrompterScreen.id_elem_list to update the object without
-    changing the entire scene
   - Must create new DOM elements, and delete if needed from the lists
